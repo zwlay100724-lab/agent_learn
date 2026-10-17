@@ -134,6 +134,20 @@ class _EventLogEnvironment:
                 output_ref=None,
             )
 
+    def probe(self, command: str) -> dict:
+        """Run a workspace check without recording it as an agent action."""
+        output = self._env.execute({"command": command})
+        raw = output.get("output", "") or ""
+        self._writer.emit(
+            "workspace_probe",
+            command=command,
+            returncode=output.get("returncode"),
+            output_preview=raw[: self._output_preview_chars],
+            output_truncated=len(raw) > self._output_preview_chars,
+            output_sha256=text_digest(raw),
+        )
+        return output
+
     def __getattr__(self, name):
         return getattr(self._env, name)
 
@@ -153,6 +167,7 @@ class EventLogAgent(InteractiveAgent):
             self.config.event_log_command_preview_chars,
         )
         self._step_index = 0
+        self._task = ""
 
     def _event_log_path(self) -> Path | None:
         if self.config.event_log_path:
@@ -160,11 +175,16 @@ class EventLogAgent(InteractiveAgent):
         return Path(f"{self.config.output_path}.events.jsonl") if self.config.output_path else None
 
     def run(self, task: str = "", **kwargs) -> dict:
+        self._task = task
         self._step_index = 0
         self.events.new_run(self.config.event_log_run_id)
+        return self._run_with_events(lambda: super(EventLogAgent, self).run(task, **kwargs), "run_start", task=task)
+
+    def _run_with_events(self, start, event: str, **payload) -> dict:
+        """Run `start` while bracketing it with a start event and a guaranteed run_end."""
         self.events.emit(
-            "run_start",
-            task=task,
+            event,
+            **payload,
             agent_type=_type_name(self),
             model_type=self._model_type,
             env_type=self._env_type,
@@ -175,7 +195,7 @@ class EventLogAgent(InteractiveAgent):
         started = time.monotonic()
         error = None
         try:
-            return super().run(task, **kwargs)
+            return start()
         except Exception as e:
             error = e
             raise
@@ -230,11 +250,12 @@ class EventLogAgent(InteractiveAgent):
     def serialize(self, *extra_dicts) -> dict:
         events = {
             "info": {
+                "task": self._task,
                 "events": {
                     "path": str(self.events.path) if self.events.path else None,
                     "run_id": self.events.run_id,
                     "schema_version": SCHEMA_VERSION,
-                }
+                },
             }
         }
         return super().serialize(events, *extra_dicts)
