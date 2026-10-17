@@ -19,6 +19,7 @@ from minisweagent.utils.event_log import (
     digest,
     text_digest,
 )
+from minisweagent.utils.output_store import OutputStore
 
 
 def _exit_status(e: BaseException) -> str | None:
@@ -39,6 +40,14 @@ class EventLogAgentConfig(InteractiveAgentConfig):
     """How many characters of a command to keep in the log."""
     event_log_run_id: str | None = None
     """Reuse a run id (e.g. when resuming); a new one is generated otherwise."""
+    output_offload_enabled: bool = True
+    """Store large command outputs on disk. Only applies to LocalEnvironment."""
+    output_offload_threshold_chars: int = 10_000
+    """Outputs longer than this are written to disk and referenced in the observation."""
+    output_offload_max_bytes: int = 5_000_000
+    """Hard cap for a single stored output."""
+    output_offload_dir: Path | None = None
+    """Where to store outputs. Defaults to `<event log path>.outputs`."""
 
 
 class _EventLogModel:
@@ -91,11 +100,21 @@ class _EventLogModel:
 class _EventLogEnvironment:
     """Transparent proxy that times action execution and forwards everything else."""
 
-    def __init__(self, env, writer: EventLogWriter, output_preview_chars: int, command_preview_chars: int):
+    def __init__(
+        self,
+        env,
+        writer: EventLogWriter,
+        output_preview_chars: int,
+        command_preview_chars: int,
+        output_store: OutputStore | None = None,
+        offload_threshold_chars: int = 10_000,
+    ):
         self._env = env
         self._writer = writer
         self._output_preview_chars = output_preview_chars
         self._command_preview_chars = command_preview_chars
+        self._output_store = output_store
+        self._offload_threshold_chars = offload_threshold_chars
         self.action_index = 0
 
     def execute(self, action: dict, *args, **kwargs) -> dict:
@@ -115,6 +134,17 @@ class _EventLogEnvironment:
         finally:
             command = action.get("command", "")
             raw = (output or {}).get("output", "") or ""
+            output_ref = None
+            if (
+                output is not None
+                and self._output_store is not None
+                and self._writer.enabled
+                and len(raw) > self._offload_threshold_chars
+            ):
+                name = f"{self._writer.run_id}/{self._writer.seq:06d}-step{self._writer.step}.txt"
+                if ref := self._output_store.save(raw, name):
+                    output_ref = str(ref)
+                    output["output_path"] = output_ref
             self._writer.emit(
                 "action",
                 action_index=self.action_index,
@@ -131,7 +161,7 @@ class _EventLogEnvironment:
                 output_sha256=text_digest(raw),
                 output_preview=raw[: self._output_preview_chars],
                 output_truncated=len(raw) > self._output_preview_chars,
-                output_ref=None,
+                output_ref=output_ref,
             )
 
     def probe(self, command: str) -> dict:
@@ -165,6 +195,8 @@ class EventLogAgent(InteractiveAgent):
             self.events,
             self.config.event_log_output_preview_chars,
             self.config.event_log_command_preview_chars,
+            self._output_store(),
+            self.config.output_offload_threshold_chars,
         )
         self._step_index = 0
         self._task = ""
@@ -173,6 +205,17 @@ class EventLogAgent(InteractiveAgent):
         if self.config.event_log_path:
             return Path(self.config.event_log_path)
         return Path(f"{self.config.output_path}.events.jsonl") if self.config.output_path else None
+
+    def _output_store(self) -> OutputStore | None:
+        if not self.config.output_offload_enabled or not self._env_type.endswith(".LocalEnvironment"):
+            return None
+        if self.config.output_offload_dir:
+            root = Path(self.config.output_offload_dir)
+        elif self.events.path:
+            root = Path(f"{self.events.path}.outputs")
+        else:
+            return None
+        return OutputStore(root, self.config.output_offload_max_bytes)
 
     def run(self, task: str = "", **kwargs) -> dict:
         self._task = task
