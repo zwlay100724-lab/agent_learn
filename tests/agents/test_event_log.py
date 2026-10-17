@@ -272,3 +272,35 @@ def test_offload_truncates_at_max_bytes(tmp_path):
     content = Path(action["output_ref"]).read_text()
     assert content.startswith("x" * 100)
     assert "truncated at 100 bytes" in content
+
+
+def test_check_emits_verification_event_without_an_action(tmp_path):
+    agent = make_agent(DeterministicModel(outputs=[]), tmp_path)
+    agent.env.check("echo ok")
+
+    events = read_events(log_path(tmp_path))
+    assert [(e["passed"], e["returncode"]) for e in events if e["event"] == "verification"] == [(True, 0)]
+    assert not [e for e in events if e["event"] == "action"]
+
+
+def test_check_does_not_change_the_action_index(tmp_path):
+    agent = make_agent(DeterministicModel(outputs=[]), tmp_path)
+    agent.env.action_index = 7
+    agent.env.check("echo ok")
+    assert agent.env.action_index == 7
+
+
+def test_check_swallows_the_submission_marker(tmp_path):
+    agent = make_agent(DeterministicModel(outputs=[]), tmp_path)
+    output = agent.env.check("echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT")
+
+    assert output["returncode"] == 0
+    assert [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"][0]["passed"] is True
+
+
+def test_check_offloads_a_large_output(tmp_path):
+    agent = make_agent(DeterministicModel(outputs=[]), tmp_path)
+    agent.env.check("python3 -c \"print('x' * 20000)\"")
+
+    event = [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"][0]
+    assert Path(event["output_ref"]).exists()
