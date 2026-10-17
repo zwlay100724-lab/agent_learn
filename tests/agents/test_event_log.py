@@ -1,4 +1,5 @@
 import time
+from pathlib import Path
 
 from minisweagent.agents import get_agent_class
 from minisweagent.agents.event_log import EventLogAgent, EventLogAgentConfig
@@ -169,3 +170,105 @@ def test_no_behavior_change_vs_interactive_agent(tmp_path):
 
 def test_agent_shorthand_is_registered():
     assert get_agent_class("event_log") is EventLogAgent
+
+
+LARGE = "python3 -c \"print('x' * 20000)\""
+
+
+def large_output_agent(tmp_path, **kwargs):
+    template = (
+        "{% if output.output_path is defined %}<path>{{ output.output_path }}</path>{% endif %}{{ output.output }}"
+    )
+    return make_agent(
+        DeterministicModel(
+            outputs=[make_output("", [{"command": LARGE}]), make_output("", [{"command": SUBMIT}])],
+            observation_template=template,
+        ),
+        tmp_path,
+        **kwargs,
+    )
+
+
+def test_large_output_is_offloaded_and_referenced(tmp_path):
+    agent = large_output_agent(tmp_path)
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    stored = Path(action["output_ref"])
+    assert stored.exists() and len(stored.read_text()) == 20001
+    assert str(stored) in agent.messages[3]["content"]
+
+
+def test_small_output_is_not_offloaded(tmp_path):
+    agent = make_agent(
+        DeterministicModel(outputs=[make_output("", [{"command": "echo hi"}]), make_output("", [{"command": SUBMIT}])]),
+        tmp_path,
+    )
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    assert action["output_ref"] is None
+    assert not Path(f"{log_path(tmp_path)}.outputs").exists()
+
+
+def test_offload_can_be_disabled(tmp_path):
+    agent = large_output_agent(tmp_path, output_offload_enabled=False)
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    assert action["output_ref"] is None
+    assert not Path(f"{log_path(tmp_path)}.outputs").exists()
+
+
+def test_offload_is_disabled_for_non_local_environments(tmp_path):
+    class RemoteEnvironment:
+        def __init__(self):
+            self._env = LocalEnvironment(cwd=str(tmp_path))
+
+        def execute(self, *args, **kwargs):
+            return self._env.execute(*args, **kwargs)
+
+        def get_template_vars(self, **kwargs):
+            return self._env.get_template_vars(**kwargs)
+
+        def serialize(self):
+            return self._env.serialize()
+
+    agent = EventLogAgent(
+        model=DeterministicModel(
+            outputs=[make_output("", [{"command": LARGE}]), make_output("", [{"command": SUBMIT}])]
+        ),
+        env=RemoteEnvironment(),
+        **{**BASE_CONFIG, "output_path": tmp_path / "run.traj.json"},
+    )
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    assert action["output_ref"] is None
+
+
+def test_offload_triggers_at_the_template_threshold(tmp_path):
+    agent = make_agent(
+        DeterministicModel(
+            outputs=[
+                make_output("", [{"command": "python3 -c \"print('x' * 9999)\""}]),
+                make_output("", [{"command": SUBMIT}]),
+            ]
+        ),
+        tmp_path,
+    )
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    assert (action["output_chars"], action["output_ref"] is not None) == (10000, True)
+    assert Path(action["output_ref"]).exists()
+
+
+def test_offload_truncates_at_max_bytes(tmp_path):
+    agent = large_output_agent(tmp_path, output_offload_max_bytes=100)
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    content = Path(action["output_ref"]).read_text()
+    assert content.startswith("x" * 100)
+    assert "truncated at 100 bytes" in content
