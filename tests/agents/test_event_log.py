@@ -32,7 +32,9 @@ def log_path(tmp_path):
 
 def test_writes_ordered_events(tmp_path):
     agent = make_agent(
-        DeterministicModel(outputs=[make_output("look", [{"command": "echo hi"}]), make_output("done", [{"command": SUBMIT}])]),
+        DeterministicModel(
+            outputs=[make_output("look", [{"command": "echo hi"}]), make_output("done", [{"command": SUBMIT}])]
+        ),
         tmp_path,
     )
     assert agent.run("task")["exit_status"] == "Submitted"
@@ -96,7 +98,10 @@ def test_format_error_records_cost_and_outcome(tmp_path):
 def test_action_output_is_hashed_not_stored(tmp_path):
     agent = make_agent(
         DeterministicModel(
-            outputs=[make_output("", [{"command": "python3 -c \"print('x' * 2000)\""}]), make_output("", [{"command": SUBMIT}])]
+            outputs=[
+                make_output("", [{"command": "python3 -c \"print('x' * 2000)\""}]),
+                make_output("", [{"command": SUBMIT}]),
+            ]
         ),
         tmp_path,
     )
@@ -147,11 +152,18 @@ def test_no_behavior_change_vs_interactive_agent(tmp_path):
         return [make_output("look", [{"command": "echo hi"}]), make_output("done", [{"command": SUBMIT}])]
 
     config = {**BASE_CONFIG, "output_path": tmp_path / "run.traj.json"}
-    logged = EventLogAgent(model=DeterministicModel(outputs=outputs()), env=LocalEnvironment(cwd=str(tmp_path)), **config)
-    plain = InteractiveAgent(model=DeterministicModel(outputs=outputs()), env=LocalEnvironment(cwd=str(tmp_path)), **config)
+    logged = EventLogAgent(
+        model=DeterministicModel(outputs=outputs()), env=LocalEnvironment(cwd=str(tmp_path)), **config
+    )
+    plain = InteractiveAgent(
+        model=DeterministicModel(outputs=outputs()), env=LocalEnvironment(cwd=str(tmp_path)), **config
+    )
 
     logged_info, plain_info = logged.run("task"), plain.run("task")
-    assert (logged_info["exit_status"], logged_info["submission"]) == (plain_info["exit_status"], plain_info["submission"])
+    assert (logged_info["exit_status"], logged_info["submission"]) == (
+        plain_info["exit_status"],
+        plain_info["submission"],
+    )
     assert (logged.n_calls, logged.cost, len(logged.messages)) == (plain.n_calls, plain.cost, len(plain.messages))
 
 
