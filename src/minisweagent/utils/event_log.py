@@ -20,6 +20,10 @@ def digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(value, sort_keys=True, default=str).encode()).hexdigest()
 
 
+def text_digest(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8", errors="replace")).hexdigest()
+
+
 class EventLogWriter:
     """Writes one JSON object per line. Each line is flushed, so a crash leaves a valid prefix."""
 
@@ -28,6 +32,7 @@ class EventLogWriter:
         self.run_id = run_id or uuid.uuid4().hex
         self.seq = 0
         self.step = 0
+        self.retry_count = 0
         self._file = None
 
     @property
@@ -38,6 +43,7 @@ class EventLogWriter:
         self.run_id = run_id or uuid.uuid4().hex
         self.seq = 0
         self.step = 0
+        self.retry_count = 0
 
     def emit(self, event: str, **payload) -> dict | None:
         if not self.enabled:

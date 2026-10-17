@@ -13,6 +13,7 @@ def _emit_retry(retry_state) -> None:
     if writer is None:
         return
     error = retry_state.outcome.exception() if retry_state.outcome else None
+    writer.retry_count += 1
     writer.emit(
         "llm_retry",
         attempt=retry_state.attempt_number,
