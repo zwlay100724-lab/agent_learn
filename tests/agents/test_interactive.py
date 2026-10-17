@@ -19,7 +19,11 @@ from minisweagent.models.test_models import (
 
 @contextmanager
 def mock_prompts(side_effect):
-    """Patch both single-line and multiline prompt sessions with shared side_effect."""
+    """Patch both single-line and multiline prompt sessions with shared side_effect.
+
+    Mocking a prompt implies an interactive terminal, so `_stdin_is_interactive`
+    reports True unless a test overrides it explicitly.
+    """
     if callable(side_effect):
         se = side_effect
     else:
@@ -28,9 +32,10 @@ def mock_prompts(side_effect):
         def se(*args, **kwargs):
             return next(it)
 
-    with patch("minisweagent.agents.utils.prompt_user.prompt_session.prompt", side_effect=se):
-        with patch("minisweagent.agents.utils.prompt_user._multiline_prompt_session.prompt", side_effect=se):
-            yield
+    with patch.object(InteractiveAgent, "_stdin_is_interactive", return_value=True):
+        with patch("minisweagent.agents.utils.prompt_user.prompt_session.prompt", side_effect=se):
+            with patch("minisweagent.agents.utils.prompt_user._multiline_prompt_session.prompt", side_effect=se):
+                yield
 
 
 # --- Helper functions to abstract message format differences ---
@@ -1133,6 +1138,36 @@ def test_confirm_exit_disabled_exits_immediately(model_factory):
         assert info["exit_status"] == "Submitted"
         assert info["submission"] == "completed\n"
         assert agent.n_calls == 1
+
+
+def test_confirm_exit_non_interactive_submits_without_prompting(model_factory):
+    """Without a terminal, confirm_exit must submit cleanly instead of prompting:
+    reading stdin would raise EOFError and discard the submission."""
+    factory, config = model_factory
+    agent = InteractiveAgent(
+        model=factory(
+            [
+                ("Finishing", [{"command": "echo 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'\necho 'completed'"}]),
+            ]
+        ),
+        env=LocalEnvironment(),
+        **{
+            **config,
+            "confirm_exit": True,
+            "mode": "yolo",
+        },
+    )
+
+    with patch.object(InteractiveAgent, "_stdin_is_interactive", return_value=False):
+        with patch(
+            "minisweagent.agents.utils.prompt_user.prompt_session.prompt",
+            side_effect=AssertionError("prompt() must not be called"),
+        ) as mock_prompt:
+            info = agent.run("Test non-interactive confirm exit")
+
+    assert info["exit_status"] == "Submitted"
+    assert info["submission"] == "completed\n"
+    mock_prompt.assert_not_called()
 
 
 def test_confirm_exit_with_new_task_continues_execution(model_factory):

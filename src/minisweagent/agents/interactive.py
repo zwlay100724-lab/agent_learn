@@ -143,7 +143,7 @@ class InteractiveAgent(DefaultAgent):
 
     def _check_for_new_task_or_submit(self, e: Submitted) -> NoReturn:
         """Check if user wants to add a new task or submit."""
-        if self.config.confirm_exit:
+        if self.config.confirm_exit and self._stdin_is_interactive():
             message = (
                 "[bold yellow]Agent wants to finish.[/bold yellow] "
                 "[bold green]Type new task[/bold green] or [bold]Enter[/bold] to quit "
