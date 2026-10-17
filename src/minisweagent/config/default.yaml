@@ -128,6 +128,10 @@ model:
     If you're using grep or find and it produced too much output, you can use a more selective search pattern.
     If you really need to see something from the full command's output, you can redirect output to a file and then search in that file.
     </warning>
+    {%- if output.output_path is defined %}
+    The full output has been saved to the path below. Read parts of it with head, tail, sed or grep.
+    <full_output_path>{{ output.output_path }}</full_output_path>
+    {%- endif %}
     {%- set elided_chars = output.output | length - 10000 -%}
     <output_head>
     {{ output.output[:5000] }}
