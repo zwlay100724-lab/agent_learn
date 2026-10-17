@@ -139,7 +139,7 @@ class _EventLogEnvironment:
                 output is not None
                 and self._output_store is not None
                 and self._writer.enabled
-                and len(raw) > self._offload_threshold_chars
+                and len(raw) >= self._offload_threshold_chars
             ):
                 name = f"{self._writer.run_id}/{self._writer.seq:06d}-step{self._writer.step}.txt"
                 if ref := self._output_store.save(raw, name):

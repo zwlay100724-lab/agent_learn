@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from minisweagent.agents import get_agent_class
@@ -136,3 +138,19 @@ def test_resume_config_keeps_event_log_fields():
 def test_resumable_extends_event_log_agent():
     assert issubclass(ResumableAgent, EventLogAgent)
     assert get_agent_class("resumable") is ResumableAgent
+
+
+def test_resume_offload_files_do_not_collide(tmp_path):
+    large = "python3 -c \"print('x' * 20000)\""
+    start_interrupted_run(tmp_path, [make_output("", [{"command": large}])], steps=1)
+
+    agent = make_agent(
+        DeterministicModel(outputs=[make_output("", [{"command": large}]), make_output("", [{"command": SUBMIT}])]),
+        tmp_path,
+    )
+    agent.resume(tmp_path / "run.traj.json")
+
+    refs = [e["output_ref"] for e in read_events(log_path(tmp_path)) if e["event"] == "action" and e["output_ref"]]
+    assert len(refs) == 2 and len(set(refs)) == 2
+
+    assert all(Path(ref).exists() for ref in refs)

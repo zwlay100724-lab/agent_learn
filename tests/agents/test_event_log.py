@@ -247,6 +247,23 @@ def test_offload_is_disabled_for_non_local_environments(tmp_path):
     assert action["output_ref"] is None
 
 
+def test_offload_triggers_at_the_template_threshold(tmp_path):
+    agent = make_agent(
+        DeterministicModel(
+            outputs=[
+                make_output("", [{"command": "python3 -c \"print('x' * 9999)\""}]),
+                make_output("", [{"command": SUBMIT}]),
+            ]
+        ),
+        tmp_path,
+    )
+    agent.run("task")
+
+    action = [e for e in read_events(log_path(tmp_path)) if e["event"] == "action"][0]
+    assert (action["output_chars"], action["output_ref"] is not None) == (10000, True)
+    assert Path(action["output_ref"]).exists()
+
+
 def test_offload_truncates_at_max_bytes(tmp_path):
     agent = large_output_agent(tmp_path, output_offload_max_bytes=100)
     agent.run("task")
