@@ -14,6 +14,7 @@ subcommands = [
     ("minisweagent.run.utilities.config", ["config"], "Manage the global config file"),
     ("minisweagent.run.utilities.inspector", ["inspect", "i", "inspector"], "Run inspector (browse trajectories)"),
     ("minisweagent.run.utilities.events", ["events"], "Summarize an event log (timings, retries, cost, failures)"),
+    ("minisweagent.run.utilities.resume", ["resume"], "Resume an interrupted run from its trajectory"),
     ("minisweagent.run.benchmarks.swebench", ["swebench"], "Evaluate on SWE-bench (batch mode)"),
     ("minisweagent.run.benchmarks.swebench_single", ["swebench-single"], "Evaluate on SWE-bench (single instance)"),
     ("minisweagent.run.benchmarks.programbench", ["programbench"], "Run on ProgramBench (batch mode)"),

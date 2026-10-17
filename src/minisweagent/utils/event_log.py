@@ -39,9 +39,9 @@ class EventLogWriter:
     def enabled(self) -> bool:
         return self.path is not None
 
-    def new_run(self, run_id: str | None = None) -> None:
+    def new_run(self, run_id: str | None = None, start_seq: int = 0) -> None:
         self.run_id = run_id or uuid.uuid4().hex
-        self.seq = 0
+        self.seq = start_seq
         self.step = 0
         self.retry_count = 0
 

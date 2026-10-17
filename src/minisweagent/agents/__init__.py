@@ -9,6 +9,7 @@ _AGENT_MAPPING = {
     "default": "minisweagent.agents.default.DefaultAgent",
     "interactive": "minisweagent.agents.interactive.InteractiveAgent",
     "event_log": "minisweagent.agents.event_log.EventLogAgent",
+    "resumable": "minisweagent.agents.resume.ResumableAgent",
 }
 
 
