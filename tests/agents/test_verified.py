@@ -209,3 +209,56 @@ def test_run_resets_the_verification_budget(tmp_path):
     agent._verification_attempts = 5
     agent.run("task")
     assert agent._verification_attempts == 1
+
+
+def test_delivery_records_changed_files(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}])],
+        verify_command="true",
+        delivery_command="printf ' M a.py\\n?? b.py\\n'",
+    )
+    info = agent.run("task")
+
+    assert info["delivery"]["changed_files"] == ["a.py", "b.py"]
+
+
+def test_delivery_failure_records_none_without_failing(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}])],
+        verify_command="true",
+        delivery_command="false",
+    )
+    info = agent.run("task")
+
+    assert (info["task_state"], info["delivery"]["changed_files"]) == ("Succeeded", None)
+
+
+def test_delivery_is_skipped_when_disabled(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}])],
+        verify_command="true",
+        delivery_enabled=False,
+    )
+    info = agent.run("task")
+
+    assert info["delivery"] is None
+    assert not [e for e in read_events(log_path(tmp_path)) if e["event"] == "delivery"]
+
+
+def test_delivery_runs_only_on_accepted_submission(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [
+            make_output("", [{"command": SUBMIT}]),
+            make_output("", [{"command": "touch marker"}]),
+            make_output("", [{"command": SUBMIT}]),
+        ],
+        verify_command="test -f marker",
+        verify_max_attempts=2,
+    )
+    agent.run("task")
+
+    assert len([e for e in read_events(log_path(tmp_path)) if e["event"] == "delivery"]) == 1

@@ -97,6 +97,20 @@ class VerifiedAgent(ResumableAgent):
             "returncode": (self._last_verification or {}).get("returncode"),
             "output_ref": (self._last_verification or {}).get("output_ref"),
         }
+        self._collect_delivery()
+        message["extra"]["delivery"] = self._delivery
+
+    def _collect_delivery(self) -> None:
+        if not self.config.delivery_enabled:
+            self._delivery = None
+            return
+        result = self.env.check(self.config.delivery_command, event="delivery", offload=False)
+        output = result.get("output", "") or ""
+        self._delivery = {
+            "command": self.config.delivery_command,
+            "returncode": result.get("returncode"),
+            "changed_files": parse_git_status(output) if result.get("returncode") == 0 else None,
+        }
 
     def _feedback_message(self, result: dict) -> dict:
         output = result.get("output_preview", "")
