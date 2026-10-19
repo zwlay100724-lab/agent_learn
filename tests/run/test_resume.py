@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from typer.testing import CliRunner
 
@@ -9,7 +10,7 @@ from minisweagent.run.utilities.resume import app
 SUBMIT = "echo 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'\necho done"
 
 
-def make_trajectory(tmp_path):
+def make_trajectory(tmp_path, agent_type="", agent_config=None):
     trajectory = tmp_path / "run.traj.json"
     data = {
         "info": {
@@ -22,7 +23,9 @@ def make_trajectory(tmp_path):
                     "mode": "yolo",
                     "confirm_exit": False,
                     "output_path": str(trajectory),
+                    **(agent_config or {}),
                 },
+                "agent_type": agent_type,
                 "model": {
                     "outputs": [make_output("done", [{"command": SUBMIT}])],
                     "model_name": "deterministic",
@@ -55,3 +58,18 @@ def test_resume_cli_rejects_missing_file(tmp_path):
 
 def test_resume_is_registered_in_mini_extra():
     assert any("resume" in aliases for _, aliases, _ in subcommands)
+
+
+def test_resume_cli_restores_the_saved_agent_class(tmp_path):
+    trajectory = make_trajectory(
+        tmp_path,
+        agent_type="minisweagent.agents.verified.VerifiedAgent",
+        agent_config={"verify_command": "true"},
+    )
+
+    result = CliRunner().invoke(app, [str(trajectory)])
+
+    assert result.exit_code == 0
+    assert "Succeeded" in result.output
+    events = [json.loads(line) for line in Path(f"{trajectory}.events.jsonl").read_text().splitlines()]
+    assert any(e["event"] == "verification" for e in events)

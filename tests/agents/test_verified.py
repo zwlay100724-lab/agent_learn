@@ -269,6 +269,32 @@ def test_run_end_reflects_verification_failure(tmp_path):
     assert (run_end["task_state"], run_end["success"]) == ("VerificationFailed", False)
 
 
+def start_interrupted_verified_run(tmp_path, outputs, **kwargs):
+    """Run one step (which fails verification and feeds back) and save, without run()."""
+    agent = make_agent(tmp_path, outputs, **kwargs)
+    agent.extra_template_vars |= {"task": "task"}
+    agent.messages = []
+    agent.add_messages(
+        agent.model.format_message(role="system", content=agent._render_template(agent.config.system_template)),
+        agent.model.format_message(role="user", content=agent._render_template(agent.config.instance_template)),
+    )
+    agent.step()
+    agent.save(agent.config.output_path)
+    agent.events.close()
+    return agent
+
+
+def test_resume_restores_the_verification_budget(tmp_path):
+    kwargs = {"verify_command": "false", "verify_max_attempts": 2}
+    start_interrupted_verified_run(tmp_path, [make_output("", [{"command": SUBMIT}])], **kwargs)
+
+    agent = make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])], **kwargs)
+    info = agent.resume(tmp_path / "run.traj.json")
+
+    assert info["task_state"] == "VerificationFailed"
+    assert len([e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"]) == 2
+
+
 def test_delivery_runs_only_on_accepted_submission(tmp_path):
     agent = make_agent(
         tmp_path,

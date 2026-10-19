@@ -1,5 +1,8 @@
 """Agent that verifies a submission before accepting it."""
 
+import json
+from pathlib import Path
+
 from pydantic import Field
 
 from minisweagent.agents.resume import ResumableAgent, ResumeConfig
@@ -54,6 +57,14 @@ class VerifiedAgent(ResumableAgent):
         self._last_verification = None
         self._delivery = None
         return super().run(task, **kwargs)
+
+    def resume(self, trajectory_path: Path) -> dict:
+        info = json.loads(trajectory_path.read_text()).get("info", {})
+        verification = info.get("verification") or {}
+        self._verification_attempts = verification.get("attempts", 0)
+        self._last_verification = verification.get("last")
+        self._delivery = info.get("delivery")
+        return super().resume(trajectory_path)
 
     def execute_actions(self, message: dict) -> list[dict]:
         try:

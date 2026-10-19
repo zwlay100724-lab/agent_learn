@@ -8,6 +8,7 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
+from minisweagent.agents import get_agent_class
 from minisweagent.agents.resume import ResumableAgent, ResumeBlocked
 from minisweagent.environments import get_environment
 from minisweagent.models import get_model
@@ -38,16 +39,22 @@ def main(
         "environment_class": info["config"].get("environment_type", "local"),
         **info["config"].get("environment", {}),
     }
-    agent = ResumableAgent(
-        get_model(config=model_config), get_environment(env_config, default_type="local"), **agent_config
-    )
+    agent_cls = ResumableAgent
+    if agent_type := info["config"].get("agent_type"):
+        try:
+            candidate = get_agent_class(agent_type)
+        except ValueError:
+            candidate = None
+        if candidate and issubclass(candidate, ResumableAgent):
+            agent_cls = candidate
+    agent = agent_cls(get_model(config=model_config), get_environment(env_config, default_type="local"), **agent_config)
 
     try:
         result = agent.resume(trajectory)
     except ResumeBlocked as e:
         console.print(f"[red]{e}[/red]")
         raise typer.Exit(1)
-    console.print(f"Resumed run finished: [bold]{result.get('exit_status')}[/bold]")
+    console.print(f"Resumed run finished: [bold]{result.get('task_state') or result.get('exit_status')}[/bold]")
 
 
 if __name__ == "__main__":
