@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from minisweagent.agents import get_agent_class
@@ -22,12 +24,30 @@ BASE_CONFIG = {
 SUBMIT = "echo 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'\necho done"
 
 
-def make_agent(tmp_path, outputs=None, **kwargs) -> VerifiedAgent:
+def make_agent(tmp_path, outputs=None, env=None, **kwargs) -> VerifiedAgent:
     return VerifiedAgent(
         model=DeterministicModel(outputs=outputs or []),
-        env=LocalEnvironment(cwd=str(tmp_path)),
+        env=env or LocalEnvironment(cwd=str(tmp_path)),
         **{**BASE_CONFIG, "output_path": tmp_path / "run.traj.json", **kwargs},
     )
+
+
+class CrashingVerifierEnv:
+    """Delegates to LocalEnvironment, but raises for the verification command."""
+
+    def __init__(self, cwd):
+        self._env = LocalEnvironment(cwd=cwd)
+
+    def execute(self, action, *args, **kwargs):
+        if action.get("command") == "verify-crash":
+            raise RuntimeError("verifier crashed")
+        return self._env.execute(action, *args, **kwargs)
+
+    def get_template_vars(self, **kwargs):
+        return self._env.get_template_vars(**kwargs)
+
+    def serialize(self):
+        return self._env.serialize()
 
 
 def log_path(tmp_path):
@@ -140,3 +160,52 @@ def test_exhausted_budget_accepts_as_verification_failed(tmp_path):
     assert (info["exit_status"], info["task_state"]) == ("Submitted", "VerificationFailed")
     verification = [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"]
     assert [(e["passed"], e["attempt"]) for e in verification] == [(False, 1), (False, 2)]
+
+
+def test_feedback_disabled_accepts_immediately(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}])],
+        verify_command="false",
+        verify_feedback=False,
+        verify_max_attempts=3,
+    )
+    info = agent.run("task")
+
+    assert (info["task_state"], agent.n_calls) == ("VerificationFailed", 1)
+    assert len([e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"]) == 1
+
+
+def test_verification_infrastructure_failure_accepts_as_unverified(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}])],
+        env=CrashingVerifierEnv(str(tmp_path)),
+        verify_command="verify-crash",
+    )
+    info = agent.run("task")
+
+    assert (info["exit_status"], info["task_state"]) == ("Submitted", "Unverified")
+    event = [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"][0]
+    assert (event["passed"], event["exception_type"]) == (None, "RuntimeError")
+
+
+def test_feedback_references_the_offloaded_output(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}]), make_output("", [{"command": SUBMIT}])],
+        verify_command="python3 -c \"print('x' * 20000); raise SystemExit(1)\"",
+        verify_max_attempts=2,
+    )
+    agent.run("task")
+
+    event = [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"][0]
+    assert Path(event["output_ref"]).exists()
+    assert event["output_ref"] in agent.messages[3]["content"]
+
+
+def test_run_resets_the_verification_budget(tmp_path):
+    agent = make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])], verify_command="true")
+    agent._verification_attempts = 5
+    agent.run("task")
+    assert agent._verification_attempts == 1
