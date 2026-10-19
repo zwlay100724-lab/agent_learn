@@ -199,10 +199,14 @@ class _EventLogEnvironment:
             raw = (output or {}).get("output", "") or ""
             output_ref = self._maybe_offload(output, raw, label=f"{event}-step{self._writer.step}") if offload else None
             returncode = (output or {}).get("returncode")
+            passed = (returncode == 0) if error is None else None
+            output["passed"] = passed
+            output["output_ref"] = output_ref
+            output["output_preview"] = raw[: self._output_preview_chars]
             self._writer.emit(
                 event,
                 command=command,
-                passed=(returncode == 0) if error is None else None,
+                passed=passed,
                 returncode=returncode,
                 duration_s=round(time.monotonic() - started, 6),
                 exception_type=type(error).__name__ if error else None,

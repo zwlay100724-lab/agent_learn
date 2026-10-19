@@ -8,7 +8,8 @@ from minisweagent.agents.verified import (
     parse_git_status,
 )
 from minisweagent.environments.local import LocalEnvironment
-from minisweagent.models.test_models import DeterministicModel
+from minisweagent.models.test_models import DeterministicModel, make_output
+from minisweagent.utils.event_log import read_events
 
 BASE_CONFIG = {
     "system_template": "system",
@@ -18,12 +19,19 @@ BASE_CONFIG = {
 }
 
 
-def make_agent(tmp_path, **kwargs) -> VerifiedAgent:
+SUBMIT = "echo 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'\necho done"
+
+
+def make_agent(tmp_path, outputs=None, **kwargs) -> VerifiedAgent:
     return VerifiedAgent(
-        model=DeterministicModel(outputs=[]),
+        model=DeterministicModel(outputs=outputs or []),
         env=LocalEnvironment(cwd=str(tmp_path)),
         **{**BASE_CONFIG, "output_path": tmp_path / "run.traj.json", **kwargs},
     )
+
+
+def log_path(tmp_path):
+    return tmp_path / "run.traj.json.events.jsonl"
 
 
 @pytest.mark.parametrize(
@@ -82,3 +90,53 @@ def test_verified_agent_is_registered():
 def test_config_rejects_a_zero_attempt_budget():
     with pytest.raises(ValueError):
         VerifiedAgentConfig(system_template="s", instance_template="i", verify_max_attempts=0)
+
+
+def test_successful_verification_marks_succeeded(tmp_path):
+    agent = make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])], verify_command="true")
+    info = agent.run("task")
+
+    assert (info["exit_status"], info["task_state"]) == ("Submitted", "Succeeded")
+    verification = [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"]
+    assert [(e["passed"], e["attempt"]) for e in verification] == [(True, 1)]
+
+
+def test_failed_verification_feeds_back_and_retries(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [
+            make_output("", [{"command": SUBMIT}]),
+            make_output("", [{"command": "touch marker"}]),
+            make_output("", [{"command": SUBMIT}]),
+        ],
+        verify_command="test -f marker",
+        verify_max_attempts=2,
+    )
+    info = agent.run("task")
+
+    assert (info["exit_status"], info["task_state"]) == ("Submitted", "Succeeded")
+    assert agent.n_calls == 3
+    assert [e["attempt"] for e in read_events(log_path(tmp_path)) if e["event"] == "verification"] == [1, 2]
+    assert "Verification failed" in agent.messages[3]["content"]
+
+
+def test_no_verifier_accepts_as_unverified(tmp_path):
+    agent = make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])])
+    info = agent.run("task")
+
+    assert (info["exit_status"], info["task_state"]) == ("Submitted", "Unverified")
+    assert not [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"]
+
+
+def test_exhausted_budget_accepts_as_verification_failed(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}]), make_output("", [{"command": SUBMIT}])],
+        verify_command="false",
+        verify_max_attempts=2,
+    )
+    info = agent.run("task")
+
+    assert (info["exit_status"], info["task_state"]) == ("Submitted", "VerificationFailed")
+    verification = [e for e in read_events(log_path(tmp_path)) if e["event"] == "verification"]
+    assert [(e["passed"], e["attempt"]) for e in verification] == [(False, 1), (False, 2)]

@@ -3,6 +3,7 @@
 from pydantic import Field
 
 from minisweagent.agents.resume import ResumableAgent, ResumeConfig
+from minisweagent.exceptions import Submitted
 
 
 def derive_task_state(exit_status: str | None) -> str:
@@ -47,6 +48,71 @@ class VerifiedAgent(ResumableAgent):
         self._verification_attempts = 0
         self._last_verification: dict | None = None
         self._delivery: dict | None = None
+
+    def run(self, task: str = "", **kwargs) -> dict:
+        self._verification_attempts = 0
+        self._last_verification = None
+        self._delivery = None
+        return super().run(task, **kwargs)
+
+    def execute_actions(self, message: dict) -> list[dict]:
+        try:
+            return super().execute_actions(message)
+        except Submitted as e:
+            feedback = self._verify_submission(e)
+            if feedback is None:
+                raise
+            return self.add_messages(feedback)
+
+    def _verify_submission(self, e: Submitted) -> dict | None:
+        """Return None when the submission is accepted, or a feedback message to continue."""
+        if not self.config.verify_command:
+            self._accept(e, "Unverified")
+            return None
+        self._verification_attempts += 1
+        result = self.env.check(
+            self.config.verify_command,
+            timeout=self.config.verify_timeout,
+            attempt=self._verification_attempts,
+        )
+        self._last_verification = {k: result.get(k) for k in ("passed", "returncode", "output_ref", "exception_info")}
+        if result["passed"] is None:
+            self._accept(e, "Unverified")
+            return None
+        if result["passed"]:
+            self._accept(e, "Succeeded")
+            return None
+        if not self.config.verify_feedback or self._verification_attempts >= self.config.verify_max_attempts:
+            self._accept(e, "VerificationFailed")
+            return None
+        return self._feedback_message(result)
+
+    def _accept(self, e: Submitted, task_state: str) -> None:
+        message = e.messages[0]
+        message.setdefault("extra", {})["task_state"] = task_state
+        message["extra"]["verification"] = {
+            "command": self.config.verify_command,
+            "attempts": self._verification_attempts,
+            "passed": (self._last_verification or {}).get("passed"),
+            "returncode": (self._last_verification or {}).get("returncode"),
+            "output_ref": (self._last_verification or {}).get("output_ref"),
+        }
+
+    def _feedback_message(self, result: dict) -> dict:
+        output = result.get("output_preview", "")
+        if result.get("output_ref"):
+            output += f"\n(full output: {result['output_ref']})"
+        return self.model.format_message(
+            role="user",
+            content=(
+                f"Verification failed (attempt {self._verification_attempts}/"
+                f"{self.config.verify_max_attempts}).\n"
+                f"Command: {self.config.verify_command}\n"
+                f"Return code: {result.get('returncode')}\n"
+                f"Output:\n{output[: self.config.verify_feedback_max_chars]}\n"
+                "Fix the issue and submit again with `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`."
+            ),
+        )
 
     def add_messages(self, *messages: dict) -> list[dict]:
         for message in messages:
