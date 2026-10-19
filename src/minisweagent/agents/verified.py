@@ -128,6 +128,12 @@ class VerifiedAgent(ResumableAgent):
             ),
         )
 
+    def _run_end_extra(self, last_extra: dict) -> dict:
+        return {"task_state": last_extra.get("task_state")}
+
+    def _run_end_success(self, last_extra: dict, exit_status: str | None) -> bool:
+        return last_extra.get("task_state") == "Succeeded"
+
     def add_messages(self, *messages: dict) -> list[dict]:
         for message in messages:
             if message.get("role") == "exit":

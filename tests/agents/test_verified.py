@@ -248,6 +248,27 @@ def test_delivery_is_skipped_when_disabled(tmp_path):
     assert not [e for e in read_events(log_path(tmp_path)) if e["event"] == "delivery"]
 
 
+def test_run_end_reflects_task_state(tmp_path):
+    agent = make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])], verify_command="true")
+    agent.run("task")
+
+    run_end = [e for e in read_events(log_path(tmp_path)) if e["event"] == "run_end"][0]
+    assert (run_end["task_state"], run_end["success"]) == ("Succeeded", True)
+
+
+def test_run_end_reflects_verification_failure(tmp_path):
+    agent = make_agent(
+        tmp_path,
+        [make_output("", [{"command": SUBMIT}])],
+        verify_command="false",
+        verify_feedback=False,
+    )
+    agent.run("task")
+
+    run_end = [e for e in read_events(log_path(tmp_path)) if e["event"] == "run_end"][0]
+    assert (run_end["task_state"], run_end["success"]) == ("VerificationFailed", False)
+
+
 def test_delivery_runs_only_on_accepted_submission(tmp_path):
     agent = make_agent(
         tmp_path,

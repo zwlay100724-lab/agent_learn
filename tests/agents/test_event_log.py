@@ -274,6 +274,15 @@ def test_offload_truncates_at_max_bytes(tmp_path):
     assert "truncated at 100 bytes" in content
 
 
+def test_run_end_has_no_task_state_without_verification(tmp_path):
+    agent = make_agent(DeterministicModel(outputs=[make_output("", [{"command": SUBMIT}])]), tmp_path)
+    agent.run("task")
+
+    run_end = [e for e in read_events(log_path(tmp_path)) if e["event"] == "run_end"][0]
+    assert "task_state" not in run_end
+    assert run_end["success"] is True
+
+
 def test_check_emits_verification_event_without_an_action(tmp_path):
     agent = make_agent(DeterministicModel(outputs=[]), tmp_path)
     agent.env.check("echo ok")

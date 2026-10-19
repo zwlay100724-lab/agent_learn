@@ -63,6 +63,23 @@ def test_summarize_marks_incomplete_run():
     assert (summary["last_event"], summary["exit_status"]) == ("step_end", "Submitted")
 
 
+def test_summarize_reports_task_state():
+    events = _events()
+    events[-1]["task_state"] = "Succeeded"
+    assert summarize(events)["task_state"] == "Succeeded"
+
+
+def test_events_cli_prefers_task_state(tmp_path):
+    events = _events()
+    events[-1]["task_state"] = "VerificationFailed"
+    path = tmp_path / "run.events.jsonl"
+    path.write_text("\n".join(json.dumps(e) for e in events))
+
+    result = CliRunner().invoke(app, [str(path)])
+    assert result.exit_code == 0
+    assert "VerificationFailed" in result.output
+
+
 def test_events_cli_reads_jsonl(tmp_path):
     path = tmp_path / "run.events.jsonl"
     path.write_text("\n".join(json.dumps(e) for e in _events()))

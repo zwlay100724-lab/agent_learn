@@ -270,6 +270,12 @@ class EventLogAgent(InteractiveAgent):
             return None
         return OutputStore(root, self.config.output_offload_max_bytes)
 
+    def _run_end_extra(self, last_extra: dict) -> dict:
+        return {}
+
+    def _run_end_success(self, last_extra: dict, exit_status: str | None) -> bool:
+        return exit_status == "Submitted"
+
     def run(self, task: str = "", **kwargs) -> dict:
         self._task = task
         self._step_index = 0
@@ -306,7 +312,8 @@ class EventLogAgent(InteractiveAgent):
                 cost=self.cost,
                 n_calls=self.n_calls,
                 n_steps=self._step_index,
-                success=exit_status == "Submitted",
+                success=self._run_end_success(last_extra, exit_status),
+                **self._run_end_extra(last_extra),
                 error_type=type(error).__name__ if error else None,
                 error_message=str(error) if error else None,
             )
