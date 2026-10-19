@@ -117,6 +117,29 @@ class _EventLogEnvironment:
         self._offload_threshold_chars = offload_threshold_chars
         self.action_index = 0
 
+    def _output_payload(self, raw: str) -> dict:
+        return {
+            "output_chars": len(raw),
+            "output_bytes": len(raw.encode("utf-8", errors="replace")),
+            "output_sha256": text_digest(raw),
+            "output_preview": raw[: self._output_preview_chars],
+            "output_truncated": len(raw) > self._output_preview_chars,
+        }
+
+    def _maybe_offload(self, output: dict | None, raw: str, *, label: str) -> str | None:
+        if (
+            output is None
+            or self._output_store is None
+            or not self._writer.enabled
+            or len(raw) < self._offload_threshold_chars
+        ):
+            return None
+        name = f"{self._writer.run_id}/{self._writer.seq:06d}-{label}.txt"
+        if ref := self._output_store.save(raw, name):
+            output["output_path"] = str(ref)
+            return str(ref)
+        return None
+
     def execute(self, action: dict, *args, **kwargs) -> dict:
         self.action_index += 1
         started = time.monotonic()
@@ -134,17 +157,7 @@ class _EventLogEnvironment:
         finally:
             command = action.get("command", "")
             raw = (output or {}).get("output", "") or ""
-            output_ref = None
-            if (
-                output is not None
-                and self._output_store is not None
-                and self._writer.enabled
-                and len(raw) >= self._offload_threshold_chars
-            ):
-                name = f"{self._writer.run_id}/{self._writer.seq:06d}-step{self._writer.step}.txt"
-                if ref := self._output_store.save(raw, name):
-                    output_ref = str(ref)
-                    output["output_path"] = output_ref
+            output_ref = self._maybe_offload(output, raw, label=f"step{self._writer.step}")
             self._writer.emit(
                 "action",
                 action_index=self.action_index,
@@ -156,13 +169,53 @@ class _EventLogEnvironment:
                 returncode=(output or {}).get("returncode"),
                 exception_type=type(error).__name__ if error else None,
                 exception_message=str(error) or None,
-                output_chars=len(raw),
-                output_bytes=len(raw.encode("utf-8", errors="replace")),
-                output_sha256=text_digest(raw),
-                output_preview=raw[: self._output_preview_chars],
-                output_truncated=len(raw) > self._output_preview_chars,
                 output_ref=output_ref,
+                **self._output_payload(raw),
             )
+
+    def check(
+        self,
+        command: str,
+        *,
+        event: str = "verification",
+        offload: bool = True,
+        timeout: int | None = None,
+        **fields,
+    ) -> dict:
+        """Run a non-agent command (verification, delivery) and never let it end the run."""
+        started = time.monotonic()
+        output, error = None, None
+        try:
+            kwargs = {"timeout": timeout} if timeout is not None else {}
+            output = self._env.execute({"command": command}, **kwargs)
+        except Submitted as e:
+            # A verifier that prints the completion marker must not end the agent loop
+            submission = e.messages[0].get("content", "") if e.messages else ""
+            output = {"output": submission, "returncode": 0, "exception_info": ""}
+        except Exception as e:
+            error = e
+            output = {"output": getattr(e, "output", "") or "", "returncode": -1, "exception_info": str(e)}
+        finally:
+            raw = (output or {}).get("output", "") or ""
+            output_ref = self._maybe_offload(output, raw, label=f"{event}-step{self._writer.step}") if offload else None
+            returncode = (output or {}).get("returncode")
+            passed = (returncode == 0) if error is None else None
+            output["passed"] = passed
+            output["output_ref"] = output_ref
+            output["output_preview"] = raw[: self._output_preview_chars]
+            self._writer.emit(
+                event,
+                command=command,
+                passed=passed,
+                returncode=returncode,
+                duration_s=round(time.monotonic() - started, 6),
+                exception_type=type(error).__name__ if error else None,
+                exception_message=(str(error) or None) if error else None,
+                output_ref=output_ref,
+                **self._output_payload(raw),
+                **fields,
+            )
+        return output
 
     def probe(self, command: str) -> dict:
         """Run a workspace check without recording it as an agent action."""
@@ -217,6 +270,12 @@ class EventLogAgent(InteractiveAgent):
             return None
         return OutputStore(root, self.config.output_offload_max_bytes)
 
+    def _run_end_extra(self, last_extra: dict) -> dict:
+        return {}
+
+    def _run_end_success(self, last_extra: dict, exit_status: str | None) -> bool:
+        return exit_status == "Submitted"
+
     def run(self, task: str = "", **kwargs) -> dict:
         self._task = task
         self._step_index = 0
@@ -253,7 +312,8 @@ class EventLogAgent(InteractiveAgent):
                 cost=self.cost,
                 n_calls=self.n_calls,
                 n_steps=self._step_index,
-                success=exit_status == "Submitted",
+                success=self._run_end_success(last_extra, exit_status),
+                **self._run_end_extra(last_extra),
                 error_type=type(error).__name__ if error else None,
                 error_message=str(error) if error else None,
             )

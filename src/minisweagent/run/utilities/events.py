@@ -30,6 +30,7 @@ def summarize(events: list[dict]) -> dict:
         "run_id": run[0].get("run_id"),
         "exit_status": (run_end or {}).get("exit_status")
         or next((e.get("exit_status") for e in reversed(by_type["step_end"]) if e.get("exit_status")), None),
+        "task_state": (run_end or {}).get("task_state"),
         "incomplete": run_end is None,
         "wall_s": (run_end or {}).get("duration_s", run[-1].get("mono", 0.0) - run_start.get("mono", 0.0)),
         "llm_s": sum(e.get("duration_s", 0.0) for e in by_type["llm_call"]),
@@ -99,7 +100,7 @@ def main(path: Path = typer.Argument(..., help="Event log (.jsonl) or trajectory
     if not summary["run_id"]:
         raise typer.BadParameter(f"Event log for '{path}' is empty")
 
-    status = "INCOMPLETE" if summary["incomplete"] else summary["exit_status"]
+    status = "INCOMPLETE" if summary["incomplete"] else (summary["task_state"] or summary["exit_status"])
     console.print(
         f"Run [bold]{summary['run_id']}[/bold]: {status}  wall={summary['wall_s']:.2f}s  "
         f"llm={summary['llm_s']:.2f}s  env={summary['env_s']:.2f}s  "
