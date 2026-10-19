@@ -3049,7 +3049,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_for_new_task_or_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="n">Submitted</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Check if user wants to add a new task or submit."""</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">confirm_exit</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">confirm_exit</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stdin_is_interactive</span><span class="p">():</span>
             <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">"[bold yellow]Agent wants to finish.[/bold yellow] "</span>
                 <span class="s2">"[bold green]Type new task[/bold green] or [bold]Enter[/bold] to quit "</span>

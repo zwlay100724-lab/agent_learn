@@ -2694,7 +2694,7 @@
 <figure>
 <br>
 <div class="gif-container gif-container-styled" data-glightbox-disabled="data-glightbox-disabled">
-    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/png/mini.png?raw=true" data-desc-position="bottom"><img src="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/png/mini.png?raw=true" data-gif="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/gif/mini.gif?raw=true" alt="mini" data-glightbox="false" width="600"></a>
+    
   </div>
 </figure>
 <h2 id="command-line-options">Command line options</h2>
@@ -2853,6 +2853,10 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 <span class="w">      </span><span class="no">"output_tail": {{ output.output[-5000:] | tojson }},</span>
 <span class="w">      </span><span class="no">"elided_chars": {{ output.output | length - 10000 }},</span>
 <span class="w">      </span><span class="no">"warning": "Output too long."</span>
+<span class="w">      </span><span class="no">{%- if output.output_path is defined %},</span>
+<span class="w">      </span><span class="no">"full_output_path": {{ output.output_path | tojson }},</span>
+<span class="w">      </span><span class="no">"hint": "Read the full output from full_output_path with head, tail, sed or grep."</span>
+<span class="w">      </span><span class="no">{%- endif %}</span>
 <span class="w">      </span><span class="no">{%- if output.exception_info %}, "exception_info": {{ output.exception_info | tojson }}{% endif %}</span>
 <span class="w">    </span><span class="no">}</span>
 <span class="w">    </span><span class="no">{%- endif -%}</span>
@@ -3149,7 +3153,7 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_for_new_task_or_submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="n">Submitted</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Check if user wants to add a new task or submit."""</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">confirm_exit</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">confirm_exit</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stdin_is_interactive</span><span class="p">():</span>
             <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">"[bold yellow]Agent wants to finish.[/bold yellow] "</span>
                 <span class="s2">"[bold green]Type new task[/bold green] or [bold]Enter[/bold] to quit "</span>

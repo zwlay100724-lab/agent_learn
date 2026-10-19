@@ -2887,6 +2887,10 @@ This is done with the <code>model_kwargs</code> dictionary which is directly pas
 <span class="w">      </span><span class="no">"output_tail": {{ output.output[-5000:] | tojson }},</span>
 <span class="w">      </span><span class="no">"elided_chars": {{ output.output | length - 10000 }},</span>
 <span class="w">      </span><span class="no">"warning": "Output too long."</span>
+<span class="w">      </span><span class="no">{%- if output.output_path is defined %},</span>
+<span class="w">      </span><span class="no">"full_output_path": {{ output.output_path | tojson }},</span>
+<span class="w">      </span><span class="no">"hint": "Read the full output from full_output_path with head, tail, sed or grep."</span>
+<span class="w">      </span><span class="no">{%- endif %}</span>
 <span class="w">      </span><span class="no">{%- if output.exception_info %}, "exception_info": {{ output.exception_info | tojson }}{% endif %}</span>
 <span class="w">    </span><span class="no">}</span>
 <span class="w">    </span><span class="no">{%- endif -%}</span>
