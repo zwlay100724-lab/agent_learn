@@ -1,6 +1,17 @@
+import json
+from pathlib import Path
+
 import pytest
 
-from minisweagent.run.utilities.eval import OUTCOMES, _p95, _stats, aggregate, classify_outcome
+from minisweagent.run.utilities.eval import (
+    OUTCOMES,
+    _p95,
+    _stats,
+    aggregate,
+    build_run,
+    classify_outcome,
+    discover,
+)
 
 
 def make_run(outcome="Succeeded", **kwargs):
@@ -81,3 +92,95 @@ def test_aggregate_uses_strict_success():
 def test_aggregate_retry_rate_uses_event_coverage():
     runs = [make_run(retry_count=1, has_event_log=True), make_run(retry_count=3, has_event_log=True), make_run()]
     assert aggregate(runs)["retries"] == {"total": 4, "rate": 2.0, "n": 2}
+
+
+def write_trajectory(root, name="run.traj.json", info=None, messages=None, **extra):
+    path = root / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"info": info or {}, "messages": messages or [], **extra}))
+    return path
+
+
+def write_events(path, events):
+    path.write_text("\n".join(json.dumps(e) for e in events))
+
+
+def sample_events(run_id="r"):
+    return [
+        {"event": "run_start", "run_id": run_id, "seq": 0, "step": 0, "mono": 100.0},
+        {"event": "step_start", "run_id": run_id, "seq": 1, "step": 1},
+        {"event": "llm_call", "run_id": run_id, "seq": 2, "step": 1, "duration_s": 2.0, "cost": 0.5, "attempts": 1},
+        {"event": "action", "run_id": run_id, "seq": 3, "step": 1, "duration_s": 0.5},
+        {"event": "step_end", "run_id": run_id, "seq": 4, "step": 1, "duration_s": 3.0, "outcome": "ok"},
+        {"event": "run_end", "run_id": run_id, "seq": 5, "step": 0, "duration_s": 4.0, "exit_status": "Submitted"},
+    ]
+
+
+def test_discover_recurses_and_sorts(tmp_path):
+    for name in ("b.traj.json", "a/x.traj.json", "a.traj.json"):
+        write_trajectory(tmp_path, name)
+    paths = discover(tmp_path)
+    assert sorted(p.name for p in paths) == ["a.traj.json", "b.traj.json", "x.traj.json"]
+    assert paths == sorted(paths)
+
+
+def test_discover_ignores_preds_json(tmp_path):
+    (tmp_path / "preds.json").write_text("{}")
+    write_trajectory(tmp_path, "a.traj.json")
+    assert [p.name for p in discover(tmp_path)] == ["a.traj.json"]
+
+
+def test_build_run_without_event_log(tmp_path):
+    trajectory = write_trajectory(
+        tmp_path,
+        info={"exit_status": "Submitted", "model_stats": {"instance_cost": 0.25, "api_calls": 3}},
+        messages=[{"role": "assistant"}, {"role": "assistant"}, {"role": "user"}],
+    )
+    run = build_run(trajectory)
+
+    assert (run["outcome"], run["success"], run["cost"], run["n_calls"]) == ("Unverified", False, 0.25, 3)
+    assert (run["wall_s"], run["llm_s"], run["env_s"], run["retry_count"]) == (None, None, None, None)
+    assert (run["has_event_log"], run["n_steps"], run["n_steps_source"]) == (False, 2, "messages")
+
+
+def test_build_run_with_event_log(tmp_path):
+    trajectory = write_trajectory(tmp_path, info={"model_stats": {"instance_cost": 0.5, "api_calls": 1}})
+    write_events(Path(f"{trajectory}.events.jsonl"), sample_events())
+
+    run = build_run(trajectory)
+    assert (run["wall_s"], run["llm_s"], run["env_s"], run["retry_count"], run["n_steps"]) == (4.0, 2.0, 0.5, 0, 1)
+    assert (run["has_event_log"], run["exit_status"]) == (True, "Submitted")
+
+
+def test_build_run_resolves_relative_event_path(tmp_path):
+    trajectory = write_trajectory(tmp_path, info={"events": {"path": "custom.events.jsonl"}})
+    write_events(tmp_path / "custom.events.jsonl", sample_events())
+    assert build_run(trajectory)["has_event_log"] is True
+
+
+def test_build_run_submitted_without_state_is_unverified(tmp_path):
+    run = build_run(write_trajectory(tmp_path, info={"exit_status": "Submitted"}))
+    assert (run["outcome"], run["success"]) == ("Unverified", False)
+
+
+def test_build_run_corrupt_trajectory_is_error_record(tmp_path):
+    path = tmp_path / "bad.traj.json"
+    path.write_text("{not json")
+    run = build_run(path)
+    assert (run["outcome"], run["success"], run["error"] is not None) == ("Error", False, True)
+
+
+def test_build_run_corrupt_event_log_keeps_metrics_none(tmp_path):
+    trajectory = write_trajectory(tmp_path, info={"exit_status": "Submitted", "model_stats": {"instance_cost": 0.1}})
+    Path(f"{trajectory}.events.jsonl").write_text('{"event": "a"}\nnot json\n{"event": "b"}\n')
+
+    run = build_run(trajectory)
+    assert (run["has_event_log"], run["event_log_error"] is not None) == (True, True)
+    assert (run["wall_s"], run["retry_count"], run["cost"]) == (None, None, 0.1)
+
+
+def test_build_run_accepts_legacy_message_list(tmp_path):
+    path = tmp_path / "legacy.traj.json"
+    path.write_text(json.dumps([{"role": "assistant"}, {"role": "user"}]))
+    run = build_run(path)
+    assert (run["outcome"], run["n_steps"], run["n_steps_source"]) == ("Incomplete", 1, "messages")
