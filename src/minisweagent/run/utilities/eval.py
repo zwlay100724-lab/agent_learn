@@ -6,6 +6,8 @@ import statistics
 from pathlib import Path
 
 import typer
+from rich.console import Console
+from rich.table import Table
 
 from minisweagent.run.utilities.events import summarize
 from minisweagent.utils.event_log import read_events
@@ -266,9 +268,7 @@ def _delta_summary(current: dict, baseline: dict) -> dict:
                 else None
             ),
         },
-        "buckets": {
-            outcome: _delta(current["buckets"][outcome], baseline["buckets"][outcome]) for outcome in OUTCOMES
-        },
+        "buckets": {outcome: _delta(current["buckets"][outcome], baseline["buckets"][outcome]) for outcome in OUTCOMES},
         "cost_total": _delta(current["cost"]["total"], baseline["cost"]["total"], pct=True),
         "cost_mean": _delta(current["cost"]["mean"], baseline["cost"]["mean"], pct=True),
         "wall_s_mean": _delta(current["wall_s"]["mean"], baseline["wall_s"]["mean"], pct=True),
@@ -295,3 +295,184 @@ def compare(current_runs: list[dict], baseline_runs: list[dict]) -> dict:
             for key in sorted(baseline_groups.keys() - current_groups.keys())
         ],
     }
+
+
+app = typer.Typer(rich_markup_mode="rich")
+console = Console(highlight=False)
+
+
+def _fmt(value, digits: int = 2, unit: str = "") -> str:
+    return "n/a" if value is None else f"{value:.{digits}f}{unit}"
+
+
+def _fmt_int(value) -> str:
+    return "n/a" if value is None else str(value)
+
+
+def _fmt_money(value) -> str:
+    return "n/a" if value is None else f"${value:.4f}"
+
+
+def _fmt_pct(value) -> str:
+    return "n/a" if value is None else f"{value * 100:.1f}%"
+
+
+def _render_summary(summary: dict) -> None:
+    table = Table(header_style="bold")
+    table.add_column("metric")
+    table.add_column("value", justify="right")
+    table.add_row("trajectories", str(summary["n_runs"]))
+    table.add_row("Succeeded (strict)", f"{summary['successes']} ({_fmt_pct(summary['success_rate'])})")
+    for outcome in OUTCOMES[1:]:
+        table.add_row(outcome, str(summary["buckets"][outcome]))
+    table.add_row(
+        "cost total / mean / median",
+        " / ".join(_fmt_money(summary["cost"][key]) for key in ("total", "mean", "median")),
+    )
+    table.add_row("wall mean", _fmt(summary["wall_s"]["mean"], unit="s"))
+    table.add_row("llm mean", _fmt(summary["llm_s"]["mean"], unit="s"))
+    table.add_row("env mean", _fmt(summary["env_s"]["mean"], unit="s"))
+    table.add_row("steps mean", _fmt(summary["n_steps"]["mean"]))
+    table.add_row(
+        "retries total / mean per run",
+        f"{_fmt_int(summary['retries']['total'])} / {_fmt(summary['retries']['rate'])}",
+    )
+    console.print(table)
+
+
+def _render_coverage(summary: dict) -> None:
+    n, coverage = summary["n_runs"], summary["coverage"]
+    if coverage["task_state"] < n:
+        console.print(
+            f"[yellow]{n - coverage['task_state']} run(s) have no task_state; "
+            "they are not counted as successes.[/yellow]"
+        )
+    if coverage["event_log"] < n:
+        console.print(
+            f"[yellow]{n - coverage['event_log']} run(s) have no event log; "
+            "timing/retry metrics are unavailable (not zero).[/yellow]"
+        )
+    if summary["n_load_errors"]:
+        console.print(f"[red]{summary['n_load_errors']} trajectory file(s) could not be read; see --verbose.[/red]")
+
+
+def _render_outcomes(summary: dict) -> None:
+    table = Table(header_style="bold")
+    table.add_column("outcome")
+    table.add_column("count", justify="right")
+    table.add_column("share", justify="right")
+    for outcome in OUTCOMES:
+        count = summary["buckets"][outcome]
+        share = f"{count / summary['n_runs'] * 100:.1f}%" if summary["n_runs"] else "0.0%"
+        table.add_row(outcome, str(count), share)
+    console.print(table)
+
+
+def _render_runs(report: dict) -> None:
+    table = Table(header_style="bold")
+    for column in ("group", "outcome", "cost", "calls", "steps", "wall", "retries", "file"):
+        table.add_column(column)
+    for run in report["runs"]:
+        table.add_row(
+            run["group"],
+            run["outcome"],
+            _fmt_money(run["cost"]),
+            _fmt_int(run["n_calls"]),
+            _fmt_int(run["n_steps"]),
+            _fmt(run["wall_s"], unit="s"),
+            _fmt_int(run["retry_count"]),
+            Path(run["path"]).name,
+        )
+    console.print(table)
+
+
+def _render_comparison(comparison: dict) -> None:
+    overall = comparison["overall"]
+    table = Table(title="Comparison (current vs baseline)", header_style="bold")
+    table.add_column("metric")
+    table.add_column("current", justify="right")
+    table.add_column("baseline", justify="right")
+    table.add_column("delta", justify="right")
+    success = overall["success_rate"]
+    table.add_row(
+        "strict success rate",
+        _fmt_pct(success["current"]),
+        _fmt_pct(success["baseline"]),
+        f"{success['delta_pp']:+.1f}pp" if success["delta_pp"] is not None else "n/a",
+    )
+    for key, label in (
+        ("cost_mean", "mean cost"),
+        ("n_steps_mean", "mean steps"),
+        ("wall_s_mean", "mean wall"),
+        ("retry_rate", "retry rate"),
+    ):
+        delta = overall[key]
+        table.add_row(
+            label,
+            _fmt(delta["current"]),
+            _fmt(delta["baseline"]),
+            f"{delta['delta']:+.2f}" if delta["delta"] is not None else "n/a",
+        )
+    console.print(table)
+    if comparison["matched"]:
+        groups = Table(title="Groups", header_style="bold")
+        for column in ("group", "runs cur/base", "success cur/base/delta", "cost delta %"):
+            groups.add_column(column)
+        for item in comparison["matched"]:
+            delta = item["delta"]
+            success_rate = delta["success_rate"]
+            success_text = (
+                f"{_fmt_pct(success_rate['current'])}/{_fmt_pct(success_rate['baseline'])}/"
+                f"{success_rate['delta_pp']:+.1f}pp"
+                if success_rate["delta_pp"] is not None
+                else "n/a"
+            )
+            cost_pct = delta["cost_mean"]["delta_pct"]
+            groups.add_row(
+                item["group"],
+                f"{delta['n_runs']['current']}/{delta['n_runs']['baseline']}",
+                success_text,
+                f"{cost_pct:+.1f}%" if cost_pct is not None else "n/a",
+            )
+        console.print(groups)
+    for key, label in (("only_current", "only in current"), ("only_baseline", "only in baseline")):
+        for item in comparison[key]:
+            console.print(f"[yellow]{label}: {item['group']} ({item['summary']['n_runs']} runs)[/yellow]")
+
+
+@app.command()
+def main(
+    path: Path = typer.Argument(..., help="Directory of .traj.json files or a single trajectory"),
+    baseline: Path | None = typer.Option(None, "--baseline", help="Baseline directory or trajectory"),
+    json_output: bool = typer.Option(False, "--json", help="Print JSON instead of tables"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show one row per trajectory"),
+) -> None:
+    if not path.exists():
+        raise typer.BadParameter(f"Path '{path}' does not exist")
+    if baseline is not None and not baseline.exists():
+        raise typer.BadParameter(f"Baseline path '{baseline}' does not exist")
+
+    report = build_report(path)
+    if baseline is not None:
+        report["baseline_path"] = str(baseline)
+        report["comparison"] = compare(report["runs"], build_report(baseline)["runs"])
+    else:
+        report["baseline_path"] = None
+        report["comparison"] = None
+
+    if json_output:
+        typer.echo(json.dumps(report, indent=2, allow_nan=False))
+        return
+
+    console.print(f"Evaluated [bold]{report['summary']['n_runs']}[/bold] trajectory file(s) from '{path}'")
+    _render_summary(report["summary"])
+    _render_outcomes(report["summary"])
+    _render_coverage(report["summary"])
+    if verbose:
+        _render_runs(report)
+    if report["comparison"]:
+        _render_comparison(report["comparison"])
+
+
+if __name__ == "__main__":
+    app()

@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pytest
+from typer.testing import CliRunner
 
 from minisweagent.run.utilities.eval import (
     OUTCOMES,
@@ -9,6 +10,7 @@ from minisweagent.run.utilities.eval import (
     _pct_change,
     _stats,
     aggregate,
+    app,
     build_report,
     build_run,
     classify_outcome,
@@ -16,6 +18,7 @@ from minisweagent.run.utilities.eval import (
     discover,
     group_runs,
 )
+from minisweagent.run.utilities.mini_extra import subcommands
 
 
 def make_run(outcome="Succeeded", **kwargs):
@@ -251,3 +254,56 @@ def test_compare_reports_bucket_deltas():
         [make_run("Succeeded"), make_run("Unverified")],
     )["overall"]["buckets"]
     assert (buckets["Succeeded"]["delta"], buckets["Unverified"]["delta"]) == (1, -1)
+
+
+def test_eval_cli_json_schema(tmp_path):
+    write_trajectory(tmp_path, "ok.traj.json", info={"exit_status": "Submitted", "task_state": "Succeeded"})
+    write_trajectory(tmp_path, "unknown.traj.json", info={"exit_status": "Submitted"})
+
+    result = CliRunner().invoke(app, [str(tmp_path), "--json"])
+
+    report = json.loads(result.output)
+    assert set(report) == {"schema_version", "path", "runs", "summary", "groups", "baseline_path", "comparison"}
+    assert (report["summary"]["n_runs"], report["summary"]["successes"]) == (2, 1)
+    assert (report["baseline_path"], report["comparison"]) == (None, None)
+
+
+def test_eval_cli_baseline_json(tmp_path):
+    current, baseline = tmp_path / "current", tmp_path / "baseline"
+    write_trajectory(current, "a.traj.json", info={"exit_status": "Submitted", "task_state": "Succeeded"})
+    write_trajectory(baseline, "a.traj.json", info={"exit_status": "Submitted"})
+
+    result = CliRunner().invoke(app, [str(current), "--baseline", str(baseline), "--json"])
+
+    report = json.loads(result.output)
+    assert report["comparison"]["overall"]["success_rate"]["delta_pp"] == 100.0
+    assert report["comparison"]["matched"][0]["group"] == "a"
+
+
+def test_eval_cli_verbose_prints_runs(tmp_path):
+    write_trajectory(tmp_path, "uniq.traj.json", info={"exit_status": "Submitted"})
+    plain = CliRunner().invoke(app, [str(tmp_path)])
+    verbose = CliRunner().invoke(app, [str(tmp_path), "--verbose"])
+
+    assert "uniq" not in plain.output
+    assert "uniq" in verbose.output
+
+
+def test_eval_cli_rejects_empty_directory(tmp_path):
+    result = CliRunner().invoke(app, [str(tmp_path)])
+    assert result.exit_code != 0
+    assert "No trajectory files found" in result.output
+
+
+def test_eval_cli_rejects_missing_path(tmp_path):
+    missing = CliRunner().invoke(app, [str(tmp_path / "nope")])
+    assert missing.exit_code != 0
+    assert "does not exist" in missing.output
+
+    baseline = CliRunner().invoke(app, [str(tmp_path), "--baseline", str(tmp_path / "nope")])
+    assert baseline.exit_code != 0
+    assert "Baseline path" in baseline.output
+
+
+def test_eval_is_registered_in_mini_extra():
+    assert any("eval" in aliases for _, aliases, _ in subcommands)
