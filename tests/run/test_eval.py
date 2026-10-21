@@ -8,9 +8,11 @@ from minisweagent.run.utilities.eval import (
     _p95,
     _stats,
     aggregate,
+    build_report,
     build_run,
     classify_outcome,
     discover,
+    group_runs,
 )
 
 
@@ -184,3 +186,32 @@ def test_build_run_accepts_legacy_message_list(tmp_path):
     path.write_text(json.dumps([{"role": "assistant"}, {"role": "user"}]))
     run = build_run(path)
     assert (run["outcome"], run["n_steps"], run["n_steps_source"]) == ("Incomplete", 1, "messages")
+
+
+def test_grouping_prefers_instance_id_then_stem(tmp_path):
+    grouped = write_trajectory(tmp_path, "grouped.traj.json", instance_id="task-1")
+    plain = write_trajectory(tmp_path, "plain.traj.json")
+    assert sorted(group_runs([build_run(grouped), build_run(plain)])) == ["plain", "task-1"]
+
+
+def test_grouping_merges_repeated_runs(tmp_path):
+    first = write_trajectory(tmp_path, "run1.traj.json", instance_id="task-1")
+    second = write_trajectory(tmp_path, "run2.traj.json", instance_id="task-1")
+    assert len(group_runs([build_run(first), build_run(second)])["task-1"]) == 2
+
+
+def test_build_report_includes_summary_and_groups(tmp_path):
+    write_trajectory(tmp_path, "ok.traj.json", info={"exit_status": "Submitted", "task_state": "Succeeded"})
+    write_trajectory(tmp_path, "unknown.traj.json", info={"exit_status": "Submitted"})
+    report = build_report(tmp_path)
+
+    assert report["schema_version"] == 1
+    assert (report["summary"]["n_runs"], report["summary"]["successes"]) == (2, 1)
+    assert [g["group"] for g in report["groups"]] == ["ok", "unknown"]
+
+
+def test_build_report_sorts_runs(tmp_path):
+    write_trajectory(tmp_path, "b.traj.json", instance_id="z")
+    write_trajectory(tmp_path, "a.traj.json", instance_id="a")
+    runs = build_report(tmp_path)["runs"]
+    assert [(r["group"], r["path"].rsplit("/", 1)[-1]) for r in runs] == [("a", "a.traj.json"), ("z", "b.traj.json")]

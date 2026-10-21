@@ -210,3 +210,27 @@ def build_run(trajectory: Path) -> dict:
         ),
         "agent_type": (info.get("config") or {}).get("agent_type"),
     }
+
+
+def group_runs(runs: list[dict]) -> dict[str, list[dict]]:
+    groups: dict[str, list[dict]] = {}
+    for run in sorted(runs, key=lambda r: (r["group"], r["path"])):
+        groups.setdefault(run["group"], []).append(run)
+    return groups
+
+
+def _group_report(runs: list[dict]) -> list[dict]:
+    return [
+        {"group": group, "summary": aggregate(group_runs)} for group, group_runs in sorted(group_runs(runs).items())
+    ]
+
+
+def build_report(path: Path) -> dict:
+    runs = sorted((build_run(p) for p in discover(path)), key=lambda r: (r["group"], r["path"]))
+    return {
+        "schema_version": 1,
+        "path": str(path),
+        "runs": runs,
+        "summary": aggregate(runs),
+        "groups": _group_report(runs),
+    }
