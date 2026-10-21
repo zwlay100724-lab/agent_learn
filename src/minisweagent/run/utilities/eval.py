@@ -234,3 +234,64 @@ def build_report(path: Path) -> dict:
         "summary": aggregate(runs),
         "groups": _group_report(runs),
     }
+
+
+def _pct_change(current: float | int | None, baseline: float | int | None) -> float | None:
+    if current is None or baseline is None or baseline == 0:
+        return None
+    return (current - baseline) / baseline * 100
+
+
+def _delta(current, baseline, *, pct: bool = False) -> dict:
+    result = {"current": current, "baseline": baseline, "delta": None}
+    if pct:
+        result["delta_pct"] = None
+    if current is not None and baseline is not None:
+        result["delta"] = current - baseline
+        if pct:
+            result["delta_pct"] = _pct_change(current, baseline)
+    return result
+
+
+def _delta_summary(current: dict, baseline: dict) -> dict:
+    return {
+        "n_runs": _delta(current["n_runs"], baseline["n_runs"]),
+        "successes": _delta(current["successes"], baseline["successes"]),
+        "success_rate": {
+            "current": current["success_rate"],
+            "baseline": baseline["success_rate"],
+            "delta_pp": (
+                (current["success_rate"] - baseline["success_rate"]) * 100
+                if current["success_rate"] is not None and baseline["success_rate"] is not None
+                else None
+            ),
+        },
+        "buckets": {
+            outcome: _delta(current["buckets"][outcome], baseline["buckets"][outcome]) for outcome in OUTCOMES
+        },
+        "cost_total": _delta(current["cost"]["total"], baseline["cost"]["total"], pct=True),
+        "cost_mean": _delta(current["cost"]["mean"], baseline["cost"]["mean"], pct=True),
+        "wall_s_mean": _delta(current["wall_s"]["mean"], baseline["wall_s"]["mean"], pct=True),
+        "n_steps_mean": _delta(current["n_steps"]["mean"], baseline["n_steps"]["mean"], pct=True),
+        "retries_total": _delta(current["retries"]["total"], baseline["retries"]["total"], pct=True),
+        "retry_rate": _delta(current["retries"]["rate"], baseline["retries"]["rate"], pct=True),
+    }
+
+
+def compare(current_runs: list[dict], baseline_runs: list[dict]) -> dict:
+    current_groups, baseline_groups = group_runs(current_runs), group_runs(baseline_runs)
+    return {
+        "overall": _delta_summary(aggregate(current_runs), aggregate(baseline_runs)),
+        "matched": [
+            {"group": key, "delta": _delta_summary(aggregate(current_groups[key]), aggregate(baseline_groups[key]))}
+            for key in sorted(current_groups.keys() & baseline_groups.keys())
+        ],
+        "only_current": [
+            {"group": key, "summary": aggregate(current_groups[key])}
+            for key in sorted(current_groups.keys() - baseline_groups.keys())
+        ],
+        "only_baseline": [
+            {"group": key, "summary": aggregate(baseline_groups[key])}
+            for key in sorted(baseline_groups.keys() - current_groups.keys())
+        ],
+    }

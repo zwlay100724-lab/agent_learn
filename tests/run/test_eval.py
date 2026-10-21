@@ -6,11 +6,13 @@ import pytest
 from minisweagent.run.utilities.eval import (
     OUTCOMES,
     _p95,
+    _pct_change,
     _stats,
     aggregate,
     build_report,
     build_run,
     classify_outcome,
+    compare,
     discover,
     group_runs,
 )
@@ -18,6 +20,8 @@ from minisweagent.run.utilities.eval import (
 
 def make_run(outcome="Succeeded", **kwargs):
     run = {
+        "path": "",
+        "group": "",
         "outcome": outcome,
         "task_state": None,
         "exit_status": None,
@@ -215,3 +219,35 @@ def test_build_report_sorts_runs(tmp_path):
     write_trajectory(tmp_path, "a.traj.json", instance_id="a")
     runs = build_report(tmp_path)["runs"]
     assert [(r["group"], r["path"].rsplit("/", 1)[-1]) for r in runs] == [("a", "a.traj.json"), ("z", "b.traj.json")]
+
+
+def test_pct_change_returns_none_for_zero_baseline():
+    assert _pct_change(1.0, 0.0) is None
+    assert _pct_change(1.0, 2.0) == -50.0
+
+
+def test_compare_success_rate_uses_percentage_points():
+    current = [make_run("Succeeded", group="a"), make_run("Succeeded", group="b")]
+    baseline = [make_run("Succeeded", group="a"), make_run("Unverified", group="b")]
+    assert compare(current, baseline)["overall"]["success_rate"]["delta_pp"] == 50.0
+
+
+def test_compare_guards_zero_baseline():
+    comparison = compare([make_run(cost=1.0)], [make_run(cost=0.0)])
+    assert comparison["overall"]["cost_mean"]["delta"] == 1.0
+    assert comparison["overall"]["cost_mean"]["delta_pct"] is None
+
+
+def test_compare_reports_unmatched_groups():
+    comparison = compare([make_run(group="a"), make_run(group="b")], [make_run(group="a"), make_run(group="c")])
+    assert [m["group"] for m in comparison["matched"]] == ["a"]
+    assert [g["group"] for g in comparison["only_current"]] == ["b"]
+    assert [g["group"] for g in comparison["only_baseline"]] == ["c"]
+
+
+def test_compare_reports_bucket_deltas():
+    buckets = compare(
+        [make_run("Succeeded"), make_run("Succeeded")],
+        [make_run("Succeeded"), make_run("Unverified")],
+    )["overall"]["buckets"]
+    assert (buckets["Succeeded"]["delta"], buckets["Unverified"]["delta"]) == (1, -1)
