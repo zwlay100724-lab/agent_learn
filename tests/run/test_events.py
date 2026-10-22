@@ -63,6 +63,23 @@ def test_summarize_marks_incomplete_run():
     assert (summary["last_event"], summary["exit_status"]) == ("step_end", "Submitted")
 
 
+def test_summarize_aggregates_tokens_and_context_elisions():
+    events = _events()
+    for event in events:
+        if event["event"] == "llm_call":
+            event.update(prompt_tokens=10, completion_tokens=2, total_tokens=12)
+    events.append({"event": "context_elide", "run_id": "r", "seq": 10, "step": 2, "count": 2, "chars_elided": 500})
+    summary = summarize(events)
+    assert (summary["tokens"]["prompt_tokens"], summary["tokens"]["n_calls_with_usage"]) == (20, 2)
+    assert summary["context"] == {"elisions": 2, "elided_chars": 500}
+
+
+def test_summarize_missing_usage_is_none_not_zero():
+    summary = summarize(_events())
+    assert summary["tokens"]["prompt_tokens"] is None
+    assert summary["tokens"]["n_calls_with_usage"] == 0
+
+
 def test_summarize_reports_task_state():
     events = _events()
     events[-1]["task_state"] = "Succeeded"

@@ -118,7 +118,18 @@ def sample_events(run_id="r"):
     return [
         {"event": "run_start", "run_id": run_id, "seq": 0, "step": 0, "mono": 100.0},
         {"event": "step_start", "run_id": run_id, "seq": 1, "step": 1},
-        {"event": "llm_call", "run_id": run_id, "seq": 2, "step": 1, "duration_s": 2.0, "cost": 0.5, "attempts": 1},
+        {
+            "event": "llm_call",
+            "run_id": run_id,
+            "seq": 2,
+            "step": 1,
+            "duration_s": 2.0,
+            "cost": 0.5,
+            "attempts": 1,
+            "prompt_tokens": 10,
+            "completion_tokens": 2,
+            "total_tokens": 12,
+        },
         {"event": "action", "run_id": run_id, "seq": 3, "step": 1, "duration_s": 0.5},
         {"event": "step_end", "run_id": run_id, "seq": 4, "step": 1, "duration_s": 3.0, "outcome": "ok"},
         {"event": "run_end", "run_id": run_id, "seq": 5, "step": 0, "duration_s": 4.0, "exit_status": "Submitted"},
@@ -325,3 +336,71 @@ def test_eval_cli_rejects_missing_path(tmp_path):
 
 def test_eval_is_registered_in_mini_extra():
     assert any("eval" in aliases for _, aliases, _ in subcommands)
+
+
+def test_stats_reports_spread():
+    stats = _stats([1, 2, 3])
+    assert (stats["min"], stats["max"], stats["std"]) == (1, 3, 1.0)
+
+
+def test_build_run_reads_tokens_and_context(tmp_path):
+    trajectory = write_trajectory(
+        tmp_path,
+        info={
+            "exit_status": "Submitted",
+            "task_state": "Succeeded",
+            "tokens": {"prompt_tokens": 30, "completion_tokens": 5, "total_tokens": 35, "n_calls_with_usage": 2},
+            "context": {"elided_observations": 3, "elided_chars": 900},
+        },
+    )
+    run = build_run(trajectory)
+    assert (run["prompt_tokens"], run["completion_tokens"], run["mean_prompt_tokens"]) == (30, 5, 15.0)
+    assert (run["elisions"], run["elided_chars"]) == (3, 900)
+
+
+def test_build_run_falls_back_to_event_log_tokens(tmp_path):
+    trajectory = write_trajectory(tmp_path, info={})
+    write_events(Path(f"{trajectory}.events.jsonl"), sample_events())
+    run = build_run(trajectory)
+    assert (run["prompt_tokens"], run["mean_prompt_tokens"]) == (10, 10.0)
+
+
+def test_aggregate_token_and_elision_stats():
+    runs = [
+        make_run(prompt_tokens=10, calls_with_usage=1, mean_prompt_tokens=10, completion_tokens=2, total_tokens=12),
+        make_run(prompt_tokens=30, calls_with_usage=2, mean_prompt_tokens=15, completion_tokens=4, total_tokens=34),
+        make_run(elisions=4, elided_chars=400),
+    ]
+    summary = aggregate(runs)
+
+    assert (summary["prompt_tokens"]["total"], summary["prompt_tokens"]["min"], summary["prompt_tokens"]["max"]) == (
+        40,
+        10,
+        30,
+    )
+    assert summary["mean_prompt_per_call"] == 40 / 3
+    assert (summary["elisions"]["total"], summary["elided_chars"]["total"]) == (4, 400)
+    assert (summary["coverage"]["tokens"], summary["coverage"]["elisions"]) == (2, 1)
+
+
+def test_aggregate_failure_reasons():
+    runs = [
+        make_run("Succeeded"),
+        make_run("VerificationFailed"),
+        make_run("Incomplete", exit_status="LimitsExceeded"),
+        make_run("Unverified", exit_status="Submitted"),
+        make_run("Error", error="bad json"),
+    ]
+    assert aggregate(runs)["failure_reasons"] == {
+        "limits": 1,
+        "load_error": 1,
+        "unverified": 1,
+        "verification_failed": 1,
+    }
+
+
+def test_compare_reports_prompt_tokens_per_call():
+    current = [make_run(prompt_tokens=10, calls_with_usage=1)]
+    baseline = [make_run(prompt_tokens=20, calls_with_usage=1)]
+    delta = compare(current, baseline)["overall"]["prompt_tokens_per_call"]
+    assert (delta["current"], delta["baseline"], delta["delta"], delta["delta_pct"]) == (10, 20, -10, -50.0)

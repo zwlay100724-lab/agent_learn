@@ -12,6 +12,7 @@ from typing import Any
 from minisweagent import __version__
 from minisweagent.agents.interactive import InteractiveAgent, InteractiveAgentConfig
 from minisweagent.exceptions import FormatError, InterruptAgentFlow, Submitted
+from minisweagent.models.utils.usage import USAGE_FIELDS, extract_usage, sum_usage
 from minisweagent.utils.event_log import (
     SCHEMA_VERSION,
     EventLogWriter,
@@ -29,6 +30,29 @@ def _exit_status(e: BaseException) -> str | None:
 
 def _type_name(obj: Any) -> str:
     return f"{type(obj).__module__}.{type(obj).__name__}"
+
+
+def _usage_payload(usage: dict | None) -> dict:
+    return {key: (usage or {}).get(key) for key in USAGE_FIELDS}
+
+
+def _message_usage(message: dict | None) -> dict | None:
+    """Completion models keep the raw response in extra; response API models put usage at the top level."""
+    if message is None:
+        return None
+    return extract_usage((message.get("extra") or {}).get("response")) or extract_usage(message)
+
+
+def _record_usage(message: dict | None, usage: dict | None) -> None:
+    if message is None or usage is None:
+        return
+    if message.get("extra") is None:
+        message["extra"] = {}
+    message["extra"]["usage"] = usage
+
+
+def _token_totals(messages: list[dict]) -> dict:
+    return sum_usage([usage for message in messages if (usage := (message.get("extra") or {}).get("usage"))])
 
 
 class EventLogAgentConfig(InteractiveAgentConfig):
@@ -67,6 +91,8 @@ class _EventLogModel:
             with bind_event_log(self._writer):
                 message = self._model.query(messages, **kwargs)
         except FormatError as e:
+            usage = _message_usage(e.messages[0] if e.messages else None)
+            _record_usage(e.messages[0] if e.messages else None, usage)
             payload |= {
                 "cost": e.messages[0].get("extra", {}).get("cost", 0.0) if e.messages else 0.0,
                 "success": False,
@@ -74,18 +100,28 @@ class _EventLogModel:
                 "error_message": str(e),
                 "message_index": len(messages),
                 "message_digest": digest(e.messages[0]) if e.messages else None,
+                **_usage_payload(usage),
             }
             raise
         except Exception as e:
-            payload |= {"cost": 0.0, "success": False, "error_type": type(e).__name__, "error_message": str(e)}
+            payload |= {
+                "cost": 0.0,
+                "success": False,
+                "error_type": type(e).__name__,
+                "error_message": str(e),
+                **_usage_payload(None),
+            }
             raise
         else:
+            usage = _message_usage(message)
+            _record_usage(message, usage)
             payload |= {
                 "cost": message.get("extra", {}).get("cost", 0.0),
                 "success": True,
                 "message_index": len(messages),
                 "message_digest": digest(message),
                 "actions_count": len(message.get("extra", {}).get("actions", [])),
+                **_usage_payload(usage),
             }
             return message
         finally:
@@ -354,6 +390,7 @@ class EventLogAgent(InteractiveAgent):
         events = {
             "info": {
                 "task": self._task,
+                "tokens": _token_totals(self.messages),
                 "events": {
                     "path": str(self.events.path) if self.events.path else None,
                     "run_id": self.events.run_id,

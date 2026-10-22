@@ -60,6 +60,18 @@ def test_resume_continues_from_a_clean_snapshot(tmp_path):
     assert agent.messages[2]["content"] == "one"
 
 
+def test_resume_preserves_token_totals_from_loaded_messages(tmp_path):
+    first = make_output("one", [{"command": "echo one"}])
+    first["extra"]["response"] = {"usage": {"prompt_tokens": 10, "completion_tokens": 2, "total_tokens": 12}}
+    start_interrupted_run(tmp_path, [first], steps=1)
+
+    agent = make_agent(DeterministicModel(outputs=[make_output("done", [{"command": SUBMIT}])]), tmp_path)
+    agent.resume(tmp_path / "run.traj.json")
+
+    tokens = agent.serialize()["info"]["tokens"]
+    assert (tokens["prompt_tokens"], tokens["n_calls_with_usage"]) == (10, 1)
+
+
 def test_resume_refuses_a_dirty_boundary(tmp_path):
     start_interrupted_run(
         tmp_path,

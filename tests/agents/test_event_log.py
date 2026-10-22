@@ -86,6 +86,26 @@ class _BilledFormatErrorModel(DeterministicModel):
         raise FormatError({"role": "user", "content": "bad", "extra": {"cost": 0.25}})
 
 
+class _BilledFormatErrorUsageModel(DeterministicModel):
+    def query(self, messages, **kwargs):
+        raise FormatError(
+            {
+                "role": "user",
+                "content": "bad",
+                "extra": {
+                    "cost": 0.25,
+                    "response": {"usage": {"prompt_tokens": 7, "completion_tokens": 1, "total_tokens": 8}},
+                },
+            }
+        )
+
+
+def usage_output(content: str, actions: list[dict], usage: dict) -> dict:
+    output = make_output(content, actions)
+    output["extra"]["response"] = {"usage": usage}
+    return output
+
+
 def test_format_error_records_cost_and_outcome(tmp_path):
     agent = make_agent(_BilledFormatErrorModel(outputs=[], cost_per_call=0.25), tmp_path)
     assert agent.run("task")["exit_status"] == "RepeatedFormatError"
@@ -94,6 +114,61 @@ def test_format_error_records_cost_and_outcome(tmp_path):
     calls = [e for e in events if e["event"] == "llm_call"]
     assert all(e["success"] is False and e["cost"] == 0.25 for e in calls)
     assert [e["outcome"] for e in events if e["event"] == "step_end"] == ["format_error"] * 3
+
+
+def test_records_token_usage_per_call_and_in_trajectory(tmp_path):
+    agent = make_agent(
+        DeterministicModel(
+            outputs=[
+                usage_output(
+                    "", [{"command": "echo hi"}], {"prompt_tokens": 10, "completion_tokens": 2, "total_tokens": 12}
+                ),
+                usage_output(
+                    "", [{"command": SUBMIT}], {"prompt_tokens": 20, "completion_tokens": 3, "total_tokens": 23}
+                ),
+            ]
+        ),
+        tmp_path,
+    )
+    agent.run("task")
+
+    calls = [e for e in read_events(log_path(tmp_path)) if e["event"] == "llm_call"]
+    assert [(e["prompt_tokens"], e["completion_tokens"], e["total_tokens"]) for e in calls] == [
+        (10, 2, 12),
+        (20, 3, 23),
+    ]
+    tokens = agent.serialize()["info"]["tokens"]
+    assert (tokens["prompt_tokens"], tokens["completion_tokens"], tokens["total_tokens"]) == (30, 5, 35)
+    assert tokens["n_calls_with_usage"] == 2
+
+
+def test_records_top_level_usage_from_response_api_messages(tmp_path):
+    output = make_output("", [{"command": SUBMIT}])
+    output["usage"] = {"input_tokens": 8, "output_tokens": 2, "total_tokens": 10}
+    agent = make_agent(DeterministicModel(outputs=[output]), tmp_path)
+    agent.run("task")
+
+    call = [e for e in read_events(log_path(tmp_path)) if e["event"] == "llm_call"][0]
+    assert (call["prompt_tokens"], call["completion_tokens"], call["total_tokens"]) == (8, 2, 10)
+
+
+def test_missing_usage_is_none_not_zero(tmp_path):
+    agent = make_agent(DeterministicModel(outputs=[make_output("", [{"command": SUBMIT}])]), tmp_path)
+    agent.run("task")
+
+    call = [e for e in read_events(log_path(tmp_path)) if e["event"] == "llm_call"][0]
+    assert (call["prompt_tokens"], call["completion_tokens"], call["total_tokens"]) == (None, None, None)
+    assert agent.serialize()["info"]["tokens"]["n_calls_with_usage"] == 0
+
+
+def test_format_error_records_billed_usage(tmp_path):
+    agent = make_agent(_BilledFormatErrorUsageModel(outputs=[], cost_per_call=0.25), tmp_path)
+    assert agent.run("task")["exit_status"] == "RepeatedFormatError"
+
+    calls = [e for e in read_events(log_path(tmp_path)) if e["event"] == "llm_call"]
+    assert [(e["prompt_tokens"], e["completion_tokens"], e["total_tokens"]) for e in calls] == [(7, 1, 8)] * 3
+    tokens = agent.serialize()["info"]["tokens"]
+    assert (tokens["prompt_tokens"], tokens["n_calls_with_usage"]) == (21, 3)
 
 
 def test_action_output_is_hashed_not_stored(tmp_path):

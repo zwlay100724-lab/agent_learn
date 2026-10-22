@@ -9,10 +9,19 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from minisweagent.models.utils.usage import sum_usage
 from minisweagent.utils.event_log import read_events
 
 app = typer.Typer(rich_markup_mode="rich")
 console = Console(highlight=False)
+
+
+def _context_summary(events: list[dict]) -> dict:
+    elides = [e for e in events if e.get("event") == "context_elide"]
+    return {
+        "elisions": sum(e.get("count", 0) for e in elides),
+        "elided_chars": sum(e.get("chars_elided", 0) for e in elides),
+    }
 
 
 def summarize(events: list[dict]) -> dict:
@@ -38,6 +47,8 @@ def summarize(events: list[dict]) -> dict:
         "retry_count": len(by_type["llm_retry"]),
         "max_attempts": max((e.get("attempts", 1) for e in by_type["llm_call"]), default=0),
         "cost": sum(e.get("cost", 0.0) for e in by_type["llm_call"]),
+        "tokens": sum_usage(by_type["llm_call"]),
+        "context": _context_summary(run),
         "n_steps": len(by_type["step_end"]),
         "failures": [
             {"step": e.get("step"), "outcome": e.get("outcome"), "exit_status": e.get("exit_status")}

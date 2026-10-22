@@ -33,14 +33,44 @@ def _p95(values: list[float]) -> float | None:
 def _stats(values: list[float | int | None]) -> dict:
     present = [v for v in values if v is not None]
     if not present:
-        return {"total": None, "mean": None, "median": None, "p95": None, "n": 0}
+        return {
+            "total": None,
+            "mean": None,
+            "median": None,
+            "p95": None,
+            "std": None,
+            "min": None,
+            "max": None,
+            "n": 0,
+        }
     return {
         "total": sum(present),
         "mean": sum(present) / len(present),
         "median": statistics.median(present),
         "p95": _p95(present),
+        "std": statistics.stdev(present) if len(present) > 1 else None,
+        "min": min(present),
+        "max": max(present),
         "n": len(present),
     }
+
+
+def _failure_reason(run: dict) -> str | None:
+    if run.get("outcome") == "Succeeded":
+        return None
+    if run.get("error"):
+        return "load_error"
+    if run.get("outcome") == "VerificationFailed":
+        return "verification_failed"
+    if run.get("exit_status") in ("LimitsExceeded", "TimeExceeded"):
+        return "limits"
+    if run.get("exit_status") == "RepeatedFormatError":
+        return "format_error"
+    if run.get("outcome") == "Unverified":
+        return "unverified"
+    if run.get("outcome") == "Incomplete":
+        return "incomplete"
+    return "other"
 
 
 def aggregate(runs: list[dict]) -> dict:
@@ -48,6 +78,18 @@ def aggregate(runs: list[dict]) -> dict:
     for run in runs:
         buckets[run["outcome"]] += 1
     retries = [r["retry_count"] for r in runs if r.get("retry_count") is not None]
+    prompt_calls = [
+        r.get("calls_with_usage")
+        for r in runs
+        if r.get("prompt_tokens") is not None and r.get("calls_with_usage") is not None
+    ]
+    prompt_totals = [r.get("prompt_tokens") for r in runs if r.get("prompt_tokens") is not None]
+    prompt_total = sum(prompt_totals) if prompt_totals else None
+    prompt_call_count = sum(prompt_calls) if prompt_calls else 0
+    failure_reasons: dict[str, int] = {}
+    for run in runs:
+        if reason := _failure_reason(run):
+            failure_reasons[reason] = failure_reasons.get(reason, 0) + 1
     return {
         "n_runs": len(runs),
         "successes": buckets["Succeeded"],
@@ -60,6 +102,16 @@ def aggregate(runs: list[dict]) -> dict:
         "env_s": _stats([r.get("env_s") for r in runs]),
         "n_steps": _stats([r.get("n_steps") for r in runs]),
         "n_calls": _stats([r.get("n_calls") for r in runs]),
+        "prompt_tokens": _stats(prompt_totals),
+        "completion_tokens": _stats([r.get("completion_tokens") for r in runs]),
+        "total_tokens": _stats([r.get("total_tokens") for r in runs]),
+        "mean_prompt_tokens": _stats([r.get("mean_prompt_tokens") for r in runs]),
+        "mean_prompt_per_call": prompt_total / prompt_call_count
+        if prompt_total is not None and prompt_call_count
+        else None,
+        "elisions": _stats([r.get("elisions") for r in runs]),
+        "elided_chars": _stats([r.get("elided_chars") for r in runs]),
+        "failure_reasons": dict(sorted(failure_reasons.items())),
         "retries": {
             "total": sum(retries) if retries else None,
             "rate": sum(retries) / len(retries) if retries else None,
@@ -74,6 +126,8 @@ def aggregate(runs: list[dict]) -> dict:
             "delivery": sum(1 for r in runs if r.get("delivery_changed_files") is not None),
             "cost": sum(1 for r in runs if r.get("cost") is not None),
             "n_steps": sum(1 for r in runs if r.get("n_steps") is not None),
+            "tokens": sum(1 for r in runs if r.get("prompt_tokens") is not None),
+            "elisions": sum(1 for r in runs if r.get("elisions") is not None),
         },
     }
 
@@ -138,6 +192,13 @@ def _empty_run(trajectory: Path) -> dict:
         "env_s": None,
         "retry_count": None,
         "max_attempts": None,
+        "prompt_tokens": None,
+        "completion_tokens": None,
+        "total_tokens": None,
+        "mean_prompt_tokens": None,
+        "calls_with_usage": None,
+        "elisions": None,
+        "elided_chars": None,
         "has_event_log": False,
         "event_log_error": None,
         "verification_attempts": None,
@@ -176,6 +237,8 @@ def build_run(trajectory: Path) -> dict:
     model_stats = info.get("model_stats") or {}
     verification = info.get("verification") or {}
     delivery = info.get("delivery") or {}
+    tokens = info.get("tokens") or event_summary.get("tokens") or {}
+    context = info.get("context") or event_summary.get("context") or {}
 
     cost = model_stats.get("instance_cost")
     if cost is None:
@@ -185,6 +248,8 @@ def build_run(trajectory: Path) -> dict:
         n_steps, n_steps_source = event_summary["n_steps"], "events"
     elif messages is not None:
         n_steps, n_steps_source = sum(1 for m in messages if m.get("role") == "assistant"), "messages"
+    calls_with_usage = tokens.get("n_calls_with_usage")
+    prompt_tokens = tokens.get("prompt_tokens")
 
     return {
         **run,
@@ -203,6 +268,15 @@ def build_run(trajectory: Path) -> dict:
         "env_s": event_summary.get("env_s"),
         "retry_count": event_summary.get("retry_count"),
         "max_attempts": event_summary.get("max_attempts"),
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": tokens.get("completion_tokens"),
+        "total_tokens": tokens.get("total_tokens"),
+        "mean_prompt_tokens": prompt_tokens / calls_with_usage
+        if prompt_tokens is not None and calls_with_usage
+        else None,
+        "calls_with_usage": calls_with_usage,
+        "elisions": context.get("elided_observations", context.get("elisions")),
+        "elided_chars": context.get("elided_chars"),
         "has_event_log": event_log is not None,
         "event_log_error": event_error,
         "verification_attempts": verification.get("attempts"),
@@ -273,6 +347,9 @@ def _delta_summary(current: dict, baseline: dict) -> dict:
         "cost_mean": _delta(current["cost"]["mean"], baseline["cost"]["mean"], pct=True),
         "wall_s_mean": _delta(current["wall_s"]["mean"], baseline["wall_s"]["mean"], pct=True),
         "n_steps_mean": _delta(current["n_steps"]["mean"], baseline["n_steps"]["mean"], pct=True),
+        "prompt_tokens_total": _delta(current["prompt_tokens"]["total"], baseline["prompt_tokens"]["total"], pct=True),
+        "prompt_tokens_per_call": _delta(current["mean_prompt_per_call"], baseline["mean_prompt_per_call"], pct=True),
+        "elisions_total": _delta(current["elisions"]["total"], baseline["elisions"]["total"], pct=True),
         "retries_total": _delta(current["retries"]["total"], baseline["retries"]["total"], pct=True),
         "retry_rate": _delta(current["retries"]["rate"], baseline["retries"]["rate"], pct=True),
     }
@@ -329,6 +406,16 @@ def _render_summary(summary: dict) -> None:
         "cost total / mean / median",
         " / ".join(_fmt_money(summary["cost"][key]) for key in ("total", "mean", "median")),
     )
+    table.add_row(
+        "prompt tokens total / per call",
+        f"{_fmt_int(summary['prompt_tokens']['total'])} / {_fmt(summary['mean_prompt_per_call'])}",
+    )
+    table.add_row("completion tokens total", _fmt_int(summary["completion_tokens"]["total"]))
+    table.add_row("total tokens", _fmt_int(summary["total_tokens"]["total"]))
+    table.add_row(
+        "elisions / elided chars",
+        f"{_fmt_int(summary['elisions']['total'])} / {_fmt_int(summary['elided_chars']['total'])}",
+    )
     table.add_row("wall mean", _fmt(summary["wall_s"]["mean"], unit="s"))
     table.add_row("llm mean", _fmt(summary["llm_s"]["mean"], unit="s"))
     table.add_row("env mean", _fmt(summary["env_s"]["mean"], unit="s"))
@@ -352,6 +439,11 @@ def _render_coverage(summary: dict) -> None:
             f"[yellow]{n - coverage['event_log']} run(s) have no event log; "
             "timing/retry metrics are unavailable (not zero).[/yellow]"
         )
+    if coverage["tokens"] < n:
+        console.print(
+            f"[yellow]{n - coverage['tokens']} run(s) have no token usage; "
+            "token metrics are unavailable (not zero).[/yellow]"
+        )
     if summary["n_load_errors"]:
         console.print(f"[red]{summary['n_load_errors']} trajectory file(s) could not be read; see --verbose.[/red]")
 
@@ -368,9 +460,20 @@ def _render_outcomes(summary: dict) -> None:
     console.print(table)
 
 
+def _render_failures(summary: dict) -> None:
+    if not summary["failure_reasons"]:
+        return
+    table = Table(title="Failure reasons", header_style="bold")
+    table.add_column("reason")
+    table.add_column("count", justify="right")
+    for reason, count in summary["failure_reasons"].items():
+        table.add_row(reason, str(count))
+    console.print(table)
+
+
 def _render_runs(report: dict) -> None:
     table = Table(header_style="bold")
-    for column in ("group", "outcome", "cost", "calls", "steps", "wall", "retries", "file"):
+    for column in ("group", "outcome", "cost", "calls", "steps", "wall", "retries", "prompt/call", "file"):
         table.add_column(column)
     for run in report["runs"]:
         table.add_row(
@@ -381,6 +484,7 @@ def _render_runs(report: dict) -> None:
             _fmt_int(run["n_steps"]),
             _fmt(run["wall_s"], unit="s"),
             _fmt_int(run["retry_count"]),
+            _fmt(run["mean_prompt_tokens"], 0),
             Path(run["path"]).name,
         )
     console.print(table)
@@ -405,13 +509,18 @@ def _render_comparison(comparison: dict) -> None:
         ("n_steps_mean", "mean steps", _fmt),
         ("wall_s_mean", "mean wall", lambda value: _fmt(value, unit="s")),
         ("retry_rate", "retry rate", _fmt),
+        ("prompt_tokens_per_call", "prompt tokens/call", _fmt),
+        ("elisions_total", "elisions", _fmt),
     ):
         delta = overall[key]
-        delta_text = (
-            (f"{delta['delta']:+.4f}" if key == "cost_mean" else f"{delta['delta']:+.2f}")
-            if delta["delta"] is not None
-            else "n/a"
-        )
+        if delta["delta"] is None:
+            delta_text = "n/a"
+        elif key == "cost_mean":
+            delta_text = f"{delta['delta']:+.4f}"
+        elif key in ("prompt_tokens_per_call", "elisions_total"):
+            delta_text = f"{delta['delta']:+.0f}"
+        else:
+            delta_text = f"{delta['delta']:+.2f}"
         table.add_row(
             label,
             formatter(delta["current"]),
@@ -472,6 +581,7 @@ def main(
     console.print(f"Evaluated [bold]{report['summary']['n_runs']}[/bold] trajectory file(s) from '{path}'")
     _render_summary(report["summary"])
     _render_outcomes(report["summary"])
+    _render_failures(report["summary"])
     _render_coverage(report["summary"])
     if verbose:
         _render_runs(report)
