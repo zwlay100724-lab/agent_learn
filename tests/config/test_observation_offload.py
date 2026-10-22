@@ -5,11 +5,7 @@ import yaml
 from jinja2 import StrictUndefined, Template
 
 CONFIG_DIR = Path(__file__).parent.parent.parent / "src" / "minisweagent" / "config"
-CASES = [
-    ("default.yaml", "<full_output_path>"),
-    ("mini.yaml", '"full_output_path"'),
-    ("mini_textbased.yaml", "<full_output_path>"),
-]
+CASES = [("mini.yaml", '"full_output_path"')]
 
 
 def load_template(config_file: str) -> Template:

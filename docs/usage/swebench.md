@@ -61,48 +61,7 @@
 
         Advanced flags:
 
-        - `--environment-class` - Environment type to use (recommended: `docker` or `singularity`)
-
-    === "Single instance (for debugging)"
-
-        Single instance mode runs on a single task instance with interactivity. This is meant for debugging, and so unlike the batch mode command above, this will not produce a preds.json file.
-
-        ```bash
-        mini-extra swebench-single --help
-        # or
-        python src/minisweagent/run/benchmarks/swebench_single.py --help
-        # Example:
-        mini-extra swebench-single \
-            --subset verified \
-            --split test \
-            --model anthropic/claude-sonnet-4-5-20250929 \
-            -i sympy__sympy-15599
-        # or
-        mini-extra swebench-single \
-            --subset verified \
-            --split test \
-            -m anthropic/claude-sonnet-4-5-20250929 \
-            -i 0  # instance index
-        ```
-
-        Note: If you want to run the script without prompting for confirmation at exit,
-        add the `--exit-immediately` flag.
-
-        Basic flags:
-
-        - `-m`, `--model` - Model to use
-        - `-c`, `--config` - Path to a config file (default: `swebench.yaml` in the `config` directory)
-        - `-o`, `--output` - Output trajectory file (default: saves to global config directory)
-
-        Data selection flags:
-
-        - `--subset` - SWEBench subset to use or path to a dataset (default: `lite`)
-        - `--split` - Dataset split (default: `dev`)
-        - `-i`, `--instance` - SWE-Bench instance ID (default: `0`)
-
-        Advanced flags:
-
-        - `--environment-class` - Environment type to use (recommended: `docker` or `singularity`)
+        - `--environment-class` - Environment type to use (recommended: `docker`)
         - `--exit-immediately` - Exit immediately when the agent wants to finish instead of prompting (default: `False`)
 
 !!! tip "Evaluating on SWE-bench"
@@ -166,12 +125,6 @@ from the default of `120` (seconds).
 Try running the docker command manually to see what's going on (it should be printed out in the console).
 Confirm that it's running with `docker ps`, and that you can use `docker exec -it <container-id> ls` to get some output.
 
-> Docker isn't available on my HPC cluster.
-
-You can use the singularity/apptainer backend by setting `environment.environment_class` to `singularity`
-in your [agent config file](../advanced/yaml_configuration.md)
-or specify `--environment-class singularity` from the command line
-
 > Can I run a startup command in the environment?
 
 Yes, you can use the `run.env_startup_command` config option to run a command in the environment before the agent starts.
@@ -189,8 +142,6 @@ For example, you could use
 run:
   env_startup_command: "git clone {{ repo_url }} . --force"
 ```
-
-which might be particularly useful when running with environments like [`bubblewrap`](../reference/environments/bubblewrap.md).
 
 > What environment can I use for SWE-bench?
 
@@ -213,15 +164,6 @@ See [this guide](../advanced/environments.md) for more details.
 
     ```python
     --8<-- "src/minisweagent/run/benchmarks/swebench.py"
-    ```
-
-??? note "`swebench_single.py` run script"
-
-    - [Read on GitHub](https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/run/benchmarks/swebench_single.py)
-    - [API reference](../reference/run/swebench_single.md)
-
-    ```python
-    --8<-- "src/minisweagent/run/benchmarks/swebench_single.py"
     ```
 
 {% include-markdown "../_footer.md" %}

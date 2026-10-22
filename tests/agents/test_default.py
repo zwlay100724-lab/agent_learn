@@ -7,14 +7,7 @@ from minisweagent.agents.default import DefaultAgent
 from minisweagent.environments.local import LocalEnvironment
 from minisweagent.exceptions import FormatError
 from minisweagent.models import GLOBAL_MODEL_STATS
-from minisweagent.models.test_models import (
-    DeterministicModel,
-    DeterministicResponseAPIToolcallModel,
-    DeterministicToolcallModel,
-    make_output,
-    make_response_api_output,
-    make_toolcall_output,
-)
+from minisweagent.models.test_models import DeterministicToolcallModel, make_toolcall_output
 
 # --- Helper functions to abstract message format differences ---
 
@@ -58,26 +51,12 @@ def is_observation_message(msg: dict) -> bool:
 
 
 @pytest.fixture
-def default_config():
-    """Load default agent config from config/default.yaml"""
-    config_path = Path("src/minisweagent/config/default.yaml")
-    with open(config_path) as f:
-        config = yaml.safe_load(f)
-    return config["agent"]
-
-
-@pytest.fixture
 def toolcall_config():
     """Load toolcall agent config from config/mini.yaml"""
     config_path = Path("src/minisweagent/config/mini.yaml")
     with open(config_path) as f:
         config = yaml.safe_load(f)
     return config["agent"]
-
-
-def make_text_model(outputs_spec: list[tuple[str, list[dict]]], **kwargs) -> DeterministicModel:
-    """Create a DeterministicModel from a list of (content, actions) tuples."""
-    return DeterministicModel(outputs=[make_output(content, actions) for content, actions in outputs_spec], **kwargs)
 
 
 def make_tc_model(outputs_spec: list[tuple[str, list[dict]]], **kwargs) -> DeterministicToolcallModel:
@@ -100,29 +79,9 @@ def make_tc_model(outputs_spec: list[tuple[str, list[dict]]], **kwargs) -> Deter
     return DeterministicToolcallModel(outputs=outputs, **kwargs)
 
 
-def make_response_api_model(
-    outputs_spec: list[tuple[str, list[dict]]], **kwargs
-) -> DeterministicResponseAPIToolcallModel:
-    """Create a DeterministicResponseAPIToolcallModel from a list of (content, actions) tuples."""
-    outputs = []
-    for i, (content, actions) in enumerate(outputs_spec):
-        api_actions = []
-        for j, action in enumerate(actions):
-            tool_call_id = f"call_resp_{i}_{j}"
-            api_actions.append({"command": action["command"], "tool_call_id": tool_call_id})
-        outputs.append(make_response_api_output(content, api_actions))
-    return DeterministicResponseAPIToolcallModel(outputs=outputs, **kwargs)
-
-
-@pytest.fixture(params=["text", "toolcall", "response_api"])
-def model_factory(request, default_config, toolcall_config):
-    """Parametrized fixture that returns (factory_fn, config) for all three model types."""
-    if request.param == "text":
-        return make_text_model, default_config
-    elif request.param == "toolcall":
-        return make_tc_model, toolcall_config
-    else:  # response_api
-        return make_response_api_model, toolcall_config
+@pytest.fixture
+def model_factory(toolcall_config):
+    return make_tc_model, toolcall_config
 
 
 # --- Tests ---

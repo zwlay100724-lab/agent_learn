@@ -97,10 +97,6 @@ Tool calling is the default. The CLI uses `mini.yaml` and `swebench.yaml` which 
 mini
 python -m minisweagent.run.benchmarks.swebench
 mini-extra swebench
-
-# Text-based parsing
-mini-extra swebench -c swebench_backticks.yaml
-mini -c mini_textbased.yaml
 ```
 
 **For custom configs:**
@@ -109,11 +105,6 @@ mini -c mini_textbased.yaml
 model:
   model_class: litellm  # tool calling (default)
   model_name: anthropic/claude-sonnet-4-5-20250929
-
-# or for text-based:
-model:
-  model_class: litellm_textbased
-  action_regex: "```mswea_bash_command\\s*\\n(.*?)\\n```"
 ```
 
 ## Trajectory format
@@ -141,25 +132,6 @@ In other words: the exact message structure depends on the model you use.
 **Removed model classes:**
 
 - **`anthropic` model class**: Removed. Use `litellm` model class for Anthropic models (make sure that cache control is enabled).
-
-**Renamed model classes:**
-
-| v1 name | v2 name |
-|---------|---------|
-| `litellm_response_api` | `litellm_response` |
-| `portkey_response_api` | `portkey_response` |
-
-**New model classes:**
-
-| Name | Description |
-|------|-------------|
-| `litellm_textbased` | Text-based parsing (regex) instead of tool calls |
-| `openrouter_textbased` | Text-based parsing for OpenRouter |
-| `openrouter_response` | OpenRouter with response API |
-
-**New environment:**
-
-- **`swerex_modal`**: Run environments on Modal (requires `pip install mini-swe-agent[modal]`)
 
 ## Architecture changes
 

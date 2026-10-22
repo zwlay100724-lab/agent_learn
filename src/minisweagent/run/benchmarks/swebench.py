@@ -79,11 +79,8 @@ def get_swebench_docker_image_name(instance: dict) -> str:
 def get_sb_environment(config: dict, instance: dict) -> Environment:
     env_config = {**config.get("environment", {})}
     env_config["environment_class"] = env_config.get("environment_class", "docker")
-    image_name = get_swebench_docker_image_name(instance)
-    if env_config["environment_class"] in ["docker", "swerex_modal"]:
-        env_config["image"] = image_name
-    elif env_config["environment_class"] in ["singularity", "contree"]:
-        env_config["image"] = "docker://" + image_name
+    if env_config["environment_class"] == "docker":
+        env_config["image"] = get_swebench_docker_image_name(instance)
 
     env = get_environment(env_config)
     if startup_command := config.get("run", {}).get("env_startup_command"):
@@ -211,7 +208,7 @@ def main(
     model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'anthropic' or 'minisweagent.models.anthropic.AnthropicModel')", rich_help_panel="Advanced"),
     redo_existing: bool = typer.Option(False, "--redo-existing", help="Redo existing instances", rich_help_panel="Data selection"),
     config_spec: list[str] = typer.Option([str(DEFAULT_CONFIG_FILE)], "-c", "--config", help=_CONFIG_SPEC_HELP_TEXT, rich_help_panel="Basic"),
-    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment type to use. Recommended are docker or singularity", rich_help_panel="Advanced"),
+    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment type to use (docker or local)", rich_help_panel="Advanced"),
 ) -> None:
     # fmt: on
     output_path = Path(output)

@@ -8,12 +8,9 @@ from minisweagent.exceptions import FormatError
 from minisweagent.models.test_models import (
     DeterministicModel,
     DeterministicModelConfig,
-    DeterministicResponseAPIToolcallModel,
-    DeterministicResponseAPIToolcallModelConfig,
     DeterministicToolcallModel,
     DeterministicToolcallModelConfig,
     make_output,
-    make_response_api_output,
     make_toolcall_output,
 )
 
@@ -155,61 +152,3 @@ def test_toolcall_config():
 
     model = DeterministicToolcallModel(**config.model_dump())
     assert model.config.cost_per_call == 2.0
-
-
-def test_response_api_model_basic(reset_global_stats):
-    """Test DeterministicResponseAPIToolcallModel basic functionality."""
-    actions = [{"command": "ls", "tool_call_id": "call_resp_123"}]
-
-    model = DeterministicResponseAPIToolcallModel(
-        outputs=[make_response_api_output("I'll list files", actions)],
-    )
-
-    result = model.query([{"role": "user", "content": "list files"}])
-    assert result["object"] == "response"
-    assert result["extra"]["actions"] == actions
-    assert minisweagent.models.GLOBAL_MODEL_STATS.n_calls == 1
-    # Check output structure
-    assert len(result["output"]) == 2  # message + function_call
-    assert result["output"][0]["type"] == "message"
-    assert result["output"][1]["type"] == "function_call"
-    assert result["output"][1]["call_id"] == "call_resp_123"
-
-
-def test_response_api_model_format_observation(reset_global_stats):
-    """Test DeterministicResponseAPIToolcallModel formats observations as function_call_output."""
-    actions = [{"command": "pwd", "tool_call_id": "call_resp_456"}]
-
-    model = DeterministicResponseAPIToolcallModel(outputs=[make_response_api_output(None, actions)])
-
-    result = model.query([{"role": "user", "content": "test"}])
-    outputs = [{"output": "/home/user", "returncode": 0, "exception_info": ""}]
-    obs_messages = model.format_observation_messages(result, outputs)
-
-    assert len(obs_messages) == 1
-    assert obs_messages[0]["type"] == "function_call_output"
-    assert obs_messages[0]["call_id"] == "call_resp_456"
-    assert "/home/user" in obs_messages[0]["output"]
-
-
-def test_response_api_model_format_message():
-    """Test DeterministicResponseAPIToolcallModel formats messages in Responses API format."""
-    model = DeterministicResponseAPIToolcallModel(outputs=[])
-
-    msg = model.format_message(role="user", content="Hello")
-    assert msg["type"] == "message"
-    assert msg["role"] == "user"
-    assert msg["content"] == [{"type": "input_text", "text": "Hello"}]
-
-
-def test_response_api_config():
-    """Test DeterministicResponseAPIToolcallModelConfig with custom values."""
-    config = DeterministicResponseAPIToolcallModelConfig(
-        outputs=[make_response_api_output(None, [])], model_name="custom_response_api", cost_per_call=3.0
-    )
-
-    assert config.cost_per_call == 3.0
-    assert config.model_name == "custom_response_api"
-
-    model = DeterministicResponseAPIToolcallModel(**config.model_dump())
-    assert model.config.cost_per_call == 3.0

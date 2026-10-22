@@ -85,51 +85,9 @@ In all builtin agents, you can use the following variables:
 
 ### Using tool calls
 
-Make sure to use the appropriate model class and matching configuration.
-
-### Custom Action Parsing from Text
-
-mini-SWE-agent can parse actions from markdown code blocks (` ```mswea_bash_command ... ``` `) or from tool calls.
-You can customize this behavior by setting the `action_regex` field to support different formats like XML.
-
-!!! warning "Important"
-
-    If you set a custom action_regex (e.g. `<action>(.*?)</action>`), you must use the same output format across all prompt templates (system_template, instance_template, format_error_template, etc.), ensuring the LLM wraps commands accordingly. See the example below for a complete configuration.
-
-
-??? example "Using XML format instead of markdown"
-
-    This example uses the same structure as the default mini.yaml config, but with `<action>` tags instead of markdown code blocks:
-
-    ```yaml
-    --8<-- "src/minisweagent/config/benchmarks/swebench_xml.yaml"
-    ```
-
-    You can also directly load this config by specifying `--config swebench_xml`.
-
-
-??? example "Default markdown format"
-
-    This is the default configuration (already the default, you don't need to specify this):
-
-
-    ```yaml
-    model:
-      action_regex: ```mswea_bash_command\s*\n(.*?)\n```
-    agent:
-      system_template: |
-        Your response must contain exactly ONE bash code block.
-
-        ```mswea_bash_command
-        your_command_here
-        ```
-    ```
-
-!!! warning "Linebreaks & escaping"
-
-    When specifying `action_regex` from the `yaml` config file, make sure you understand how escaping in yaml files works.
-    For example, when you use the `|` primitive, your regex might have a linbreak at the end which is probably not what you want.
-    The best way is to keep your regex on a single line and NOT use any quotation marks around it. You do NOT need to escape any characters in the regex. Example: `action_regex: <bash_code>(.*?)</bash_code>`
+This project uses one action format: the model calls the `bash` tool with a `command` string.
+`mini.yaml` is the only agent configuration; `swebench.yaml` is the benchmark-specific variant.
+If you write a custom config, keep the system and instance templates aligned with tool calling.
 
 ## Model configuration
 

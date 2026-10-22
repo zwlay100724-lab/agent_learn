@@ -77,14 +77,6 @@ def get_model_name(input_model_name: str | None = None, config: dict | None = No
 
 _MODEL_CLASS_MAPPING = {
     "litellm": "minisweagent.models.litellm_model.LitellmModel",
-    "litellm_textbased": "minisweagent.models.litellm_textbased_model.LitellmTextbasedModel",
-    "litellm_response": "minisweagent.models.litellm_response_model.LitellmResponseModel",
-    "openrouter": "minisweagent.models.openrouter_model.OpenRouterModel",
-    "openrouter_textbased": "minisweagent.models.openrouter_textbased_model.OpenRouterTextbasedModel",
-    "openrouter_response": "minisweagent.models.openrouter_response_model.OpenRouterResponseModel",
-    "portkey": "minisweagent.models.portkey_model.PortkeyModel",
-    "portkey_response": "minisweagent.models.portkey_response_model.PortkeyResponseAPIModel",
-    "requesty": "minisweagent.models.requesty_model.RequestyModel",
     "deterministic": "minisweagent.models.test_models.DeterministicModel",
 }
 

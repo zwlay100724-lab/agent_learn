@@ -25,7 +25,7 @@ def test_observation_template_short_output():
         / "minisweagent"
         / "config"
         / "benchmarks"
-        / "swebench_backticks.yaml"
+        / "swebench.yaml"
     )
     with open(config_path) as f:
         config = yaml.safe_load(f)
@@ -63,7 +63,7 @@ def test_observation_template_long_output():
         / "minisweagent"
         / "config"
         / "benchmarks"
-        / "swebench_backticks.yaml"
+        / "swebench.yaml"
     )
     with open(config_path) as f:
         config = yaml.safe_load(f)
@@ -115,7 +115,7 @@ def test_observation_template_edge_case_exactly_10000_chars():
         / "minisweagent"
         / "config"
         / "benchmarks"
-        / "swebench_backticks.yaml"
+        / "swebench.yaml"
     )
     with open(config_path) as f:
         config = yaml.safe_load(f)
@@ -148,7 +148,7 @@ def test_observation_template_just_under_10000_chars():
         / "minisweagent"
         / "config"
         / "benchmarks"
-        / "swebench_backticks.yaml"
+        / "swebench.yaml"
     )
     with open(config_path) as f:
         config = yaml.safe_load(f)

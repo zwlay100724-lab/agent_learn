@@ -66,7 +66,6 @@ nav:
       - "<code>mini</code>": usage/mini.md
       - "Config": usage/config.md
       - "SWE-bench": usage/swebench.md
-      - "ProgramBench": usage/programbench.md
       - "Inspector": usage/inspector.md
       - "Output files": usage/output_files.md
     - "Language models":
@@ -94,22 +93,11 @@ nav:
     - Models:
       - "Overview": "reference/models/overview.md"
       - "LitellmModel": "reference/models/litellm.md"
-      - "LitellmResponseModel": "reference/models/litellm_response_toolcall.md"
-      - "OpenRouterModel": "reference/models/openrouter.md"
-      - "RequestyModel": "reference/models/requesty.md"
-      - "PortkeyModel": "reference/models/portkey.md"
-      - "PortkeyResponse": "reference/models/portkey_response.md"
       - "DeterministicModel": "reference/models/test_models.md"
-      - "Extra Models": "reference/models/extra.md"
       - "Model Utilities": "reference/models/utils.md"
     - Environments:
       - "LocalEnvironment": "reference/environments/local.md"
       - "DockerEnvironment": "reference/environments/docker.md"
-      - "SingularityEnvironment": "reference/environments/singularity.md"
-      - "SwerexDockerEnvironment": "reference/environments/swerex_docker.md"
-      - "BubblewrapEnvironment": "reference/environments/bubblewrap.md"
-      - "ContreeEnvironment": "reference/environments/contree.md"
-      - "SwerexModalEnvironment": "reference/environments/swerex_modal.md"
     - Run Scripts:
       - "Hello World": "reference/run/hello_world.md"
       - "mini": "reference/run/mini.md"
@@ -117,8 +105,6 @@ nav:
       - "Config": "reference/run/config.md"
       - "Inspector": "reference/run/inspector.md"
       - "SWE-bench (batch)": "reference/run/swebench.md"
-      - "SWE-bench (single)": "reference/run/swebench_single.md"
-      - "ProgramBench": "reference/run/programbench.md"
   - Blog: https://www.swebench.com/blog.html
   - Leaderboard: https://swebench.com
 plugins:

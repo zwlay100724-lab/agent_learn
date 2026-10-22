@@ -1,7 +1,7 @@
 # Configs
 
-* `mini.yaml` - Default config for `mini`/`agents/interactive.py` agent.
-* `default.yaml` - Default config for the `default.py` agent.
+* `mini.yaml` - Default config for `mini` and the interactive/default agents.
+* `inspector.tcss` - Styling for `mini-extra inspect`.
 
 ## Benchmarks
 

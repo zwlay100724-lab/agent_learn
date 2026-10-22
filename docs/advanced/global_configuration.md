@@ -115,17 +115,9 @@ MSWEA_INSPECTOR_STYLE_PATH="/path/to/your/inspector/style.tcss"
 ### Settings for environments
 
 ```bash
-# Path/name to the singularity/apptainer executable
-# (default: "singularity")
-MSWEA_SINGULARITY_EXECUTABLE="singularity"
-
 # Path/name to the docker executable
 # (default: "docker")
 MSWEA_DOCKER_EXECUTABLE="docker"
-
-# Path/name to the bubblewrap executable
-# (default: "bwrap")
-MSWEA_BUBBLEWRAP_EXECUTABLE="bwrap"
 ```
 
 ## Default run files
