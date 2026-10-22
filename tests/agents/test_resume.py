@@ -1,3 +1,6 @@
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -19,21 +22,31 @@ BASE_CONFIG = {
 SUBMIT = "echo 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'\necho done"
 
 
-def make_agent(model, tmp_path, **kwargs) -> ResumableAgent:
+def make_agent(model, tmp_path, *, env=None, output_path=None, **kwargs) -> ResumableAgent:
     return ResumableAgent(
         model=model,
-        env=LocalEnvironment(cwd=str(tmp_path)),
-        **{**BASE_CONFIG, "output_path": tmp_path / "run.traj.json", **kwargs},
+        env=env or LocalEnvironment(cwd=str(tmp_path)),
+        **{**BASE_CONFIG, "output_path": output_path or tmp_path / "run.traj.json", **kwargs},
     )
+
+
+def init_repo(path: Path) -> None:
+    (path / "a.py").write_text("one\n")
+    for args in (
+        ["git", "init", "-q"],
+        ["git", "add", "-A"],
+        ["git", "-c", "user.name=eval", "-c", "user.email=eval@example.com", "commit", "-qm", "initial"],
+    ):
+        subprocess.run(args, cwd=path, check=True, capture_output=True)
 
 
 def log_path(tmp_path):
     return tmp_path / "run.traj.json.events.jsonl"
 
 
-def start_interrupted_run(tmp_path, outputs, steps, save_after=None):
+def start_interrupted_run(tmp_path, outputs, steps, save_after=None, **kwargs):
     """Simulate a process that took `steps` steps and died without run()/run_end."""
-    agent = make_agent(DeterministicModel(outputs=outputs), tmp_path)
+    agent = make_agent(DeterministicModel(outputs=outputs), tmp_path, **kwargs)
     agent.extra_template_vars |= {"task": "task"}
     agent.messages = []
     agent.add_messages(
@@ -70,6 +83,104 @@ def test_resume_preserves_token_totals_from_loaded_messages(tmp_path):
 
     tokens = agent.serialize()["info"]["tokens"]
     assert (tokens["prompt_tokens"], tokens["n_calls_with_usage"]) == (10, 1)
+
+
+def test_snapshot_records_a_workspace_fingerprint(tmp_path):
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    out.mkdir()
+    init_repo(repo)
+    start_interrupted_run(
+        tmp_path,
+        [make_output("one", [{"command": "echo two >> a.py"}])],
+        steps=1,
+        env=LocalEnvironment(cwd=str(repo)),
+        output_path=out / "run.traj.json",
+    )
+
+    snapshot = [e for e in read_events(out / "run.traj.json.events.jsonl") if e["event"] == "snapshot_written"][0]
+    assert (snapshot["workspace"]["kind"], bool(snapshot["workspace"]["tree"])) == ("git", True)
+
+
+def test_resume_refuses_when_the_workspace_changed_since_the_snapshot(tmp_path):
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    out.mkdir()
+    init_repo(repo)
+    start_interrupted_run(
+        tmp_path,
+        [make_output("one", [{"command": "echo two >> a.py"}])],
+        steps=1,
+        env=LocalEnvironment(cwd=str(repo)),
+        output_path=out / "run.traj.json",
+    )
+    (repo / "a.py").write_text("external change\n")
+
+    agent = make_agent(
+        DeterministicModel(outputs=[make_output("done", [{"command": SUBMIT}])]),
+        tmp_path,
+        env=LocalEnvironment(cwd=str(repo)),
+        output_path=out / "run.traj.json",
+    )
+    with pytest.raises(ResumeBlocked, match="workspace changed"):
+        agent.resume(out / "run.traj.json")
+
+
+def test_resume_as_is_records_the_workspace_change(tmp_path):
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    out.mkdir()
+    init_repo(repo)
+    start_interrupted_run(
+        tmp_path,
+        [make_output("one", [{"command": "echo two >> a.py"}])],
+        steps=1,
+        env=LocalEnvironment(cwd=str(repo)),
+        output_path=out / "run.traj.json",
+    )
+    (repo / "a.py").write_text("external change\n")
+
+    agent = make_agent(
+        DeterministicModel(outputs=[make_output("done", [{"command": SUBMIT}])]),
+        tmp_path,
+        env=LocalEnvironment(cwd=str(repo)),
+        output_path=out / "run.traj.json",
+        resume_policy="as_is",
+    )
+    info = agent.resume(out / "run.traj.json")
+
+    assert info["exit_status"] == "Submitted"
+    event = [e for e in read_events(out / "run.traj.json.events.jsonl") if e["event"] == "run_resumed"][0]
+    assert (event["workspace_changed"], event["workspace"]["kind"]) == (True, "git")
+
+
+@pytest.mark.parametrize(
+    ("point", "expected_actions"),
+    [("before_action", 0), ("after_action", 1), ("before_snapshot", 1)],
+)
+def test_resume_refuses_each_interruption_window_without_replaying(tmp_path, point, expected_actions):
+    out = tmp_path / "run.traj.json"
+    result = subprocess.run(
+        [sys.executable, "-m", "tests.test_data.fault_injection"],
+        cwd=Path(__file__).resolve().parents[2],
+        env=os.environ
+        | {"FAULT_POINT": point, "FAULT_CWD": str(tmp_path), "FAULT_OUT": str(out), "MSWEA_SILENT_STARTUP": "1"},
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 17
+
+    events = read_events(Path(f"{out}.events.jsonl"))
+    last_snapshot = max(i for i, event in enumerate(events) if event["event"] == "snapshot_written")
+    inflight = events[last_snapshot + 1 :]
+    assert sum(1 for event in inflight if event["event"] == "action") == expected_actions
+    assert inflight[-1]["event"] in ("llm_call", "action", "step_end")
+
+    log_before = (tmp_path / "log.txt").read_text()
+    agent = make_agent(DeterministicModel(outputs=[]), tmp_path, output_path=out)
+    with pytest.raises(ResumeBlocked, match="not a snapshot"):
+        agent.resume(out)
+    assert (tmp_path / "log.txt").read_text() == log_before
 
 
 def test_resume_refuses_a_dirty_boundary(tmp_path):

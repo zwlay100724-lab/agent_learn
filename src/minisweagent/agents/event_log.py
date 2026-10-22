@@ -21,6 +21,7 @@ from minisweagent.utils.event_log import (
     text_digest,
 )
 from minisweagent.utils.output_store import OutputStore
+from minisweagent.utils.workspace import workspace_fingerprint
 
 
 def _exit_status(e: BaseException) -> str | None:
@@ -72,6 +73,8 @@ class EventLogAgentConfig(InteractiveAgentConfig):
     """Hard cap for a single stored output."""
     output_offload_dir: Path | None = None
     """Where to store outputs. Defaults to `<event log path>.outputs`."""
+    workspace_fingerprint_timeout_seconds: int = 30
+    """Timeout for each git command used to fingerprint the workspace."""
 
 
 class _EventLogModel:
@@ -380,10 +383,36 @@ class EventLogAgent(InteractiveAgent):
                 exit_status=exit_status,
             )
 
+    def _workspace_exclusions(self, output_path: Path | None) -> tuple[Path, ...]:
+        paths = []
+        if output_path:
+            paths.extend(
+                [Path(output_path), Path(f"{output_path}.patch.diff"), Path(f"{output_path}.verification.json")]
+            )
+        if self.events.path:
+            paths.extend([self.events.path, Path(f"{self.events.path}.outputs"), Path(f"{self.events.path}.context")])
+        return tuple(paths)
+
+    def _fingerprint_workspace(self, output_path: Path | None) -> dict:
+        if not self._env_type.endswith(".LocalEnvironment"):
+            return {"kind": "remote"}
+        config = getattr(self.env, "config", None)
+        cwd = Path(getattr(config, "cwd", "") or Path.cwd())
+        return workspace_fingerprint(
+            cwd,
+            exclude=self._workspace_exclusions(output_path),
+            timeout=self.config.workspace_fingerprint_timeout_seconds,
+        )
+
     def save(self, path: Path | None, *extra_dicts) -> dict:
         data = super().save(path, *extra_dicts)
         if path:
-            self.events.emit("snapshot_written", path=str(path), n_messages=len(self.messages))
+            self.events.emit(
+                "snapshot_written",
+                path=str(path),
+                n_messages=len(self.messages),
+                workspace=self._fingerprint_workspace(path),
+            )
         return data
 
     def serialize(self, *extra_dicts) -> dict:

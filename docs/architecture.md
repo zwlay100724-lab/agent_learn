@@ -101,6 +101,19 @@ boundary from the event log:
 - `resume_check_command` runs a workspace probe before continuing and records it as
   `workspace_probe`.
 
+Each `snapshot_written` also records a workspace fingerprint for `LocalEnvironment`: the git HEAD,
+a content tree hash built with a temporary index (so the real index is untouched), and a dirty
+flag. Agent artifacts such as the trajectory, event log, offloaded outputs, and patch are excluded.
+On resume, the current tree is compared with the snapshot's tree:
+
+- A mismatch refuses by default with both tree hashes.
+- `resume_policy="as_is"` proceeds and records `workspace_changed: true` in `run_resumed`.
+- A non-git or remote workspace is `unavailable`; the resume proceeds on the event boundary alone.
+
+The tests simulate three hard-crash windows (before an action, after an action but before the
+result is saved, and after the result is saved but before the snapshot) and assert that resume
+refuses and does not replay the recorded action.
+
 The loop itself is the extracted `DefaultAgent._run_loop()`, so a resumed agent re-enters the same
 control flow. A resumed run keeps the original `run_id` and continues the event `seq`.
 
@@ -159,8 +172,8 @@ the git commit and dirty flag, model, temperature, task-set hash, command, and r
   combined without a mixin or wrapper refactor.
 - Benchmark runners construct `ProgressTrackingAgent(DefaultAgent)` directly, so they do not emit
   event logs yet.
-- Resume checks the event boundary, not a hash of the workspace; external edits between runs are
-  not detected.
+- Workspace fingerprints and patch export are limited to local git worktrees; remote environments
+  and non-git workspaces fall back to the event-boundary check alone.
 - Patch export is limited to `LocalEnvironment`; remote environments need their own export path.
 - If `output_path` is inside the workspace, the trajectory and event log appear in the changed-file
   list and patch. Keep outputs outside the workspace.
