@@ -400,18 +400,23 @@ def _render_comparison(comparison: dict) -> None:
         _fmt_pct(success["baseline"]),
         f"{success['delta_pp']:+.1f}pp" if success["delta_pp"] is not None else "n/a",
     )
-    for key, label in (
-        ("cost_mean", "mean cost"),
-        ("n_steps_mean", "mean steps"),
-        ("wall_s_mean", "mean wall"),
-        ("retry_rate", "retry rate"),
+    for key, label, formatter in (
+        ("cost_mean", "mean cost", _fmt_money),
+        ("n_steps_mean", "mean steps", _fmt),
+        ("wall_s_mean", "mean wall", lambda value: _fmt(value, unit="s")),
+        ("retry_rate", "retry rate", _fmt),
     ):
         delta = overall[key]
+        delta_text = (
+            (f"{delta['delta']:+.4f}" if key == "cost_mean" else f"{delta['delta']:+.2f}")
+            if delta["delta"] is not None
+            else "n/a"
+        )
         table.add_row(
             label,
-            _fmt(delta["current"]),
-            _fmt(delta["baseline"]),
-            f"{delta['delta']:+.2f}" if delta["delta"] is not None else "n/a",
+            formatter(delta["current"]),
+            formatter(delta["baseline"]),
+            delta_text,
         )
     console.print(table)
     if comparison["matched"]:

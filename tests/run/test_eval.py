@@ -280,6 +280,24 @@ def test_eval_cli_baseline_json(tmp_path):
     assert report["comparison"]["matched"][0]["group"] == "a"
 
 
+def test_eval_cli_baseline_shows_small_costs_with_four_decimals(tmp_path):
+    current, baseline = tmp_path / "current", tmp_path / "baseline"
+    write_trajectory(
+        current,
+        "a.traj.json",
+        info={"task_state": "Succeeded", "model_stats": {"instance_cost": 0.003}},
+    )
+    write_trajectory(
+        baseline,
+        "a.traj.json",
+        info={"task_state": "Succeeded", "model_stats": {"instance_cost": 0.004}},
+    )
+
+    result = CliRunner().invoke(app, [str(current), "--baseline", str(baseline)])
+    assert "$0.0030" in result.output
+    assert "$0.0040" in result.output
+
+
 def test_eval_cli_verbose_prints_runs(tmp_path):
     write_trajectory(tmp_path, "uniq.traj.json", info={"exit_status": "Submitted"})
     plain = CliRunner().invoke(app, [str(tmp_path)])
