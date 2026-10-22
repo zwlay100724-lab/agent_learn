@@ -53,32 +53,72 @@ It also prints a human-readable table from `mini-extra eval`.
 
 ## Results
 
-> Run the command above, then replace this section with the output of `report.json`.
+Run on 2026-10-22, commit `72b0270`, task-set hash
+`b5cb255b1fe29eeaaf77f9913ccd38ee812394179e3e3d938a7979102d17c408`, 5 runs per cell.
 
-| Variant | Success | Prompt tokens/call | Total prompt tokens | Cost | Steps |
-|---|---|---|---|---|---|
-| `event_log` | TBD | TBD | TBD | TBD | TBD |
-| `context` | TBD | TBD | TBD | TBD | TBD |
+### Overall
 
-## Interpretation rules
+| Variant | Success | Prompt tokens/call | Total prompt tokens (mean) | Steps (mean) | Cost (mean) | Wall (mean) | Elisions |
+|---|---|---|---|---|---|---|---|
+| `event_log` | 10/10 | 3350 | 20,103 | 6.00 | $0.00269 | 13.54s | 0 |
+| `context` | 10/10 | 2875 | 12,651 | 4.40 | $0.00279 | 13.16s | 15 |
 
-- If success drops, the compression is too aggressive regardless of token savings.
-- If prompt tokens per call do not drop, elision is not reaching the model (check `info.context`
-  and the `context_elide` events).
-- n=5 is small. Report the distribution, not only the mean, and do not treat a difference smaller
-  than the observed spread as a win.
+Prompt tokens per call dropped **14.2%**; total prompt tokens dropped **37.1%**, but part of that is
+the lower step count (**-26.7%**). Cost did not improve (**+3.9%**, within the observed spread), so
+the result is an efficiency result, not a cost result.
+
+### Per task
+
+| Task | Variant | Success | Prompt tokens/call | Total prompt tokens (mean) | Steps | Cost | Wall |
+|---|---|---|---|---|---|---|---|
+| `sum_range` | `event_log` | 5/5 | 1723 | 8,615 | 5.00 | $0.00118 | 8.4s |
+| `sum_range` | `context` | 5/5 | 1609 | 6,436 | 4.00 | $0.00118 | 11.4s |
+| `log_errors` | `event_log` | 5/5 | 4513 | 31,590 | 7.00 | $0.00419 | 18.7s |
+| `log_errors` | `context` | 5/5 | 3930 | 18,866 | 4.80 | $0.00441 | 14.9s |
+
+The long-log task is where elision matters: **-12.9% prompt tokens per call**, **-31.4% steps**,
+and **-20.4% wall time**. On the small task the effect is smaller (**-6.6% prompt tokens per call**),
+and wall time is noisy (11.4s vs 8.4s).
+
+### Distribution
+
+| Task | Variant | Prompt tokens/call, median (range) | Steps, median (range) |
+|---|---|---|---|
+| `sum_range` | `event_log` | 1645 (1590–2035) | 5 (4–6) |
+| `sum_range` | `context` | 1579 (1437–1798) | 4 (3–5) |
+| `log_errors` | `event_log` | 4181 (2515–7121) | 7 (5–9) |
+| `log_errors` | `context` | 3891 (3618–4265) | 5 (4–5) |
+
+The context variant is also more consistent on the long task: its prompt-token range is much
+narrower than the baseline's, and every run takes 4–5 steps instead of 5–9.
+
+## Interpretation
+
+- **Success is preserved**: 10/10 in both variants, and no protected file was modified.
+- **Elision is reaching the model**: 15 elisions removed 67,948 characters in the context runs.
+- **The benefit scales with observation size**: large effect on `log_errors`, small effect on
+  `sum_range`.
+- **Cost is not a win**: fewer steps and lower prompt tokens did not translate into lower cost.
+  Do not claim cost savings from this experiment.
+- **Wall time is noisy**: the long-task improvement is plausible; the small-task regression is not
+  conclusive.
 
 ## Threats to validity
 
-- Two tasks are not representative of SWE-bench-scale work.
+- Two tasks are not representative of SWE-bench-scale work, and n=5 per cell is small.
 - Temperature 0 does not make model output fully deterministic.
-- The elision threshold (200 chars, keep 2) is deliberately aggressive to expose effects.
+- The elision threshold (200 chars, keep 2) is deliberately aggressive to expose effects; the code
+  default is 2000 chars and 8 observations.
 - The scorer checks behavior with a specific test command; a different verifier could change the
   success labels.
+- Cost is dominated by cache and provider pricing effects, not only by prompt length.
 
 ## Decision
 
-- If `context` keeps success and lowers prompt tokens per call, keep elision on by default.
-- If it loses task facts or increases failure rate, implement task-fact preservation (C5) before
-  considering LLM summarization (C4).
-- If neither variant shows a difference, stop at measurement and do not add summarization.
+- **Keep observation elision enabled** for long-running tasks; it preserves success and reduces
+  prompt tokens per call and step count.
+- **Do not implement C4 (LLM summarization) yet.** The experiment does not show that observation
+  elision is insufficient. Revisit C4 only after a larger task set shows a failure mode.
+- **Do not claim cost savings.** The observed cost delta is slightly positive.
+- **C5 (task-fact preservation) remains conditional.** No task facts were lost in this run; if a
+  larger experiment shows lost goals or constraints, implement C5 before C4.

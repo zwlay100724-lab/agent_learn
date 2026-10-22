@@ -79,6 +79,7 @@ nav:
     - "Python bindings & more":
       - "Basic Python bindings": usage/python_bindings.md
       - "Understanding the agent": advanced/control_flow.md
+      - "Architecture": architecture.md
       - "Context-management experiment": experiments.md
       - "Subclassing and more": advanced/cookbook.md
       - "Environments": advanced/environments.md
