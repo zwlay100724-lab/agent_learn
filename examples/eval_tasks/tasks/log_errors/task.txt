@@ -1,0 +1,1 @@
+Fix the bug in buggy.py so that all tests in test_buggy.py pass. Do not modify test_buggy.py or app.log. The task is to count log lines whose level is ERROR, ignoring case; ERROR appearing inside a message must not count. Run pytest to verify.
