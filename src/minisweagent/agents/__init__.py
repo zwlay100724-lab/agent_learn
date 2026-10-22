@@ -11,6 +11,7 @@ _AGENT_MAPPING = {
     "event_log": "minisweagent.agents.event_log.EventLogAgent",
     "resumable": "minisweagent.agents.resume.ResumableAgent",
     "verified": "minisweagent.agents.verified.VerifiedAgent",
+    "context": "minisweagent.agents.context.ContextManagedAgent",
 }
 
 
