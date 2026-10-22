@@ -81,14 +81,6 @@
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
-         <loc>https://mini-swe-agent.com/latest/reference/environments/bubblewrap/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/environments/contree/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
          <loc>https://mini-swe-agent.com/latest/reference/environments/docker/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
@@ -97,47 +89,11 @@
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
-         <loc>https://mini-swe-agent.com/latest/reference/environments/singularity/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/environments/swerex_docker/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/environments/swerex_modal/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/models/extra/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
          <loc>https://mini-swe-agent.com/latest/reference/models/litellm/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
-         <loc>https://mini-swe-agent.com/latest/reference/models/litellm_response_toolcall/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/models/openrouter/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
          <loc>https://mini-swe-agent.com/latest/reference/models/overview/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/models/portkey/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/models/portkey_response/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/models/requesty/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
@@ -169,15 +125,7 @@
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
-         <loc>https://mini-swe-agent.com/latest/reference/run/programbench/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
          <loc>https://mini-swe-agent.com/latest/reference/run/swebench/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/reference/run/swebench_single/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
@@ -194,10 +142,6 @@
     </url>
     <url>
          <loc>https://mini-swe-agent.com/latest/usage/output_files/</loc>
-         <lastmod>2026-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mini-swe-agent.com/latest/usage/programbench/</loc>
          <lastmod>2026-10-22</lastmod>
     </url>
     <url>
