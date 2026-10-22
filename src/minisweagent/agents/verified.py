@@ -1,6 +1,11 @@
 """Agent that verifies a submission before accepting it."""
 
+import hashlib
 import json
+import os
+import subprocess
+import tempfile
+import time
 from pathlib import Path
 
 from pydantic import Field
@@ -43,6 +48,12 @@ class VerifiedAgentConfig(ResumeConfig):
     """Record the changed-file list when a submission is accepted."""
     delivery_command: str = "git status --porcelain"
     """Command used to collect delivery artifacts. A failure only records None."""
+    patch_enabled: bool = True
+    """Write a patch of the workspace when a submission is accepted."""
+    patch_max_bytes: int = 5_000_000
+    """Skip the patch when it exceeds this size."""
+    patch_timeout_seconds: int = 30
+    """Timeout for each git command used to build the patch."""
 
 
 class VerifiedAgent(ResumableAgent):
@@ -81,12 +92,15 @@ class VerifiedAgent(ResumableAgent):
             self._accept(e, "Unverified")
             return None
         self._verification_attempts += 1
+        started = time.monotonic()
         result = self.env.check(
             self.config.verify_command,
             timeout=self.config.verify_timeout,
             attempt=self._verification_attempts,
         )
-        self._last_verification = {k: result.get(k) for k in ("passed", "returncode", "output_ref", "exception_info")}
+        self._last_verification = {
+            k: result.get(k) for k in ("passed", "returncode", "output_ref", "exception_info")
+        } | {"duration_s": time.monotonic() - started}
         if result["passed"] is None:
             self._accept(e, "Unverified")
             return None
@@ -110,6 +124,21 @@ class VerifiedAgent(ResumableAgent):
         }
         self._collect_delivery()
         message["extra"]["delivery"] = self._delivery
+        self._write_verification_artifact(task_state)
+
+    def _write_verification_artifact(self, task_state: str) -> None:
+        if self.config.output_path is None or self._last_verification is None:
+            return
+        payload = {
+            "command": self.config.verify_command,
+            "attempts": self._verification_attempts,
+            "task_state": task_state,
+            "timestamp": time.time(),
+            **self._last_verification,
+        }
+        path = Path(f"{self.config.output_path}.verification.json")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, indent=2))
 
     def _collect_delivery(self) -> None:
         if not self.config.delivery_enabled:
@@ -122,6 +151,45 @@ class VerifiedAgent(ResumableAgent):
             "returncode": result.get("returncode"),
             "changed_files": parse_git_status(output) if result.get("returncode") == 0 else None,
         }
+        self._delivery |= self._collect_patch()
+
+    def _collect_patch(self) -> dict:
+        if not self.config.patch_enabled or self.config.output_path is None:
+            return {}
+        if not self._env_type.endswith(".LocalEnvironment"):
+            return {"patch_error": "patch export requires LocalEnvironment"}
+        config = getattr(self.env, "config", None)
+        cwd = Path(getattr(config, "cwd", "") or Path.cwd())
+        with tempfile.TemporaryDirectory() as tmp:
+            env = os.environ | {"GIT_INDEX_FILE": str(Path(tmp) / "index")}
+            try:
+                for command in (
+                    ["git", "read-tree", "HEAD"],
+                    ["git", "add", "-A"],
+                    ["git", "diff", "--cached", "--binary", "HEAD"],
+                ):
+                    result = subprocess.run(
+                        command,
+                        cwd=cwd,
+                        env=env,
+                        check=True,
+                        capture_output=True,
+                        timeout=self.config.patch_timeout_seconds,
+                    )
+            except subprocess.CalledProcessError as e:
+                return {"patch_error": (e.stderr or b"").decode(errors="replace")[:1000] or str(e)}
+            except (OSError, subprocess.SubprocessError) as e:
+                return {"patch_error": f"{type(e).__name__}: {e}"}
+        patch = result.stdout
+        if len(patch) > self.config.patch_max_bytes:
+            return {"patch_error": f"patch exceeds {self.config.patch_max_bytes} bytes"}
+        path = Path(f"{self.config.output_path}.patch.diff")
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(patch)
+        except OSError as e:
+            return {"patch_error": f"{type(e).__name__}: {e}"}
+        return {"patch_path": str(path), "patch_bytes": len(patch), "patch_sha256": hashlib.sha256(patch).hexdigest()}
 
     def _feedback_message(self, result: dict) -> dict:
         output = result.get("output_preview", "")

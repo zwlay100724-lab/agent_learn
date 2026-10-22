@@ -1,3 +1,6 @@
+import hashlib
+import json
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -209,6 +212,59 @@ def test_run_resets_the_verification_budget(tmp_path):
     agent._verification_attempts = 5
     agent.run("task")
     assert agent._verification_attempts == 1
+
+
+def init_repo(path: Path, filename: str = "a.py") -> None:
+    (path / filename).write_text("old\n")
+    for args in (
+        ["git", "init", "-q"],
+        ["git", "add", "-A"],
+        ["git", "-c", "user.name=eval", "-c", "user.email=eval@example.com", "commit", "-qm", "initial"],
+    ):
+        subprocess.run(args, cwd=path, check=True, capture_output=True)
+
+
+def test_delivery_writes_a_patch_including_untracked_files(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    init_repo(repo)
+    agent = make_agent(
+        tmp_path,
+        [
+            make_output("", [{"command": "printf 'new\\n' > a.py && printf 'untracked\\n' > b.py"}]),
+            make_output("", [{"command": SUBMIT}]),
+        ],
+        env=LocalEnvironment(cwd=str(repo)),
+        output_path=tmp_path / "out" / "run.traj.json",
+        verify_command="true",
+    )
+    info = agent.run("task")
+
+    patch_path = Path(info["delivery"]["patch_path"])
+    patch = patch_path.read_text()
+    assert (info["delivery"]["changed_files"], patch_path.exists()) == (["a.py", "b.py"], True)
+    assert "a/a.py" in patch and "b/b.py" in patch
+    assert info["delivery"]["patch_sha256"] == hashlib.sha256(patch_path.read_bytes()).hexdigest()
+    assert (
+        subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=repo, capture_output=True, text=True).stdout
+        == ""
+    )
+
+
+def test_verification_artifact_matches_the_accepted_result(tmp_path):
+    agent = make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])], verify_command="true")
+    info = agent.run("task")
+
+    artifact = json.loads(Path(f"{tmp_path / 'run.traj.json'}.verification.json").read_text())
+    assert (artifact["command"], artifact["passed"], artifact["task_state"]) == ("true", True, "Succeeded")
+    assert (artifact["attempts"], artifact["duration_s"] >= 0) == (1, True)
+    assert artifact["passed"] == info["verification"]["passed"]
+
+
+def test_no_verification_artifact_without_a_verifier(tmp_path):
+    make_agent(tmp_path, [make_output("", [{"command": SUBMIT}])]).run("task")
+
+    assert not Path(f"{tmp_path / 'run.traj.json'}.verification.json").exists()
 
 
 def test_delivery_records_changed_files(tmp_path):

@@ -122,7 +122,14 @@ The exit status is unchanged; the authoritative delivery state is `task_state`:
 | `Error` | Other termination |
 
 On acceptance, `delivery_command` (default `git status --porcelain`) records the changed files in
-`info.delivery`.
+`info.delivery`. For `LocalEnvironment`, the agent also writes:
+
+- `<trajectory>.verification.json`: command, return code, duration, output reference, pass/fail,
+  attempts, and `task_state`. It is written from the same data as `info.verification`.
+- `<trajectory>.patch.diff`: a binary-safe patch against `HEAD`, including untracked files. The
+  patch is built with a temporary git index (`GIT_INDEX_FILE`) so the workspace's real index is
+  not modified. It is skipped when the workspace is not a git repository, when the environment is
+  not local, or when it exceeds `patch_max_bytes`.
 
 ## Evaluation
 
@@ -154,4 +161,7 @@ the git commit and dirty flag, model, temperature, task-set hash, command, and r
   event logs yet.
 - Resume checks the event boundary, not a hash of the workspace; external edits between runs are
   not detected.
+- Patch export is limited to `LocalEnvironment`; remote environments need their own export path.
+- If `output_path` is inside the workspace, the trajectory and event log appear in the changed-file
+  list and patch. Keep outputs outside the workspace.
 - The event schema is additive at version 1; new fields are optional so older logs remain readable.
