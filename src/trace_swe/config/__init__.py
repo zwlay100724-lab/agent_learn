@@ -1,4 +1,4 @@
-"""Configuration files and utilities for mini-SWE-agent."""
+"""Configuration files and utilities for trace-swe."""
 
 import json
 import os

@@ -2,7 +2,7 @@ import re
 from unittest.mock import patch
 
 from tests.conftest import assert_observations_match
-from trace_swe.cli.mini import DEFAULT_CONFIG_FILE, main
+from trace_swe.cli.trace import DEFAULT_CONFIG_FILE, main
 from trace_swe.llm.test_models import DeterministicModel, make_output
 
 
@@ -27,7 +27,7 @@ def test_local_end_to_end(local_test_data):
     expected_observations = local_test_data["expected_observations"]
 
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
+        patch("trace_swe.cli.trace.configure_if_first_time"),
         patch("trace_swe.llm.litellm_model.LitellmModel") as mock_model_class,
         patch("trace_swe.agent.utils.prompt_user.prompt_session.prompt", side_effect=lambda *a, **kw: ""),
         patch("trace_swe.agent.utils.prompt_user._multiline_prompt_session.prompt", side_effect=lambda *a, **kw: ""),

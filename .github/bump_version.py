@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bump the mini-swe-agent version in __init__.py."""
+"""Bump the trace-swe version in __init__.py."""
 
 import re
 import subprocess

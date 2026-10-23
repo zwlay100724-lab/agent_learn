@@ -6,8 +6,8 @@ theme:
     repo: fontawesome/brands/github
     annotation: material/chevron-right-circle
   custom_dir: docs/overrides
-  logo: assets/mini_square.svg
-  favicon: assets/mini_square.svg
+  logo: assets/trace_square.svg
+  favicon: assets/trace_square.svg
   palette:
     - media: "(prefers-color-scheme)"
       toggle:
@@ -63,7 +63,7 @@ nav:
     - "Overview": index.md
     - "Quick start": quickstart.md
     - "Command line usage":
-      - "<code>mini</code>": usage/mini.md
+      - "<code>trace</code>": usage/trace.md
       - "Config": usage/config.md
       - "SWE-bench": usage/swebench.md
       - "Inspector": usage/inspector.md
@@ -82,7 +82,6 @@ nav:
       - "Context-management experiment": experiments.md
       - "Subclassing and more": advanced/cookbook.md
       - "Environments": advanced/environments.md
-      - "v2 migration guide": advanced/v2_migration.md
     - "FAQ": faq.md
     - "Contributing": contributing.md
   - API Reference:
@@ -100,8 +99,8 @@ nav:
       - "DockerEnvironment": "reference/environments/docker.md"
     - Run Scripts:
       - "Hello World": "reference/run/hello_world.md"
-      - "mini": "reference/run/mini.md"
-      - "mini-extra": "reference/run/mini_extra.md"
+      - "trace": "reference/run/trace.md"
+      - "trace-extra": "reference/run/trace_extra.md"
       - "Config": "reference/run/config.md"
       - "Inspector": "reference/run/inspector.md"
       - "SWE-bench (batch)": "reference/run/swebench.md"

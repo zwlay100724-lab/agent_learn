@@ -3,7 +3,7 @@ import json
 from typer.testing import CliRunner
 
 from trace_swe.cli.commands.events import app, summarize
-from trace_swe.cli.commands.mini_extra import subcommands
+from trace_swe.cli.commands.trace_extra import subcommands
 
 
 def _events():
@@ -127,5 +127,5 @@ def test_events_cli_reports_missing_log(tmp_path):
     assert "No event log found" in result.output
 
 
-def test_events_is_registered_in_mini_extra():
+def test_events_is_registered_in_trace_extra():
     assert any("events" in aliases for _, aliases, _ in subcommands)

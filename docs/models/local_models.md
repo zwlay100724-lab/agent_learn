@@ -8,7 +8,7 @@
 
 !!! tip "Examples"
 
-    * [Issue #303](https://github.com/SWE-agent/mini-swe-agent/issues/303) has several examples of how to use local models.
+    * [Issue #303](https://github.com/zwlay100724-lab/trace-swe/issues/303) has several examples of how to use local models.
     * We also welcome concrete examples of how to use local models per pull request into this guide.
 
 ## Using litellm
@@ -40,7 +40,7 @@ You can set `model_kwargs` in an agent config file like the following one:
 ??? note "Default configuration file"
 
     ```yaml
-    --8<-- "src/trace_swe/config/mini.yaml"
+    --8<-- "src/trace_swe/config/trace.yaml"
     ```
 
 In the last section, you can add
@@ -159,7 +159,7 @@ vllm serve ricdomolm/mini-coder-1.7b &
 
 By default, the server will be available at `http://localhost:8000`.
 
-Second, edit the mini-swe-agent SWE-bench config file located in `src/trace_swe/config/benchmarks/swebench.yaml` to include your local vLLM model:
+Second, edit the trace-swe SWE-bench config file located in `src/trace_swe/config/benchmarks/swebench.yaml` to include your local vLLM model:
 
 ```yaml
 model:

@@ -1,1 +1,1 @@
-"""Benchmark run scripts for mini-SWE-agent (e.g., SWE-bench)."""
+"""Benchmark run scripts for trace-swe (e.g., SWE-bench)."""

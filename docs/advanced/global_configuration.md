@@ -104,7 +104,7 @@ TRACE_SWE_MODEL_RETRY_STOP_AFTER_ATTEMPT="10"
 TRACE_SWE_CONFIG_DIR="/path/to/your/own/config/dir"
 
 # Config path for mini run script
-# (default: package_dir / "config" / "mini.yaml")
+# (default: package_dir / "config" / "trace.yaml")
 TRACE_SWE_MINI_CONFIG_PATH="/path/to/your/own/config"
 
 # Custom style path for trajectory inspector
@@ -124,8 +124,8 @@ TRACE_SWE_DOCKER_EXECUTABLE="docker"
 
 ```bash
 # Default run script entry point for the main CLI
-# (default: "trace_swe.cli.mini")
-TRACE_SWE_DEFAULT_RUN="trace_swe.cli.mini"
+# (default: "trace_swe.cli.trace")
+TRACE_SWE_DEFAULT_RUN="trace_swe.cli.trace"
 ```
 
 {% include-markdown "_footer.md" %}

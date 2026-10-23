@@ -18,7 +18,7 @@ from trace_swe.cli.commands.eval import (
     discover,
     group_runs,
 )
-from trace_swe.cli.commands.mini_extra import subcommands
+from trace_swe.cli.commands.trace_extra import subcommands
 
 
 def make_run(outcome="Succeeded", **kwargs):
@@ -334,7 +334,7 @@ def test_eval_cli_rejects_missing_path(tmp_path):
     assert "Baseline path" in baseline.output
 
 
-def test_eval_is_registered_in_mini_extra():
+def test_eval_is_registered_in_trace_extra():
     assert any("eval" in aliases for _, aliases, _ in subcommands)
 
 

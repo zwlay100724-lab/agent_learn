@@ -1,5 +1,5 @@
 """This is the simplest possible example of how to use trace-swe with python bindings.
-For a more complete example, see mini.py
+For a more complete example, see trace.py
 """
 
 import logging
@@ -32,7 +32,7 @@ def main(
     agent = DefaultAgent(
         LitellmModel(model_name=model_name),
         LocalEnvironment(),
-        **yaml.safe_load(Path(package_dir / "config" / "mini.yaml").read_text())["agent"],
+        **yaml.safe_load(Path(package_dir / "config" / "trace.yaml").read_text())["agent"],
     )
     agent.run(task)
     return agent

@@ -70,7 +70,7 @@ Set model-specific options under `model.model_kwargs` in the
 
 ## Observation and format-error templates
 
-`mini.yaml` defines `model.observation_template` and `model.format_error_template`.
+`trace.yaml` defines `model.observation_template` and `model.format_error_template`.
 Keep them aligned with tool calling: the model must call the `bash` tool with a
 `command` string.
 

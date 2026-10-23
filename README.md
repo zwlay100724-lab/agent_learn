@@ -85,7 +85,7 @@ A submission can be verified before it is accepted:
 ```bash
 trace --agent-class verified \
   -m deepseek/deepseek-flash \
-  -c mini.yaml \
+  -c trace.yaml \
   -c "agent.verify_command=pytest -q" \
   -t "Fix the failing test" -y
 ```

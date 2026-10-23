@@ -12,7 +12,7 @@
 
 We provide several different entry points to the agent,
 for example [hello world](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py),
-or the [default when calling `mini`](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py).
+or the [default when calling `mini`](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/trace.py).
 
 Want to cook up your custom version and the config is not enough?
 Just follow the recipe below:
@@ -20,7 +20,7 @@ Just follow the recipe below:
 1. What's the control flow you need? Pick an [agent class](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent) (e.g., [simplest example](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/default.py), [with human in the loop](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/interactive.py))
 2. How should actions be executed? Pick an [environment class](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution) (e.g., [local](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution/local.py), or [docker](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution/docker.py))
 3. How is the LM queried? Pick a [model class](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm) (e.g., [litellm](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm/litellm_model.py))
-4. How to invoke the agent? Bind them all together in a [run script](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli), possibly reading from a [config](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config) (e.g., [hello world](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py), or [`mini` entry point](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py))
+4. How to invoke the agent? Bind them all together in a [run script](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli), possibly reading from a [config](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config) (e.g., [hello world](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py), or [`mini` entry point](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/trace.py))
 
 We aim to keep all of these components very simple, but offer lots of choice between them -- enough to cover a broad range of
 things that you might want to do.
@@ -286,9 +286,9 @@ An agent that validates actions before execution (also an example of how to use 
     )
     ```
 
-### Running mini-swe-agent on Ray
+### Running trace-swe on Ray
 
 [This blog post](https://www.anyscale.com/blog/massively-parallel-agentic-simulations-with-ray)
-describes how to parallelize mini-swe-agent runs with Ray.
+describes how to parallelize trace-swe runs with Ray.
 
 {% include-markdown "_footer.md" %}

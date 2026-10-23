@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from trace_swe.cli.mini import DEFAULT_CONFIG_FILE, app, main
+from trace_swe.cli.trace import DEFAULT_CONFIG_FILE, app, main
 
 
 def strip_ansi_codes(text: str) -> str:
@@ -18,11 +18,11 @@ def strip_ansi_codes(text: str) -> str:
 def test_configure_if_first_time_called():
     """Test that configure_if_first_time is called when running mini main."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time") as mock_configure,
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time") as mock_configure,
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -55,11 +55,11 @@ def test_configure_if_first_time_called():
 def test_mini_command_calls_run_interactive():
     """Test that mini command creates agent via get_agent."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -97,12 +97,12 @@ def test_mini_command_calls_run_interactive():
 def test_mini_calls_prompt_when_no_task_provided():
     """Test that mini calls prompt when no task is provided."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini._multiline_prompt") as mock_prompt,
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace._multiline_prompt") as mock_prompt,
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_prompt.return_value = "User provided task"
@@ -141,11 +141,11 @@ def test_mini_calls_prompt_when_no_task_provided():
 def test_mini_with_explicit_model():
     """Test that mini works with explicitly provided model."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -187,11 +187,11 @@ def test_mini_with_explicit_model():
 def test_yolo_mode_sets_correct_agent_config():
     """Test that yolo mode sets the correct agent configuration."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -229,11 +229,11 @@ def test_yolo_mode_sets_correct_agent_config():
 def test_confirm_mode_sets_correct_agent_config():
     """Test that when yolo=False, no explicit mode is set (defaults to None)."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -271,11 +271,11 @@ def test_confirm_mode_sets_correct_agent_config():
 def test_cost_limit_zero_is_preserved():
     """Test that an explicit cost_limit=0 is not dropped during config merge."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         mock_get_model.return_value = Mock()
         mock_get_env.return_value = Mock()
@@ -378,7 +378,7 @@ def test_trace_help():
     assert "trace-swe" in clean_output
 
 
-def test_mini_extra_help():
+def test_trace_extra_help():
     """Test that mini-extra --help works correctly."""
     result = subprocess.run(
         ["mini-extra", "--help"],
@@ -418,7 +418,7 @@ def test_trace_extra_help():
         ("swebench-single", ["swebench-single"]),
     ],
 )
-def test_mini_extra_subcommand_help(subcommand: str, aliases: list[str]):
+def test_trace_extra_subcommand_help(subcommand: str, aliases: list[str]):
     """Test that mini-extra subcommands --help work correctly."""
     for alias in aliases:
         result = subprocess.run(
@@ -433,7 +433,7 @@ def test_mini_extra_subcommand_help(subcommand: str, aliases: list[str]):
         assert len(result.stdout) > 0
 
 
-def test_mini_extra_config_help():
+def test_trace_extra_config_help():
     """Test that mini-extra config --help works correctly."""
     result = subprocess.run(
         ["mini-extra", "config", "--help"],
@@ -452,11 +452,11 @@ def test_mini_extra_config_help():
 def test_exit_immediately_flag_sets_confirm_exit_false():
     """Test that --exit-immediately flag sets confirm_exit to False in agent config."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -491,11 +491,11 @@ def test_exit_immediately_flag_sets_confirm_exit_false():
 def test_no_exit_immediately_flag_sets_confirm_exit_true():
     """Test that when --exit-immediately flag is not used, confirm_exit defaults to True."""
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -531,11 +531,11 @@ def test_exit_immediately_flag_with_typer_runner():
     from typer.testing import CliRunner
 
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_agent") as mock_get_agent,
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
-        patch("trace_swe.cli.mini.get_config_from_spec") as mock_get_config,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_agent") as mock_get_agent,
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.get_config_from_spec") as mock_get_config,
     ):
         # Setup mocks
         mock_model = Mock()
@@ -568,13 +568,13 @@ def test_output_file_is_created(tmp_path):
 
     # Create a temporary config file
     config_file = tmp_path / "test_config.yaml"
-    default_config_path = Path("src/trace_swe/config/mini.yaml")
+    default_config_path = Path("src/trace_swe/config/trace.yaml")
     config_file.write_text(default_config_path.read_text())
 
     with (
-        patch("trace_swe.cli.mini.configure_if_first_time"),
-        patch("trace_swe.cli.mini.get_model") as mock_get_model,
-        patch("trace_swe.cli.mini.get_environment") as mock_get_env,
+        patch("trace_swe.cli.trace.configure_if_first_time"),
+        patch("trace_swe.cli.trace.get_model") as mock_get_model,
+        patch("trace_swe.cli.trace.get_environment") as mock_get_env,
         patch("trace_swe.agent.utils.prompt_user.prompt_session.prompt", return_value=""),
         patch("trace_swe.agent.utils.prompt_user._multiline_prompt_session.prompt", return_value=""),
     ):

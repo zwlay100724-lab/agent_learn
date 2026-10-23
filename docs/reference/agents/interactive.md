@@ -13,7 +13,7 @@
 !!! tip "See also"
 
     * This agent subclass builds on top of the [default agent](default.md), make sure to read that first.
-    * This class powers the `mini` command line tool, see [usage](../../usage/mini.md) for more details.
+    * This class powers the `trace` command line tool, see [usage](../../usage/trace.md) for more details.
 
 ::: trace_swe.agent.interactive
 

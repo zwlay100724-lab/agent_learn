@@ -2,13 +2,13 @@
 
 ## General
 
-!!! question "Does mini-SWE-agent work on my system?"
+!!! question "Does trace-swe work on my system?"
 
-    mini-SWE-agent should work on any system that has a bash shell or Docker.
+    trace-swe should work on any system that has a bash shell or Docker.
 
-??? question "Should I use mini-SWE-agent or swe-agent?"
+??? question "Should I use trace-swe or swe-agent?"
 
-    You should use `mini-swe-agent` if
+    You should use `trace-swe` if
 
     - You want a quick command line tool that works locally
     - You want an agent with a very simple control flow
@@ -36,9 +36,9 @@
     - Executes actions with `subprocess.run` — every action is completely independent (as opposed to keeping a stateful shell session running).
       This [avoids so many issues](#why-no-shell-session), trust me.
 
-??? question "What are the limitations of mini-SWE-agent?"
+??? question "What are the limitations of trace-swe?"
 
-    mini-SWE-agent can be extended trivially in various ways, the following assumes the default setup.
+    trace-swe can be extended trivially in various ways, the following assumes the default setup.
     As reflected in the high SWE-bench scores, none of the following limitations are a problem in practice.
 
     - No tools other than bash

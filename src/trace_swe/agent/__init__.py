@@ -1,4 +1,4 @@
-"""Agent implementations for mini-SWE-agent."""
+"""Agent implementations for trace-swe."""
 
 import copy
 import importlib

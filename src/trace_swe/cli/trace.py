@@ -19,7 +19,7 @@ from trace_swe.execution import get_environment
 from trace_swe.infra.serialize import UNSET, recursive_merge
 from trace_swe.llm import get_model
 
-DEFAULT_CONFIG_FILE = Path(os.getenv("TRACE_SWE_MINI_CONFIG_PATH", builtin_config_dir / "mini.yaml"))
+DEFAULT_CONFIG_FILE = Path(os.getenv("TRACE_SWE_MINI_CONFIG_PATH", builtin_config_dir / "trace.yaml"))
 DEFAULT_OUTPUT_FILE = global_config_dir / "last_mini_run.traj.json"
 
 
@@ -33,7 +33,7 @@ More information about the usage: [bold green]https://github.com/zwlay100724-lab
 _CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
 
 [bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
-So you need to explicitly set it e.g., with [bold green]-c mini.yaml <other options>[/bold green]
+So you need to explicitly set it e.g., with [bold green]-c trace.yaml <other options>[/bold green]
 
 Multiple configs will be recursively merged.
 
@@ -41,7 +41,7 @@ Examples:
 
 [bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]
 
-[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]
+[bold green]-c trace.yaml -c model.model_kwargs.temperature=0.5[/bold green]
 
 [bold green]-c swebench.yaml agent.mode=yolo[/bold green]
 """

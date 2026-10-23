@@ -2,13 +2,13 @@
 
 !!! abstract "Overview"
 
-    mini-SWE-agent saves run results in JSON format. This page documents the structure of these output files.
+    trace-swe saves run results in JSON format. This page documents the structure of these output files.
 
 ## Trajectory files (`.traj.json`)
 
-!!! warning "v2.0 format changes"
+!!! warning "Format identifier"
 
-    The output format changed in v2.0 (`trajectory_format: mini-swe-agent-1.1`). See the [v2 migration guide](../advanced/v2_migration.md) for more information.
+    This build writes `trajectory_format: trace-swe-1.1`.
 
 !!! tip "Viewing trajectory files"
 
@@ -33,7 +33,7 @@ Trajectory files contain the full history of an agent run, including all message
       "environment": { ... },  // environment configuration
       "environment_type": "trace_swe.execution.local.LocalEnvironment"
     },
-    "mini_version": "2.0.0",  // version of mini-SWE-agent used
+    "trace_swe_version": "2.0.0",  // version of trace-swe used
     "exit_status": "Submitted",  // final status (Submitted, LimitsExceeded, etc.)
     "submission": "..."  // final output/patch submitted by the agent (if any)
   },
@@ -43,15 +43,15 @@ Trajectory files contain the full history of an agent run, including all message
     {"role": "assistant", "content": "..."},
     ...
   ],
-  "trajectory_format": "mini-swe-agent-1.1"  // format version identifier
+  "trajectory_format": "trace-swe-1.1"  // format version identifier
 }
 ```
 
 
-Messages follow the [OpenAI chat format](https://platform.openai.com/docs/api-reference/chat) with an additional `extra` field for mini-SWE-agent metadata. Models may add other fields to messages (e.g., `tool_calls`, `reasoning_content`).
+Messages follow the [OpenAI chat format](https://platform.openai.com/docs/api-reference/chat) with an additional `extra` field for trace-swe metadata. Models may add other fields to messages (e.g., `tool_calls`, `reasoning_content`).
 
 !!! note "Toolcall models"
-    When using toolcall-based models (e.g., `LitellmToolcallModel`), the roles differ slightly: assistant messages include `tool_calls` instead of content, and observation messages use `role: "tool"` with a `tool_call_id` field.
+    With `LitellmModel`, assistant messages include `tool_calls` instead of content, and observation messages use `role: "tool"` with a `tool_call_id` field.
 
 ```json
 // System message (agent instructions)

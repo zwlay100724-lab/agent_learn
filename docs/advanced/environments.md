@@ -12,4 +12,4 @@ You can specify the environment class with the `--environment-class` flag or the
 
 * **`docker`** ([`DockerEnvironment`](../reference/environments/docker.md)). Executes commands with `docker exec`. Use this for isolation and for SWE-bench.
 
-`local` is the default for the [`mini`](../usage/mini.md) CLI. SWE-bench runs use `docker`.
+`local` is the default for the [`trace`](../usage/trace.md) CLI. SWE-bench runs use `docker`.

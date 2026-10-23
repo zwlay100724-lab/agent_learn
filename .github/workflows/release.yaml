@@ -96,26 +96,26 @@ jobs:
         echo "Waiting for package to be available on PyPI..."
         sleep 60
 
-    - name: Test pipx run mini-swe-agent --help (Test PyPI)
+    - name: Test pipx run trace-swe --help (Test PyPI)
       if: ${{ github.event.inputs.test_pypi == 'true' }}
-      run: pipx run --pip-args="--index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/" mini-swe-agent --help
+      run: pipx run --pip-args="--index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/" trace-swe --help
 
-    - name: Test pipx run mini-swe-agent --help (PyPI)
+    - name: Test pipx run trace-swe --help (PyPI)
       if: ${{ github.event.inputs.test_pypi != 'true' }}
-      run: pipx run mini-swe-agent --help
+      run: pipx run trace-swe --help
 
-    - name: Test uvx mini-swe-agent --help (Test PyPI)
+    - name: Test uvx trace-swe --help (Test PyPI)
       if: ${{ github.event.inputs.test_pypi == 'true' }}
-      run: uvx --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ mini-swe-agent --help
+      run: uvx --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ trace-swe --help
 
-    - name: Test uvx mini-swe-agent --help (PyPI)
+    - name: Test uvx trace-swe --help (PyPI)
       if: ${{ github.event.inputs.test_pypi != 'true' }}
-      run: uvx mini-swe-agent --help
+      run: uvx trace-swe --help
 
     - name: Test pip install and CLI commands (Test PyPI)
       if: ${{ github.event.inputs.test_pypi == 'true' }}
       run: |
-        uv pip install --python ${Python_ROOT_DIR} --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ mini-swe-agent
+        uv pip install --python ${Python_ROOT_DIR} --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ trace-swe
         mini --help
         mini-extra --help
         mini-e --help
@@ -123,7 +123,7 @@ jobs:
     - name: Test pip install and CLI commands (PyPI)
       if: ${{ github.event.inputs.test_pypi != 'true' }}
       run: |
-        uv pip install --python ${Python_ROOT_DIR} mini-swe-agent
+        uv pip install --python ${Python_ROOT_DIR} trace-swe
         mini --help
         mini-extra --help
         mini-e --help

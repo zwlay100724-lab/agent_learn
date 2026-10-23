@@ -2,7 +2,7 @@
 
 !!! abstract "Overview"
 
-    This page shows the most basic example of how to use mini-SWE-agent as a Python library.
+    This page shows the most basic example of how to use trace-swe as a Python library.
     For more advanced usage, subclassing, and mix & match of components, see [subclassing and more](../advanced/cookbook.md).
 
 ## Hello world

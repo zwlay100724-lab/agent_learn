@@ -3,7 +3,7 @@ This file provides:
 
 - Path settings for global config file & relative directories
 - Version numbering
-- Protocols for the core components of mini-swe-agent.
+- Protocols for the core components of trace-swe.
   By the magic of protocols & duck typing, you can pretty much ignore them,
   unless you want the static type checking.
 """

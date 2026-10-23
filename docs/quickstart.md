@@ -66,4 +66,4 @@ trace-extra eval runs/ --baseline baseline/
 
 - [Architecture](architecture.md)
 - [Context experiment](experiments.md)
-- [CLI usage](usage/mini.md)
+- [CLI usage](usage/trace.md)

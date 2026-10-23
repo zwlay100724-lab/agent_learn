@@ -14,7 +14,7 @@ Configuration files look like this:
 ??? note "Configuration file"
 
     ```yaml
-    --8<-- "src/trace_swe/config/mini.yaml"
+    --8<-- "src/trace_swe/config/trace.yaml"
     ```
 
 We use the following top-level keys:
@@ -30,7 +30,7 @@ Different agent classes might have slightly different configuration options.
 You can find the full list of options in the [API reference](../reference/agents/default.md).
 
 To use a different agent class, you can set the `agent_class` key to the name of the agent class you want to use
-or even to an import path (to use your own custom agent class even if it is not yet part of the mini-SWE-agent package).
+or even to an import path (to use your own custom agent class even if it is not yet part of the trace-swe package).
 
 ### Prompt templates
 
@@ -77,7 +77,7 @@ However, you can also do fairly complicated logic like this directly from your t
 
 In all builtin agents, you can use the following variables:
 
-- Environment variables (`LocalEnvironment` only, see discussion [here](https://github.com/SWE-agent/mini-swe-agent/pull/425))
+- Environment variables (`LocalEnvironment` only, see discussion [here](https://github.com/zwlay100724-lab/trace-swe/pull/425))
 - Agent config variables (i.e., anything that was set in the `agent` section of the config file, e.g., `step_limit`, `cost_limit`, etc.)
 - Environment config variables (i.e., anything that was set in the `environment` section of the config file, e.g., `cwd`, `timeout`, etc.)
 - Variables passed to the `run` method of the agent (by default that's only `task`, but you can pass other variables if you want to)
@@ -86,7 +86,7 @@ In all builtin agents, you can use the following variables:
 ### Using tool calls
 
 This project uses one action format: the model calls the `bash` tool with a `command` string.
-`mini.yaml` is the only agent configuration; `swebench.yaml` is the benchmark-specific variant.
+`trace.yaml` is the only agent configuration; `swebench.yaml` is the benchmark-specific variant.
 If you write a custom config, keep the system and instance templates aligned with tool calling.
 
 ## Model configuration

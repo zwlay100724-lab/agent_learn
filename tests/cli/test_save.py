@@ -11,7 +11,7 @@ def test_agent_save_includes_class_names():
     """Test that agent.save includes the full class names with import paths."""
     import yaml
 
-    config_path = Path("src/trace_swe/config/mini.yaml")
+    config_path = Path("src/trace_swe/config/trace.yaml")
     with open(config_path) as f:
         default_config = yaml.safe_load(f)["agent"]
 
@@ -45,14 +45,14 @@ def test_agent_save_includes_class_names():
 
         assert saved_data["info"]["exit_status"] == "Submitted"
         assert saved_data["info"]["submission"] == "test result"
-        assert saved_data["trajectory_format"] == "mini-swe-agent-1.1"
+        assert saved_data["trajectory_format"] == "trace-swe-1.1"
 
 
 def test_agent_serialize():
     """Test that agent.serialize returns the correct structure."""
     import yaml
 
-    config_path = Path("src/trace_swe/config/mini.yaml")
+    config_path = Path("src/trace_swe/config/trace.yaml")
     with open(config_path) as f:
         default_config = yaml.safe_load(f)["agent"]
 

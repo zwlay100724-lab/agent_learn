@@ -140,7 +140,7 @@ def test_unset_values_skipped():
 
 def test_nested_dict_with_only_unset():
     """Test that nested dicts containing only UNSET values are filtered out."""
-    # This is the bug case from mini.py where task=None resulted in {"run": {"task": UNSET}}
+    # This is the bug case from trace.py where task=None resulted in {"run": {"task": UNSET}}
     assert recursive_merge({"run": {"task": UNSET}}) == {"run": {}}
     assert recursive_merge({"a": 1}, {"run": {"task": UNSET}}) == {"a": 1, "run": {}}
     # Deeply nested UNSET values should also be filtered

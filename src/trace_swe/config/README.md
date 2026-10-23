@@ -1,6 +1,6 @@
 # Configs
 
-* `mini.yaml` - Default config for `trace` and the interactive/default agents.
+* `trace.yaml` - Default config for `trace` and the interactive/default agents.
 * `inspector.tcss` - Styling for `trace-extra inspect`.
 
 ## Benchmarks

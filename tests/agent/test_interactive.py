@@ -74,8 +74,8 @@ def make_tc_model(outputs_spec: list[tuple[str, list[dict]]], **kwargs) -> Deter
 
 @pytest.fixture
 def toolcall_config():
-    """Load toolcall agent config from config/mini.yaml"""
-    config_path = Path("src/trace_swe/config/mini.yaml")
+    """Load toolcall agent config from config/trace.yaml"""
+    config_path = Path("src/trace_swe/config/trace.yaml")
     with open(config_path) as f:
         config = yaml.safe_load(f)
     return config["agent"]

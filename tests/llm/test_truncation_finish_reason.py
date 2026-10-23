@@ -8,7 +8,7 @@ import pytest
 from trace_swe.exceptions import FormatError
 from trace_swe.llm.utils.actions_toolcall import parse_toolcall_actions
 
-# mirrors the production condition in mini.yaml / swebench.yaml
+# mirrors the production condition in trace.yaml / swebench.yaml
 _TOOLCALL_TEMPLATE = (
     "{% if finish_reason is defined and (finish_reason == 'length' "
     "or (finish_reason == 'tool_calls' and not has_tool_calls)) %}cut off{% else %}{{ error }}{% endif %}"

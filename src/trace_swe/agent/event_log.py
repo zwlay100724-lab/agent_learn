@@ -331,7 +331,7 @@ class EventLogAgent(InteractiveAgent):
             env_type=self._env_type,
             output_path=str(self.config.output_path) if self.config.output_path else None,
             event_log_path=str(self.events.path) if self.events.path else None,
-            mini_version=__version__,
+            trace_swe_version=__version__,
         )
         started = time.monotonic()
         error = None

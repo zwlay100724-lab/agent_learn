@@ -1,16 +1,9 @@
-# `mini`
+# `trace`
 
 !!! abstract "Overview"
 
-    * `mini` and `trace` are REPL-style interactive command line interfaces for using trace-swe in the local environment (as opposed to workflows that require sandboxing or large scale batch processing).
-
-<figure markdown="span">
-  <div class="gif-container gif-container-styled" data-glightbox-disabled>
-    <img src="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/png/mini.png?raw=true"
-         data-gif="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/gif/mini.gif?raw=true"
-         alt="mini" data-glightbox="false" width="600" />
-  </div>
-</figure>
+    * `trace` is the primary REPL-style interactive command line interface for using trace-swe in the local environment. `mini` remains an alias.
+    * The agent is intended for local work or sandboxed execution; it is not a batch runner.
 
 
 ## Command line options
@@ -19,8 +12,8 @@ Useful switches:
 
 - `-h`/`--help`: Show help
 - `-t`/`--task`: Specify a task to run (else you will be prompted)
-- `-c`/`--config`: Specify a config file to use, else we will use [`mini.yaml`](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/mini.yaml) or the config `TRACE_SWE_MINI_CONFIG_PATH` environment variable (see [global configuration](../advanced/global_configuration.md)).
-  It's enough to specify the name of the config file, e.g., `-c mini.yaml` (see [global configuration](../advanced/global_configuration.md) for how it is resolved).
+- `-c`/`--config`: Specify a config file to use, else we will use [`trace.yaml`](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/trace.yaml) or the config `TRACE_SWE_MINI_CONFIG_PATH` environment variable (see [global configuration](../advanced/global_configuration.md)).
+  It's enough to specify the name of the config file, e.g., `-c trace.yaml` (see [global configuration](../advanced/global_configuration.md) for how it is resolved).
 - `-m`/`--model`: Specify a model to use, else we will use the model `TRACE_SWE_MODEL_NAME` environment variable (see [global configuration](../advanced/global_configuration.md))
 - `-y`/`--yolo`: Start in `yolo` mode (see below)
 
@@ -46,19 +39,19 @@ You can also press `Ctrl+C` to interrupt the agent at any time, allowing you to 
 
 ??? note "Default config"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/mini.yaml)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/trace.yaml)
 
     ```yaml
-    --8<-- "src/trace_swe/config/mini.yaml"
+    --8<-- "src/trace_swe/config/trace.yaml"
     ```
 
 ??? note "Run script"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py)
-    - [API reference](../reference/run/mini.md)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/trace.py)
+    - [API reference](../reference/run/trace.md)
 
     ```python
-    --8<-- "src/trace_swe/cli/mini.py"
+    --8<-- "src/trace_swe/cli/trace.py"
     ```
 
 ??? note "Agent class"

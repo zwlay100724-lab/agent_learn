@@ -128,7 +128,7 @@ def run_once(
         "-y",
         "--exit-immediately",
         "-c",
-        "mini.yaml",
+        "trace.yaml",
         "-c",
         f"agent.step_limit={step_limit}",
         "-c",

@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: |
             uv pip install --python ${Python_ROOT_DIR} -e '.[full]'
-      - name: Configure mini-swe-agent
+      - name: Configure trace-swe
         run: |
           mini-extra config set TRACE_SWE_CONFIGURED 'true'
           mini-extra config set OPENAI_API_KEY '${{ secrets.OPENAI_API_KEY }}'

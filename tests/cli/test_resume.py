@@ -3,8 +3,8 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from trace_swe.cli.commands.mini_extra import subcommands
 from trace_swe.cli.commands.resume import app
+from trace_swe.cli.commands.trace_extra import subcommands
 from trace_swe.llm.test_models import make_output
 
 SUBMIT = "echo 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'\necho done"
@@ -38,7 +38,7 @@ def make_trajectory(tmp_path, agent_type="", agent_config=None):
             "events": None,
         },
         "messages": [{"role": "system", "content": "system"}, {"role": "user", "content": "task"}],
-        "trajectory_format": "mini-swe-agent-1.1",
+        "trajectory_format": "trace-swe-1.1",
     }
     trajectory.write_text(json.dumps(data))
     return trajectory
@@ -56,7 +56,7 @@ def test_resume_cli_rejects_missing_file(tmp_path):
     assert "does not exist" in result.output
 
 
-def test_resume_is_registered_in_mini_extra():
+def test_resume_is_registered_in_trace_extra():
     assert any("resume" in aliases for _, aliases, _ in subcommands)
 
 

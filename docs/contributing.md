@@ -9,11 +9,11 @@ We happily accept contributions!
     - additional examples for the [cookbook](advanced/cookbook.md)
 - Support for more models (anything where `litellm` doesn't work out of the box)
 - Support for more environments & deployments (e.g., run it as a github action, etc.)
-- Take a look at the [issues](https://github.com/SWE-agent/mini-swe-agent/issues) and look for issues marked `good-first-issue` or `help-wanted` (please read the guidelines below first)
+- Take a look at the [issues](https://github.com/zwlay100724-lab/trace-swe/issues) and look for issues marked `good-first-issue` or `help-wanted` (please read the guidelines below first)
 
 ## Design & Architecture
 
-- `mini-swe-agent` aims to stay minimalistic, hackable, and of high quality code.
+- `trace-swe` aims to stay minimalistic, hackable, and of high quality code.
 - To extend features, we prefer to add a new version of the one of the four components (see [cookbook](advanced/cookbook.md)), rather than making the existing components more complex.
 - Components should be relatively self-contained, but if there are utilities that might be shared, add a `utils` folder (like [this one](https://github.com/zwlay100724-lab/trace-swe/tree/main/src/trace_swe/llm/utils)). But keep it simple!
 - If your component is a bit more specific, add it into an `extra` folder (like [this one](https://github.com/zwlay100724-lab/trace-swe/tree/main/src/trace_swe/cli/extra))
