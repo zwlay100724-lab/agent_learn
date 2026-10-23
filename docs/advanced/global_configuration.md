@@ -29,7 +29,7 @@ or to update specific settings:
 ```
 mini-extra config set KEY VALUE
 # e.g.,
-mini-extra config set MSWEA_MODEL_NAME "anthropic/claude-sonnet-4-5-20250929"
+mini-extra config set TRACE_SWE_MODEL_NAME "anthropic/claude-sonnet-4-5-20250929"
 mini-extra config set ANTHROPIC_API_KEY "sk-..."
 ```
 
@@ -64,14 +64,14 @@ setx KEY "value"
 ```bash
 # Default model name
 # (default: not set)
-MSWEA_MODEL_NAME="anthropic/claude-sonnet-4-5-20250929"
+TRACE_SWE_MODEL_NAME="anthropic/claude-sonnet-4-5-20250929"
 ```
 
 To ignore errors from cost tracking checks (for example for free models), set:
 
 ```bash
 # CAREFUL: This can lead to unmanaged spending!
-MSWEA_COST_TRACKING="ignore_errors"
+TRACE_SWE_COST_TRACKING="ignore_errors"
 ```
 
 To register extra models to litellm (see [local models](../models/local_models.md) for more details), you can either specify the path in the agent file, or set
@@ -85,15 +85,15 @@ Global cost limits:
 ```bash
 # Global limit on number of model calls (0 = no limit)
 # (default: 0)
-MSWEA_GLOBAL_CALL_LIMIT="100"
+TRACE_SWE_GLOBAL_CALL_LIMIT="100"
 
 # Global cost limit in dollars (0 = no limit)
 # (default: 0)
-MSWEA_GLOBAL_COST_LIMIT="10.00"
+TRACE_SWE_GLOBAL_COST_LIMIT="10.00"
 
 # Number of retry attempts for model API calls
 # (default: 10)
-MSWEA_MODEL_RETRY_STOP_AFTER_ATTEMPT="10"
+TRACE_SWE_MODEL_RETRY_STOP_AFTER_ATTEMPT="10"
 ```
 
 ## Default config files
@@ -101,15 +101,15 @@ MSWEA_MODEL_RETRY_STOP_AFTER_ATTEMPT="10"
 ```bash
 # Set a custom directory for agent config files in addition to the builtin ones
 # This allows to specify them by names
-MSWEA_CONFIG_DIR="/path/to/your/own/config/dir"
+TRACE_SWE_CONFIG_DIR="/path/to/your/own/config/dir"
 
 # Config path for mini run script
 # (default: package_dir / "config" / "mini.yaml")
-MSWEA_MINI_CONFIG_PATH="/path/to/your/own/config"
+TRACE_SWE_MINI_CONFIG_PATH="/path/to/your/own/config"
 
 # Custom style path for trajectory inspector
 # (default: package_dir / "config" / "inspector.tcss")
-MSWEA_INSPECTOR_STYLE_PATH="/path/to/your/inspector/style.tcss"
+TRACE_SWE_INSPECTOR_STYLE_PATH="/path/to/your/inspector/style.tcss"
 ```
 
 ### Settings for environments
@@ -117,15 +117,15 @@ MSWEA_INSPECTOR_STYLE_PATH="/path/to/your/inspector/style.tcss"
 ```bash
 # Path/name to the docker executable
 # (default: "docker")
-MSWEA_DOCKER_EXECUTABLE="docker"
+TRACE_SWE_DOCKER_EXECUTABLE="docker"
 ```
 
 ## Default run files
 
 ```bash
 # Default run script entry point for the main CLI
-# (default: "minisweagent.run.mini")
-MSWEA_DEFAULT_RUN="minisweagent.run.mini"
+# (default: "trace_swe.cli.mini")
+TRACE_SWE_DEFAULT_RUN="trace_swe.cli.mini"
 ```
 
 {% include-markdown "_footer.md" %}

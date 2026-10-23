@@ -3,7 +3,7 @@
 !!! abstract "Overview"
 
     * The `inspector` is a tool that allows you to browse `.traj.json` files that show the history of a mini-SWE-agent run.
-    * Quickly start it with `mini-e i` or `mini-extra inspector`.
+    * Quickly start it with `trace-extra i` or `mini-extra inspector`.
     * See [output files](output_files.md) for the trajectory file format.
     * Alternative: [jless](https://jless.io/) is a great command-line JSON viewer for browsing trajectories.
 
@@ -21,11 +21,11 @@
 # Find all .traj.json files recursively from current directory
 mini-extra inspector
 # or shorter
-mini-e i
+trace-extra i
 # Open the inspector for a specific file
-mini-e i <path_to_traj.json>
+trace-extra i <path_to_traj.json>
 # Search for trajectory files in a specific directory
-mini-e i <path_to_directory>
+trace-extra i <path_to_directory>
 ```
 
 ## Key bindings
@@ -51,10 +51,10 @@ The inspector is implemented with [textual](https://textual.textualize.io/).
 
 ??? note "Implementation"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/utilities/inspector.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/commands/inspector.py)
 
     ```python linenums="1"
-    --8<-- "src/minisweagent/run/utilities/inspector.py"
+    --8<-- "src/trace_swe/cli/commands/inspector.py"
     ```
 
 {% include-markdown "../_footer.md" %}

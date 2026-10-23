@@ -95,7 +95,7 @@ Tool calling is the default. The CLI uses `mini.yaml` and `swebench.yaml` which 
 ```bash
 # Default (tool calling)
 mini
-python -m minisweagent.run.benchmarks.swebench
+python -m trace_swe.benchmarks.swebench
 mini-extra swebench
 ```
 
@@ -127,7 +127,7 @@ In other words: the exact message structure depends on the model you use.
 - **"Visual" UI**: The `-v` flag for the alternate, textual based `mini -v` CLI is no longer supported. This was a tough decision to make, but in the end the visual mode didn't see the adoption we wanted and is significantly more complex to maintain than the default interface.
 - **Rotating API keys**: `ANTHROPIC_API_KEYS` with `::` separator no longer supported. Use single `ANTHROPIC_API_KEY`.
 - **`github_issue` run script**: The dedicated `github_issue.py` run script was removed. Use the `mini` CLI instead.
-- **`MSWEA_MODEL_API_KEY` environment variable**: No longer used to override API keys.
+- **`TRACE_SWE_MODEL_API_KEY` environment variable**: No longer used to override API keys.
 
 **Removed model classes:**
 
@@ -190,7 +190,7 @@ def save(self, path: Path | None, *extra_dicts) -> dict: ...
 
 ### Exception changes
 
-All flow control exceptions now inherit from `InterruptAgentFlow` and moved to `minisweagent.exceptions`:
+All flow control exceptions now inherit from `InterruptAgentFlow` and moved to `trace_swe.exceptions`:
 
 ```python
 InterruptAgentFlow (base)
@@ -208,10 +208,10 @@ InterruptAgentFlow (base)
 
 ```python
 # Old
-from minisweagent.agents.default import Submitted, FormatError
+from trace_swe.agent.default import Submitted, FormatError
 
 # New
-from minisweagent.exceptions import Submitted, FormatError
+from trace_swe.exceptions import Submitted, FormatError
 ```
 
 ### Agent.run() return value

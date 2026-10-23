@@ -14,7 +14,7 @@ Configuration files look like this:
 ??? note "Configuration file"
 
     ```yaml
-    --8<-- "src/minisweagent/config/mini.yaml"
+    --8<-- "src/trace_swe/config/mini.yaml"
     ```
 
 We use the following top-level keys:

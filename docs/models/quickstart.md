@@ -20,7 +20,7 @@ documented by your provider.
 
 * `mini-extra config setup` sets the default model.
 * Every CLI accepts `-m` / `--model`.
-* `mini-extra config set MSWEA_MODEL_NAME <model-name>` sets the default.
+* `mini-extra config set TRACE_SWE_MODEL_NAME <model-name>` sets the default.
 * A config file can set `model.model_name`.
 * Include the provider in the name, e.g. `anthropic/claude-sonnet-4-5-20250929`,
   `openai/gpt-5.4`, or `deepseek/deepseek-flash`.

@@ -10,9 +10,9 @@
 ```python
 import logging
 
-from minisweagent.agents.default import DefaultAgent
-from minisweagent.models import get_model
-from minisweagent.environments.local import LocalEnvironment
+from trace_swe.agent.default import DefaultAgent
+from trace_swe.llm import get_model
+from trace_swe.execution.local import LocalEnvironment
 
 logging.basicConfig(level=logging.DEBUG)
 task = "Write a hello world program"

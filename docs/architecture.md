@@ -161,7 +161,7 @@ so they are not confused with zero.
 
 ## Reproducible experiments
 
-`examples/eval_tasks/run_experiment.py` runs each task and variant in its own copied git repository,
+`experiments/context_tasks/run_experiment.py` runs each task and variant in its own copied git repository,
 scores it with an external `pytest`, and writes `meta.json` plus `report.json`. Metadata includes
 the git commit and dirty flag, model, temperature, task-set hash, command, and run count. See
 [Context-management experiment](experiments.md).

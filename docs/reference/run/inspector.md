@@ -2,14 +2,14 @@
 
 !!! note "Trajectory Inspector"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/utilities/inspector.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/commands/inspector.py)
 
     ??? note "Full source code"
 
         ```python
-        --8<-- "src/minisweagent/run/utilities/inspector.py"
+        --8<-- "src/trace_swe/cli/commands/inspector.py"
         ```
 
-::: minisweagent.run.utilities.inspector
+::: trace_swe.cli.commands.inspector
 
 {% include-markdown "../../_footer.md" %}

@@ -21,14 +21,14 @@ pytest -q
 ## Configure a model
 
 ```bash
-mini-extra config setup
+trace-extra config setup
 ```
 
 Or set the model and key directly:
 
 ```bash
-mini-extra config set MSWEA_MODEL_NAME deepseek/deepseek-flash
-mini-extra config set DEEPSEEK_API_KEY <your-key>
+trace-extra config set TRACE_SWE_MODEL_NAME deepseek/deepseek-flash
+trace-extra config set DEEPSEEK_API_KEY <your-key>
 ```
 
 See [model setup](models/quickstart.md) for LiteLLM provider details.
@@ -36,24 +36,24 @@ See [model setup](models/quickstart.md) for LiteLLM provider details.
 ## Run
 
 ```bash
-mini -m deepseek/deepseek-flash \
+trace -m deepseek/deepseek-flash \
   -t "Fix the failing test in this repository" -y
 ```
 
 The CLI commands are:
 
 ```text
-mini         # run the agent
-mini-extra   # config, inspect, events, resume, eval, swebench
+trace        # run the agent
+trace-extra   # config, inspect, events, resume, eval, swebench
 ```
 
 ## Inspect and evaluate
 
 ```bash
-mini --agent-class event_log -o run.traj.json -t "..." -y
-mini-extra events run.traj.json
+trace --agent-class event_log -o run.traj.json -t "..." -y
+trace-extra events run.traj.json
 
-mini-extra eval runs/ --baseline baseline/
+trace-extra eval runs/ --baseline baseline/
 ```
 
 ## Example prompts

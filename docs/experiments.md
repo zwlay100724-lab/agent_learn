@@ -35,10 +35,10 @@ The scorer runs `pytest` in the task repository and rejects submissions that mod
 ## Reproduce
 
 ```bash
-.venv/bin/python examples/eval_tasks/run_experiment.py --runs 5
+.venv/bin/python experiments/context_tasks/run_experiment.py --runs 5
 ```
 
-The runner writes `examples/eval_tasks/results/meta.json` (git commit, model, temperature,
+The runner writes `experiments/context_tasks/results/meta.json` (git commit, model, temperature,
 task-set hash, command), one directory per run, and `report.json` with the baseline comparison.
 It also prints a human-readable table from `mini-extra eval`.
 

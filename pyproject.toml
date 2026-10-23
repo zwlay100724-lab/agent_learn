@@ -73,23 +73,23 @@ Repository = "https://github.com/zwlay100724-lab/trace-swe"
 "Bug Tracker" = "https://github.com/zwlay100724-lab/trace-swe/issues"
 
 [project.scripts]
-mini = "minisweagent.run.mini:app"
-mini-swe-agent = "minisweagent.run.mini:app"
-mini-extra = "minisweagent.run.utilities.mini_extra:main"
-mini-e= "minisweagent.run.utilities.mini_extra:main"
+trace = "trace_swe.cli.mini:app"
+trace-extra = "trace_swe.cli.commands.mini_extra:main"
+mini = "trace_swe.cli.mini:app"
+mini-extra = "trace_swe.cli.commands.mini_extra:main"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.dynamic]
-version = {attr = "minisweagent.__version__"}
+version = {attr = "trace_swe.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["minisweagent*"]
+include = ["trace_swe*"]
 
 [tool.setuptools.package-data]
-minisweagent = ["config/**/*"]
+trace_swe = ["config/**/*"]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.

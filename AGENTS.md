@@ -6,15 +6,18 @@
 The project is structured as
 
 ```bash
-minisweagent/__init__  # Protocols/interfaces for all base classes
-minisweagent/agents  # Agent control flow & loop
-minisweagent/environments  # Executing agent actions
-minisweagent/models  # LM interfaces
-minisweagent/run  # Run scripts that serve as an entry point
+trace_swe/__init__  # Protocols/interfaces for all base classes
+trace_swe/agent  # Agent control flow & loop
+trace_swe/execution  # Executing agent actions
+trace_swe/llm  # LLM interfaces
+trace_swe/cli  # CLI entry points
+trace_swe/benchmarks  # Benchmark runners
+trace_swe/infra  # Event log, output store, workspace fingerprints
+trace_swe/config  # YAML configs
 ```
 
 - The project embraces polymorphism: Every individual class should be simple, but we offer alternatives
-- Every use case should start with a run script, that picks one agent, environment, and model class to run
+- Every use case should start with a CLI entry point that picks one agent, execution backend, and LLM class
 
 # Style guide
 

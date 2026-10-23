@@ -3,10 +3,10 @@
 import os
 from pathlib import Path
 
-from minisweagent.agents.default import DefaultAgent
-from minisweagent.agents.resume import ResumableAgent
-from minisweagent.environments.local import LocalEnvironment
-from minisweagent.models.test_models import DeterministicModel, make_output
+from trace_swe.agent.default import DefaultAgent
+from trace_swe.agent.resume import ResumableAgent
+from trace_swe.execution.local import LocalEnvironment
+from trace_swe.llm.test_models import DeterministicModel, make_output
 
 CRASH = 17
 

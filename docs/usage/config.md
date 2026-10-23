@@ -3,7 +3,7 @@
 !!! abstract "Overview"
 
     * `mini-extra config` is a utility to manage the global configuration file.
-    * Quickly start the it with `mini-extra config` or `mini-e config`.
+    * Quickly start the it with `mini-extra config` or `trace-extra config`.
 
 ## Commands
 
@@ -26,7 +26,7 @@ Set a specific key in the global config file.
 
 ```bash
 # example: set default model
-mini-extra config set MSWEA_MODEL_NAME anthropic/claude-sonnet-4-5-20250929
+mini-extra config set TRACE_SWE_MODEL_NAME anthropic/claude-sonnet-4-5-20250929
 # or interactively
 mini-extra config set
 ```
@@ -36,7 +36,7 @@ mini-extra config set
 Remove a key from the global config file.
 
 ```bash
-mini-extra config unset MSWEA_MODEL_NAME
+mini-extra config unset TRACE_SWE_MODEL_NAME
 ```
 
 ### `edit`
@@ -55,11 +55,11 @@ For more configuration options, see [global configuration](../advanced/global_co
 
 ??? note "Run script"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/utilities/config.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/commands/config.py)
     - [API reference](../reference/run/config.md)
 
     ```python
-    --8<-- "src/minisweagent/run/utilities/config.py"
+    --8<-- "src/trace_swe/cli/commands/config.py"
     ```
 
 {% include-markdown "../_footer.md" %}

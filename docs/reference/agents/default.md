@@ -2,30 +2,30 @@
 
 !!! note "DefaultAgent class"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/agents/default.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/default.py)
 
     ??? note "Full source code"
 
         ```python
-        --8<-- "src/minisweagent/agents/default.py"
+        --8<-- "src/trace_swe/agent/default.py"
         ```
 
 !!! tip "Understanding the control flow"
 
     Check out the [control flow guide](../../advanced/control_flow.md) for a visual explanation of the agent's control flow.
 
-::: minisweagent.agents.default.AgentConfig
+::: trace_swe.agent.default.AgentConfig
 
-::: minisweagent.agents.default.DefaultAgent
+::: trace_swe.agent.default.DefaultAgent
 
-::: minisweagent.exceptions.InterruptAgentFlow
+::: trace_swe.exceptions.InterruptAgentFlow
 
-::: minisweagent.exceptions.Submitted
+::: trace_swe.exceptions.Submitted
 
-::: minisweagent.exceptions.LimitsExceeded
+::: trace_swe.exceptions.LimitsExceeded
 
-::: minisweagent.exceptions.FormatError
+::: trace_swe.exceptions.FormatError
 
-::: minisweagent.exceptions.UserInterruption
+::: trace_swe.exceptions.UserInterruption
 
 {% include-markdown "../../_footer.md" %}

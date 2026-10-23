@@ -85,11 +85,11 @@
 
 !!! question "How can I set the default model?"
 
-    The default model is stored in the config/environment as `MSWEA_MODEL_NAME`.
+    The default model is stored in the config/environment as `TRACE_SWE_MODEL_NAME`.
     To permanently change it:
 
     ```bash
-    mini-extra config set MSWEA_MODEL_NAME anthropic/claude-sonnet-4-5-20250929
+    mini-extra config set TRACE_SWE_MODEL_NAME anthropic/claude-sonnet-4-5-20250929
     ```
 
     Alternatively, you can directly edit the `.env` file in the config directory

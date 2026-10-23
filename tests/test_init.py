@@ -1,4 +1,4 @@
-"""Tests for minisweagent.__init__."""
+"""Tests for trace_swe.__init__."""
 
 import os
 import subprocess
@@ -10,8 +10,8 @@ def test_startup_banner_survives_non_utf8_stdout(tmp_path):
     env = {
         **os.environ,
         "PYTHONIOENCODING": "cp1252",
-        "MSWEA_SILENT_STARTUP": "",
-        "MSWEA_GLOBAL_CONFIG_DIR": str(tmp_path),
+        "TRACE_SWE_SILENT_STARTUP": "",
+        "TRACE_SWE_GLOBAL_CONFIG_DIR": str(tmp_path),
     }
-    result = subprocess.run([sys.executable, "-c", "import minisweagent"], capture_output=True, text=True, env=env)
+    result = subprocess.run([sys.executable, "-c", "import trace_swe"], capture_output=True, text=True, env=env)
     assert result.returncode == 0, result.stderr

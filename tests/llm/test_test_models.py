@@ -1,0 +1,154 @@
+import logging
+import time
+
+import pytest
+
+import trace_swe.llm
+from trace_swe.exceptions import FormatError
+from trace_swe.llm.test_models import (
+    DeterministicModel,
+    DeterministicModelConfig,
+    DeterministicToolcallModel,
+    DeterministicToolcallModelConfig,
+    make_output,
+    make_toolcall_output,
+)
+
+
+def test_basic_functionality_and_cost_tracking(reset_global_stats):
+    """Test basic model functionality, cost tracking, and default configuration."""
+    model = DeterministicModel(
+        outputs=[
+            make_output("```mswea_bash_command\necho hello\n```", [{"command": "echo hello"}]),
+            make_output("```mswea_bash_command\necho world\n```", [{"command": "echo world"}]),
+        ]
+    )
+
+    # Test first call with defaults
+    result = model.query([{"role": "user", "content": "test"}])
+    assert result["content"] == "```mswea_bash_command\necho hello\n```"
+    assert result["extra"]["actions"] == [{"command": "echo hello"}]
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.n_calls == 1
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.cost == 1.0
+
+    # Test second call and sequential outputs
+    result = model.query([{"role": "user", "content": "test"}])
+    assert result["content"] == "```mswea_bash_command\necho world\n```"
+    assert result["extra"]["actions"] == [{"command": "echo world"}]
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.n_calls == 2
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.cost == 2.0
+
+
+def test_custom_cost_and_multiple_models(reset_global_stats):
+    """Test custom cost configuration and global tracking across multiple models."""
+    model1 = DeterministicModel(
+        outputs=[make_output("```mswea_bash_command\necho r1\n```", [{"command": "echo r1"}])], cost_per_call=2.5
+    )
+    model2 = DeterministicModel(
+        outputs=[make_output("```mswea_bash_command\necho r2\n```", [{"command": "echo r2"}])], cost_per_call=3.0
+    )
+
+    result1 = model1.query([{"role": "user", "content": "test"}])
+    assert result1["content"] == "```mswea_bash_command\necho r1\n```"
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.cost == 2.5
+
+    result2 = model2.query([{"role": "user", "content": "test"}])
+    assert result2["content"] == "```mswea_bash_command\necho r2\n```"
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.cost == 5.5
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.n_calls == 2
+
+
+def test_config_dataclass():
+    """Test DeterministicModelConfig with custom values."""
+    config = DeterministicModelConfig(
+        outputs=[make_output("Test", [{"command": "test"}])], model_name="custom", cost_per_call=5.0
+    )
+
+    assert config.cost_per_call == 5.0
+    assert config.model_name == "custom"
+
+    model = DeterministicModel(**config.model_dump())
+    assert model.config.cost_per_call == 5.0
+
+
+def test_sleep_and_warning_commands(caplog):
+    """Test special /sleep and /warning command handling."""
+    # Test sleep command - processes sleep then returns actual output (counts as 1 call)
+    model = DeterministicModel(
+        outputs=[
+            make_output("", [{"command": "/sleep 0.1"}]),
+            make_output("```mswea_bash_command\necho after_sleep\n```", [{"command": "echo after_sleep"}]),
+        ]
+    )
+    start_time = time.time()
+    result = model.query([{"role": "user", "content": "test"}])
+    assert result["content"] == "```mswea_bash_command\necho after_sleep\n```"
+    assert time.time() - start_time >= 0.1
+
+    # Test warning command - processes warning then returns actual output (counts as 1 call)
+    model2 = DeterministicModel(
+        outputs=[
+            make_output("", [{"command": "/warning Test message"}]),
+            make_output("```mswea_bash_command\necho after_warning\n```", [{"command": "echo after_warning"}]),
+        ]
+    )
+    with caplog.at_level(logging.WARNING):
+        result2 = model2.query([{"role": "user", "content": "test"}])
+        assert result2["content"] == "```mswea_bash_command\necho after_warning\n```"
+    assert "Test message" in caplog.text
+
+
+def test_raise_exception():
+    """Test {"raise": Exception(...)} raises the exception."""
+    model = DeterministicModel(outputs=[make_output("", [{"raise": FormatError()}])])
+    with pytest.raises(FormatError):
+        model.query([{"role": "user", "content": "test"}])
+
+
+def test_toolcall_model_basic(reset_global_stats):
+    """Test DeterministicToolcallModel basic functionality."""
+    tool_calls = [
+        {"id": "call_123", "type": "function", "function": {"name": "bash", "arguments": '{"command": "ls"}'}}
+    ]
+    actions = [{"command": "ls", "tool_call_id": "call_123"}]
+
+    model = DeterministicToolcallModel(
+        outputs=[make_toolcall_output(None, tool_calls, actions)],
+    )
+
+    result = model.query([{"role": "user", "content": "list files"}])
+    assert result["tool_calls"] == tool_calls
+    assert result["extra"]["actions"] == actions
+    assert trace_swe.llm.GLOBAL_MODEL_STATS.n_calls == 1
+
+
+def test_toolcall_model_format_observation(reset_global_stats):
+    """Test DeterministicToolcallModel formats observations as tool results."""
+    tool_calls = [
+        {"id": "call_456", "type": "function", "function": {"name": "bash", "arguments": '{"command": "pwd"}'}}
+    ]
+    actions = [{"command": "pwd", "tool_call_id": "call_456"}]
+
+    model = DeterministicToolcallModel(outputs=[make_toolcall_output(None, tool_calls, actions)])
+
+    result = model.query([{"role": "user", "content": "test"}])
+    outputs = [{"output": "/home/user", "returncode": 0, "exception_info": ""}]
+    obs_messages = model.format_observation_messages(result, outputs)
+
+    assert len(obs_messages) == 1
+    assert obs_messages[0]["role"] == "tool"
+    assert obs_messages[0]["tool_call_id"] == "call_456"
+    assert "/home/user" in obs_messages[0]["content"]
+
+
+def test_toolcall_config():
+    """Test DeterministicToolcallModelConfig with custom values."""
+    config = DeterministicToolcallModelConfig(
+        outputs=[make_toolcall_output(None, [], [])], model_name="custom_toolcall", cost_per_call=2.0
+    )
+
+    assert config.cost_per_call == 2.0
+    assert config.model_name == "custom_toolcall"
+
+    model = DeterministicToolcallModel(**config.model_dump())
+    assert model.config.cost_per_call == 2.0

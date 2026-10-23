@@ -1,4 +1,4 @@
-"""Tests for minisweagent.config.__init__."""
+"""Tests for trace_swe.config.__init__."""
 
 import os
 import subprocess
@@ -6,7 +6,7 @@ import sys
 
 import pytest
 
-from minisweagent.config import (
+from trace_swe.config import (
     _key_value_spec_to_nested_dict,
     builtin_config_dir,
     get_config_from_spec,
@@ -120,10 +120,10 @@ class TestGetConfigFromSpec:
             "LANG": "C",
             "PYTHONUTF8": "0",
             "PYTHONCOERCECLOCALE": "0",
-            "MSWEA_SILENT_STARTUP": "1",
+            "TRACE_SWE_SILENT_STARTUP": "1",
         }
         code = (
-            "from minisweagent.config import get_config_from_spec; "
+            "from trace_swe.config import get_config_from_spec; "
             f"assert len(get_config_from_spec(r'{config_file}')['system_template']) == 5"
         )
         result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env=env)

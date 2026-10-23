@@ -22,12 +22,12 @@ Each run writes a JSONL event log next to its trajectory:
 The log is a side channel: it does not change the agent loop or the trajectory.
 
 ```bash
-mini --agent-class event_log \
+trace --agent-class event_log \
   -m deepseek/deepseek-flash \
   -o run.traj.json \
   -t "Fix the failing test" -y
 
-mini-extra events run.traj.json
+trace-extra events run.traj.json
 ```
 
 ### Offline evaluation
@@ -36,7 +36,7 @@ Evaluate saved trajectories with strict success classification and baseline
 comparison:
 
 ```bash
-mini-extra eval runs/ --baseline baseline/
+trace-extra eval runs/ --baseline baseline/
 ```
 
 Reports include:
@@ -54,7 +54,7 @@ Reports include:
 Old observations can be aged out after their full text is stored on disk:
 
 ```bash
-mini --agent-class context \
+trace --agent-class context \
   -m deepseek/deepseek-flash \
   -o context.traj.json \
   -t "Fix the failing test" -y
@@ -72,7 +72,7 @@ A snapshot records a workspace fingerprint. Resume refuses to continue when:
 - the workspace changed since the last snapshot.
 
 ```bash
-mini-extra resume run.traj.json --policy refuse
+trace-extra resume run.traj.json --policy refuse
 ```
 
 Use `--policy as_is` to proceed anyway; the run records
@@ -83,7 +83,7 @@ Use `--policy as_is` to proceed anyway; the run records
 A submission can be verified before it is accepted:
 
 ```bash
-mini --agent-class verified \
+trace --agent-class verified \
   -m deepseek/deepseek-flash \
   -c mini.yaml \
   -c "agent.verify_command=pytest -q" \
@@ -104,20 +104,20 @@ the workspace's real index is not modified.
 
 ```bash
 pip install -e .
-mini-extra config setup
+trace-extra config setup
 
-mini -m deepseek/deepseek-flash \
+trace -m deepseek/deepseek-flash \
   -t "Fix the failing test in this repository" -y
 ```
 
-The CLI commands are `mini` and `mini-extra`.
+The CLI commands are `trace` and `trace-extra`; `mini` and `mini-extra` remain aliases.
 
 ## Reproducible experiment
 
 Run the context-management experiment:
 
 ```bash
-python examples/eval_tasks/run_experiment.py --runs 5
+python experiments/context_tasks/run_experiment.py --runs 5
 ```
 
 Result from 2 tasks × 5 runs × 2 variants with `deepseek/deepseek-flash`:
@@ -145,12 +145,12 @@ This build keeps one path per capability:
 ## Project layout
 
 ```text
-src/minisweagent/agents/       agent loop, event log, context, resume, verification
-src/minisweagent/environments/ local and docker execution
-src/minisweagent/models/       LiteLLM tool-calling model
-src/minisweagent/run/          mini, mini-extra, SWE-bench
-src/minisweagent/utils/        event log, output store, workspace fingerprint
-examples/eval_tasks/           reproducible context experiment
+src/trace_swe/agent/       agent loop, event log, context, resume, verification
+src/trace_swe/execution/ local and docker execution
+src/trace_swe/llm/       LiteLLM tool-calling model
+src/trace_swe/cli/          trace, trace-extra, SWE-bench
+src/trace_swe/infra/        event log, output store, workspace fingerprint
+experiments/context_tasks/           reproducible context experiment
 docs/                          usage, architecture, experiment results
 tests/                         test suite
 ```

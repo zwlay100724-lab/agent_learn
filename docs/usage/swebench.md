@@ -34,7 +34,7 @@
         ```bash
         mini-extra swebench --help
         # or
-        python src/minisweagent/run/benchmarks/swebench.py --help
+        python src/trace_swe/benchmarks/swebench.py --help
         # Example:
         mini-extra swebench \
             --model anthropic/claude-sonnet-4-5-20250929 \
@@ -97,7 +97,7 @@
 
 > Can I set global cost limits?
 
-Yes, you can set global cost limits with the `MSWEA_GLOBAL_CALL_LIMIT` and `MSWEA_GLOBAL_COST_LIMIT` environment variables/global config.
+Yes, you can set global cost limits with the `TRACE_SWE_GLOBAL_CALL_LIMIT` and `TRACE_SWE_GLOBAL_COST_LIMIT` environment variables/global config.
 See [global configuration](../advanced/global_configuration.md) for more details.
 
 > What happens to uncompleted tasks when I abort with KeyboardInterrupt?
@@ -151,19 +151,19 @@ See [this guide](../advanced/environments.md) for more details.
 
 ??? note "Default config"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/config/benchmarks/swebench.yaml)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/benchmarks/swebench.yaml)
 
     ```yaml
-    --8<-- "src/minisweagent/config/benchmarks/swebench.yaml"
+    --8<-- "src/trace_swe/config/benchmarks/swebench.yaml"
     ```
 
 ??? note "`swebench.py` run script"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/benchmarks/swebench.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/benchmarks/swebench.py)
     - [API reference](../reference/run/swebench.md)
 
     ```python
-    --8<-- "src/minisweagent/run/benchmarks/swebench.py"
+    --8<-- "src/trace_swe/benchmarks/swebench.py"
     ```
 
 {% include-markdown "../_footer.md" %}

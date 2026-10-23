@@ -49,11 +49,11 @@ And here is the code that implements it:
 
 ??? note "Default agent class"
 
-    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/agents/default.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/default.py)
     - [API reference](../reference/agents/default.md)
 
     ```python
-    --8<-- "src/minisweagent/agents/default.py"
+    --8<-- "src/trace_swe/agent/default.py"
     ```
 
 Essentially, `DefaultAgent.run` calls `DefaultAgent.step` in a loop until the agent has finished its task.

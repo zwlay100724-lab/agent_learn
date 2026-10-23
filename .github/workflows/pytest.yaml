@@ -54,7 +54,7 @@ jobs:
             uv pip install --python ${Python_ROOT_DIR} -e '.[full]'
       - name: Configure mini-swe-agent
         run: |
-          mini-extra config set MSWEA_CONFIGURED 'true'
+          mini-extra config set TRACE_SWE_CONFIGURED 'true'
           mini-extra config set OPENAI_API_KEY '${{ secrets.OPENAI_API_KEY }}'
       - name: Run pytest
         run: pytest -v --cov --cov-branch --cov-report=xml -n auto
@@ -62,4 +62,4 @@ jobs:
         uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: SWE-agent/mini-swe-agent
+          slug: zwlay100724-lab/trace-swe

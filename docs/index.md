@@ -14,7 +14,7 @@ before the result is accepted.
 - **[Quick start](quickstart.md)** — install, configure a model, and run the agent.
 - **[Architecture](architecture.md)** — event log, agent layers, resume, and delivery.
 - **[Context experiment](experiments.md)** — method, results, and interpretation.
-- **[CLI usage](usage/mini.md)** — `mini` options and interactive modes.
+- **[CLI usage](usage/mini.md)** — `trace` options and interactive modes.
 
 </div>
 
@@ -45,9 +45,9 @@ This build keeps one path per capability:
 
 ```bash
 pip install -e .
-mini-extra config setup
+trace-extra config setup
 
-mini -m deepseek/deepseek-flash \
+trace -m deepseek/deepseek-flash \
   -t "Fix the failing test in this repository" -y
 ```
 

@@ -4,7 +4,7 @@ import pytest
 import yaml
 from jinja2 import StrictUndefined, Template
 
-CONFIG_DIR = Path(__file__).parent.parent.parent / "src" / "minisweagent" / "config"
+CONFIG_DIR = Path(__file__).parent.parent.parent / "src" / "trace_swe" / "config"
 CASES = [("mini.yaml", '"full_output_path"')]
 
 
