@@ -2436,9 +2436,9 @@ agent.context_elide_min_chars=200
 <p>The scorer runs <code>pytest</code> in the task repository and rejects submissions that modify
 <code>test_buggy.py</code> or <code>app.log</code>, so an agent cannot pass by changing the tests.</p>
 <h2 id="reproduce">Reproduce</h2>
-<div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>examples/eval_tasks/run_experiment.py<span class="w"> </span>--runs<span class="w"> </span><span class="m">5</span>
+<div class="highlight"><pre><span></span><code>.venv/bin/python<span class="w"> </span>experiments/context_tasks/run_experiment.py<span class="w"> </span>--runs<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
-<p>The runner writes <code>examples/eval_tasks/results/meta.json</code> (git commit, model, temperature,
+<p>The runner writes <code>experiments/context_tasks/results/meta.json</code> (git commit, model, temperature,
 task-set hash, command), one directory per run, and <code>report.json</code> with the baseline comparison.
 It also prints a human-readable table from <code>mini-extra eval</code>.</p>
 <h2 id="metrics">Metrics</h2>

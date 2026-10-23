@@ -1938,7 +1938,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#minisweagent.run.mini" class="md-nav__link">
+  <a href="#trace_swe.cli.mini" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;mini
@@ -1950,7 +1950,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.DEFAULT_CONFIG_FILE" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.DEFAULT_CONFIG_FILE" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;DEFAULT_CONFIG_FILE
@@ -1961,7 +1961,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.DEFAULT_OUTPUT_FILE" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.DEFAULT_OUTPUT_FILE" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;DEFAULT_OUTPUT_FILE
@@ -1972,7 +1972,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.console" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.console" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;console
@@ -1983,7 +1983,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.app" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.app" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;app
@@ -1994,7 +1994,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.main" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.main" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
@@ -2172,7 +2172,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#minisweagent.run.mini" class="md-nav__link">
+  <a href="#trace_swe.cli.mini" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;mini
@@ -2184,7 +2184,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.DEFAULT_CONFIG_FILE" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.DEFAULT_CONFIG_FILE" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;DEFAULT_CONFIG_FILE
@@ -2195,7 +2195,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.DEFAULT_OUTPUT_FILE" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.DEFAULT_OUTPUT_FILE" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;DEFAULT_OUTPUT_FILE
@@ -2206,7 +2206,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.console" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.console" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;console
@@ -2217,7 +2217,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.app" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.app" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;app
@@ -2228,7 +2228,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.mini.main" class="md-nav__link">
+  <a href="#trace_swe.cli.mini.main" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
@@ -2273,7 +2273,7 @@
 <div class="admonition note">
 <p class="admonition-title">Mini run script</p>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/mini.py">Read on GitHub</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py">Read on GitHub</a></li>
 </ul>
 <details class="note">
 <summary>Full source code</summary>
@@ -2289,16 +2289,16 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">typer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent</span><span class="w"> </span><span class="kn">import</span> <span class="n">global_config_dir</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_agent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.utils.prompt_user</span><span class="w"> </span><span class="kn">import</span> <span class="n">_multiline_prompt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">builtin_config_dir</span><span class="p">,</span> <span class="n">get_config_from_spec</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_environment</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.run.utilities.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">configure_if_first_time</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.utils.serialize</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">recursive_merge</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe</span><span class="w"> </span><span class="kn">import</span> <span class="n">global_config_dir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_agent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.utils.prompt_user</span><span class="w"> </span><span class="kn">import</span> <span class="n">_multiline_prompt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.cli.commands.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">configure_if_first_time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">builtin_config_dir</span><span class="p">,</span> <span class="n">get_config_from_spec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_environment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.infra.serialize</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">recursive_merge</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
 
-<span class="n">DEFAULT_CONFIG_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_MINI_CONFIG_PATH"</span><span class="p">,</span> <span class="n">builtin_config_dir</span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">))</span>
+<span class="n">DEFAULT_CONFIG_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MINI_CONFIG_PATH"</span><span class="p">,</span> <span class="n">builtin_config_dir</span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">))</span>
 <span class="n">DEFAULT_OUTPUT_FILE</span> <span class="o">=</span> <span class="n">global_config_dir</span> <span class="o">/</span> <span class="s2">"last_mini_run.traj.json"</span>
 
 
@@ -2333,9 +2333,9 @@
 <span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="n">_HELP_TEXT</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"-m"</span><span class="p">,</span> <span class="s2">"--model"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Model to use"</span><span class="p">,),</span>
-    <span class="n">model_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--model-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
-    <span class="n">agent_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--agent-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
-    <span class="n">environment_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--environment-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
+    <span class="n">model_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--model-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Model class to use (e.g., 'litellm' or 'trace_swe.llm.litellm_model.LitellmModel')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
+    <span class="n">agent_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--agent-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Agent class to use (e.g., 'interactive' or 'trace_swe.agent.interactive.InteractiveAgent')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
+    <span class="n">environment_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--environment-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Environment class to use (e.g., 'local' or 'trace_swe.execution.local.LocalEnvironment')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
     <span class="n">task</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--task"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Task/problem statement"</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">yolo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">"-y"</span><span class="p">,</span> <span class="s2">"--yolo"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Run without confirmation"</span><span class="p">),</span>
     <span class="n">cost_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"-l"</span><span class="p">,</span> <span class="s2">"--cost-limit"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Cost limit. Set to 0 to disable."</span><span class="p">),</span>
@@ -2395,8 +2395,8 @@
 
 
 
-<h2 id="minisweagent.run.mini" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">minisweagent.run.mini</span>
+<h2 id="trace_swe.cli.mini" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">trace_swe.cli.mini</span>
 
 
 </h2>
@@ -2426,7 +2426,7 @@
 
 
 
-<h3 id="minisweagent.run.mini.DEFAULT_CONFIG_FILE" class="doc doc-heading">
+<h3 id="trace_swe.cli.mini.DEFAULT_CONFIG_FILE" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">DEFAULT_CONFIG_FILE</span>
 
 
@@ -2437,8 +2437,8 @@
 </h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">DEFAULT_CONFIG_FILE</span> <span class="o">=</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">(</span>
     <span class="n"><span title="os">os</span></span><span class="o">.</span><span class="n"><span title="os.getenv">getenv</span></span><span class="p">(</span>
-        <span class="s2">"MSWEA_MINI_CONFIG_PATH"</span><span class="p">,</span>
-        <span class="n"><span title="minisweagent.config.builtin_config_dir">builtin_config_dir</span></span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">,</span>
+        <span class="s2">"TRACE_SWE_MINI_CONFIG_PATH"</span><span class="p">,</span>
+        <span class="n"><span title="trace_swe.config.builtin_config_dir">builtin_config_dir</span></span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -2453,7 +2453,7 @@
 
 
 
-<h3 id="minisweagent.run.mini.DEFAULT_OUTPUT_FILE" class="doc doc-heading">
+<h3 id="trace_swe.cli.mini.DEFAULT_OUTPUT_FILE" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">DEFAULT_OUTPUT_FILE</span>
 
 
@@ -2463,7 +2463,7 @@
 
 </h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="n">DEFAULT_OUTPUT_FILE</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n"><span title="minisweagent.global_config_dir">global_config_dir</span></span> <span class="o">/</span> <span class="s2">"last_mini_run.traj.json"</span>
+    <span class="n"><span title="trace_swe.global_config_dir">global_config_dir</span></span> <span class="o">/</span> <span class="s2">"last_mini_run.traj.json"</span>
 <span class="p">)</span>
 </code></pre></div>
 
@@ -2477,7 +2477,7 @@
 
 
 
-<h3 id="minisweagent.run.mini.console" class="doc doc-heading">
+<h3 id="trace_swe.cli.mini.console" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">console</span>
 
 
@@ -2499,7 +2499,7 @@
 
 
 
-<h3 id="minisweagent.run.mini.app" class="doc doc-heading">
+<h3 id="trace_swe.cli.mini.app" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">app</span>
 
 
@@ -2523,7 +2523,7 @@
 <div class="doc doc-object doc-function">
 
 
-<h3 id="minisweagent.run.mini.main" class="doc doc-heading">
+<h3 id="trace_swe.cli.mini.main" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">main</span>
 
 
@@ -2535,19 +2535,19 @@
     <span class="n">model_class</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="typer.Option">Option</span></span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="s2">"--model-class"</span><span class="p">,</span>
-        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')"</span><span class="p">,</span>
+        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Model class to use (e.g., 'litellm' or 'trace_swe.llm.litellm_model.LitellmModel')"</span><span class="p">,</span>
         <span class="n"><span title="typer.Option(rich_help_panel)">rich_help_panel</span></span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">agent_class</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="typer.Option">Option</span></span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="s2">"--agent-class"</span><span class="p">,</span>
-        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')"</span><span class="p">,</span>
+        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Agent class to use (e.g., 'interactive' or 'trace_swe.agent.interactive.InteractiveAgent')"</span><span class="p">,</span>
         <span class="n"><span title="typer.Option(rich_help_panel)">rich_help_panel</span></span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">environment_class</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="typer.Option">Option</span></span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="s2">"--environment-class"</span><span class="p">,</span>
-        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')"</span><span class="p">,</span>
+        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Environment class to use (e.g., 'local' or 'trace_swe.execution.local.LocalEnvironment')"</span><span class="p">,</span>
         <span class="n"><span title="typer.Option(rich_help_panel)">rich_help_panel</span></span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">task</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="typer.Option">Option</span></span><span class="p">(</span>
@@ -2575,10 +2575,10 @@
 
   
       module-attribute
-   (minisweagent.run.mini.DEFAULT_CONFIG_FILE)" href="#minisweagent.run.mini.DEFAULT_CONFIG_FILE">DEFAULT_CONFIG_FILE</a></span><span class="p">)],</span>
+   (trace_swe.cli.mini.DEFAULT_CONFIG_FILE)" href="#trace_swe.cli.mini.DEFAULT_CONFIG_FILE">DEFAULT_CONFIG_FILE</a></span><span class="p">)],</span>
         <span class="s2">"-c"</span><span class="p">,</span>
         <span class="s2">"--config"</span><span class="p">,</span>
-        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="n"><span title="minisweagent.run.mini._CONFIG_SPEC_HELP_TEXT">_CONFIG_SPEC_HELP_TEXT</span></span><span class="p">,</span>
+        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="n"><span title="trace_swe.cli.mini._CONFIG_SPEC_HELP_TEXT">_CONFIG_SPEC_HELP_TEXT</span></span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">output</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="typer.Option">Option</span></span><span class="p">(</span>
         <span class="n"><a class="autorefs autorefs-internal" title="            DEFAULT_OUTPUT_FILE
@@ -2586,7 +2586,7 @@
 
   
       module-attribute
-   (minisweagent.run.mini.DEFAULT_OUTPUT_FILE)" href="#minisweagent.run.mini.DEFAULT_OUTPUT_FILE">DEFAULT_OUTPUT_FILE</a></span><span class="p">,</span>
+   (trace_swe.cli.mini.DEFAULT_OUTPUT_FILE)" href="#trace_swe.cli.mini.DEFAULT_OUTPUT_FILE">DEFAULT_OUTPUT_FILE</a></span><span class="p">,</span>
         <span class="s2">"-o"</span><span class="p">,</span>
         <span class="s2">"--output"</span><span class="p">,</span>
         <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Output trajectory file"</span><span class="p">,</span>
@@ -2604,7 +2604,7 @@
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/minisweagent/run/mini.py</code></summary>
+              <summary>Source code in <code>src/trace_swe/cli/mini.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 54</span>
 <span class="normal"> 55</span>
 <span class="normal"> 56</span>
@@ -2659,9 +2659,9 @@
 <span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="n">_HELP_TEXT</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"-m"</span><span class="p">,</span> <span class="s2">"--model"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Model to use"</span><span class="p">,),</span>
-    <span class="n">model_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--model-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
-    <span class="n">agent_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--agent-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
-    <span class="n">environment_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--environment-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
+    <span class="n">model_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--model-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Model class to use (e.g., 'litellm' or 'trace_swe.llm.litellm_model.LitellmModel')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
+    <span class="n">agent_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--agent-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Agent class to use (e.g., 'interactive' or 'trace_swe.agent.interactive.InteractiveAgent')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
+    <span class="n">environment_class</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"--environment-class"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Environment class to use (e.g., 'local' or 'trace_swe.execution.local.LocalEnvironment')"</span><span class="p">,</span> <span class="n">rich_help_panel</span><span class="o">=</span><span class="s2">"Advanced"</span><span class="p">),</span>
     <span class="n">task</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--task"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Task/problem statement"</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="n">yolo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">"-y"</span><span class="p">,</span> <span class="s2">"--yolo"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Run without confirmation"</span><span class="p">),</span>
     <span class="n">cost_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"-l"</span><span class="p">,</span> <span class="s2">"--cost-limit"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Cost limit. Set to 0 to disable."</span><span class="p">),</span>

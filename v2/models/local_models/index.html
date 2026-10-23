@@ -2459,7 +2459,7 @@ This is done with the <code>model_kwargs</code> dictionary which is directly pas
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Updating the default <code>mini</code> configuration file</p>
-<p>You can set the <code>MSWEA_MINI_CONFIG_PATH</code> setting to set path to the default <code>mini</code> configuration file.
+<p>You can set the <code>TRACE_SWE_MINI_CONFIG_PATH</code> setting to set path to the default <code>mini</code> configuration file.
 This will allow you to override the default configuration file with your own.
 See the <a href="../../advanced/global_configuration/">global configuration guide</a> for more details.</p>
 </div>
@@ -2467,7 +2467,7 @@ See the <a href="../../advanced/global_configuration/">global configuration guid
 <details class="note">
 <summary>Complete model class</summary>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/models/litellm_model.py">Read on GitHub</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm/litellm_model.py">Read on GitHub</a></li>
 <li><a href="../../reference/models/litellm/">API reference</a></li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -2481,17 +2481,17 @@ See the <a href="../../advanced/global_configuration/">global configuration guid
 <span class="kn">import</span><span class="w"> </span><span class="nn">litellm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">GLOBAL_MODEL_STATS</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.utils.actions_toolcall</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">GLOBAL_MODEL_STATS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.utils.actions_toolcall</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BASH_TOOL</span><span class="p">,</span>
     <span class="n">format_toolcall_observation_messages</span><span class="p">,</span>
     <span class="n">parse_toolcall_actions</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.utils.anthropic_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_reorder_anthropic_thinking_blocks</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.utils.cache_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_cache_control</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.utils.openai_multimodal</span><span class="w"> </span><span class="kn">import</span> <span class="n">expand_multimodal_content</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.utils.retry</span><span class="w"> </span><span class="kn">import</span> <span class="n">retry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.utils.anthropic_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_reorder_anthropic_thinking_blocks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.utils.cache_control</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_cache_control</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.utils.openai_multimodal</span><span class="w"> </span><span class="kn">import</span> <span class="n">expand_multimodal_content</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.utils.retry</span><span class="w"> </span><span class="kn">import</span> <span class="n">retry</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"litellm_model"</span><span class="p">)</span>
 
@@ -2505,7 +2505,7 @@ See the <a href="../../advanced/global_configuration/">global configuration guid
 <span class="w">    </span><span class="sd">"""Model registry for cost tracking and model metadata. See the local model guide in the repository for more details."""</span>
     <span class="n">set_cache_control</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"default_end"</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Set explicit cache control markers, for example for Anthropic models"""</span>
-    <span class="n">cost_tracking</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"default"</span><span class="p">,</span> <span class="s2">"ignore_errors"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_COST_TRACKING"</span><span class="p">,</span> <span class="s2">"default"</span><span class="p">)</span>
+    <span class="n">cost_tracking</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"default"</span><span class="p">,</span> <span class="s2">"ignore_errors"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_COST_TRACKING"</span><span class="p">,</span> <span class="s2">"default"</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Cost tracking mode for this model. Can be "default" or "ignore_errors" (ignore errors/missing cost info)"""</span>
     <span class="n">format_error_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"{{ error }}"</span>
 <span class="w">    </span><span class="sd">"""Template used when the LM's output is not in the expected format."""</span>
@@ -2588,7 +2588,7 @@ See the <a href="../../advanced/global_configuration/">global configuration guid
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Error calculating cost for model </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">, perhaps it's not registered? "</span>
                     <span class="s2">"You can ignore this issue from your config file with cost_tracking: 'ignore_errors' or "</span>
-                    <span class="s2">"globally with export MSWEA_COST_TRACKING='ignore_errors'. "</span>
+                    <span class="s2">"globally with export TRACE_SWE_COST_TRACKING='ignore_errors'. "</span>
                     <span class="s2">"Alternatively check the 'Cost tracking' section in the documentation at "</span>
                     <span class="s2">"https://klieret.short.gy/mini-local-models. "</span>
                     <span class="s2">" Still stuck? Please open an issue at https://github.com/zwlay100724-lab/trace-swe/issues/new!"</span>
@@ -2651,7 +2651,7 @@ There are two ways to do this with <code>litellm</code>:</p>
 <span class="nn">...</span>
 </code></pre></div>
 <p>Alternatively, you can set the global setting:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MSWEA_COST_TRACKING</span><span class="o">=</span><span class="s2">"ignore_errors"</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">TRACE_SWE_COST_TRACKING</span><span class="o">=</span><span class="s2">"ignore_errors"</span>
 </code></pre></div>
 <p>However, note that this is a global setting, and will affect all models!</p>
 <p>However, the best way to handle the cost issue is to add a model registry to litellm to include your local model.</p>
@@ -2700,7 +2700,7 @@ then this must also match <code>litellm_provider</code> in the config!</p>
 <div class="highlight"><pre><span></span><code>vllm<span class="w"> </span>serve<span class="w"> </span>ricdomolm/mini-coder-1.7b<span class="w"> </span><span class="p">&amp;</span>
 </code></pre></div>
 <p>By default, the server will be available at <code>http://localhost:8000</code>.</p>
-<p>Second, edit the mini-swe-agent SWE-bench config file located in <code>src/minisweagent/config/benchmarks/swebench.yaml</code> to include your local vLLM model:</p>
+<p>Second, edit the mini-swe-agent SWE-bench config file located in <code>src/trace_swe/config/benchmarks/swebench.yaml</code> to include your local vLLM model:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">model</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="s">"hosted_vllm/ricdomolm/mini-coder-1.7b"</span><span class="w">  </span><span class="c1"># or hosted_vllm/path/to/local/model</span>
 <span class="w">  </span><span class="nt">model_kwargs</span><span class="p">:</span>

@@ -2230,7 +2230,7 @@
 <p class="admonition-title">Overview</p>
 <ul>
 <li>The <code>inspector</code> is a tool that allows you to browse <code>.traj.json</code> files that show the history of a mini-SWE-agent run.</li>
-<li>Quickly start it with <code>mini-e i</code> or <code>mini-extra inspector</code>.</li>
+<li>Quickly start it with <code>trace-extra i</code> or <code>mini-extra inspector</code>.</li>
 <li>See <a href="../output_files/">output files</a> for the trajectory file format.</li>
 <li>Alternative: <a href="https://jless.io/">jless</a> is a great command-line JSON viewer for browsing trajectories.</li>
 </ul>
@@ -2245,11 +2245,11 @@
 <div class="highlight"><pre><span></span><code><span class="c1"># Find all .traj.json files recursively from current directory</span>
 mini-extra<span class="w"> </span>inspector
 <span class="c1"># or shorter</span>
-mini-e<span class="w"> </span>i
+trace-extra<span class="w"> </span>i
 <span class="c1"># Open the inspector for a specific file</span>
-mini-e<span class="w"> </span>i<span class="w"> </span>&lt;path_to_traj.json&gt;
+trace-extra<span class="w"> </span>i<span class="w"> </span>&lt;path_to_traj.json&gt;
 <span class="c1"># Search for trajectory files in a specific directory</span>
-mini-e<span class="w"> </span>i<span class="w"> </span>&lt;path_to_directory&gt;
+trace-extra<span class="w"> </span>i<span class="w"> </span>&lt;path_to_directory&gt;
 </code></pre></div>
 <h2 id="key-bindings">Key bindings</h2>
 <ul>
@@ -2272,7 +2272,7 @@ mini-e<span class="w"> </span>i<span class="w"> </span>&lt;path_to_directory&gt;
 <details class="note">
 <summary>Implementation</summary>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/utilities/inspector.py">Read on GitHub</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/commands/inspector.py">Read on GitHub</a></li>
 </ul>
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  1</span>
 <span class="normal">  2</span>
@@ -2610,7 +2610,7 @@ mini-e<span class="w"> </span>i<span class="w"> </span>&lt;path_to_directory&gt;
 <span class="kn">from</span><span class="w"> </span><span class="nn">textual.containers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Vertical</span><span class="p">,</span> <span class="n">VerticalScroll</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">textual.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Footer</span><span class="p">,</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Static</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.utils.content_string</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_content_string</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.utils.content_string</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_content_string</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_messages_to_steps</span><span class="p">(</span><span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
@@ -2687,7 +2687,7 @@ mini-e<span class="w"> </span>i<span class="w"> </span>&lt;path_to_directory&gt;
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trajectory_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">],</span> <span class="n">show_reasoning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="n">css_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">"MSWEA_INSPECTOR_STYLE_PATH"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"config"</span> <span class="o">/</span> <span class="s2">"inspector.tcss"</span><span class="p">)</span>
+            <span class="s2">"TRACE_SWE_INSPECTOR_STYLE_PATH"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"config"</span> <span class="o">/</span> <span class="s2">"inspector.tcss"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">CSS</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">css_path</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
 

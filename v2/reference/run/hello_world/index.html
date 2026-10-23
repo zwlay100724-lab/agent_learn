@@ -1910,7 +1910,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#minisweagent.run.hello_world" class="md-nav__link">
+  <a href="#trace_swe.cli.hello_world" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;hello_world
@@ -1922,7 +1922,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.hello_world.app" class="md-nav__link">
+  <a href="#trace_swe.cli.hello_world.app" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;app
@@ -1933,7 +1933,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.hello_world.main" class="md-nav__link">
+  <a href="#trace_swe.cli.hello_world.main" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
@@ -2139,7 +2139,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#minisweagent.run.hello_world" class="md-nav__link">
+  <a href="#trace_swe.cli.hello_world" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;hello_world
@@ -2151,7 +2151,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.hello_world.app" class="md-nav__link">
+  <a href="#trace_swe.cli.hello_world.app" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;app
@@ -2162,7 +2162,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#minisweagent.run.hello_world.main" class="md-nav__link">
+  <a href="#trace_swe.cli.hello_world.main" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
@@ -2207,7 +2207,7 @@
 <div class="admonition note">
 <p class="admonition-title">Hello World run script</p>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/hello_world.py">Read on GitHub</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py">Read on GitHub</a></li>
 </ul>
 <details class="note">
 <summary>Full source code</summary>
@@ -2222,10 +2222,10 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">typer</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent</span><span class="w"> </span><span class="kn">import</span> <span class="n">package_dir</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe</span><span class="w"> </span><span class="kn">import</span> <span class="n">package_dir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">()</span>
 
@@ -2234,10 +2234,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span>
     <span class="n">task</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--task"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Task/problem statement"</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_MODEL_NAME"</span><span class="p">),</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MODEL_NAME"</span><span class="p">),</span>
         <span class="s2">"-m"</span><span class="p">,</span>
         <span class="s2">"--model"</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Model name (defaults to MSWEA_MODEL_NAME env var)"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Model name (defaults to TRACE_SWE_MODEL_NAME env var)"</span><span class="p">,</span>
         <span class="n">prompt</span><span class="o">=</span><span class="s2">"What model do you want to use?"</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DefaultAgent</span><span class="p">:</span>
@@ -2262,8 +2262,8 @@
 
 
 
-<h2 id="minisweagent.run.hello_world" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">minisweagent.run.hello_world</span>
+<h2 id="trace_swe.cli.hello_world" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">trace_swe.cli.hello_world</span>
 
 
 </h2>
@@ -2294,7 +2294,7 @@ For a more complete example, see mini.py</p>
 
 
 
-<h3 id="minisweagent.run.hello_world.app" class="doc doc-heading">
+<h3 id="trace_swe.cli.hello_world.app" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">app</span>
 
 
@@ -2318,7 +2318,7 @@ For a more complete example, see mini.py</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="minisweagent.run.hello_world.main" class="doc doc-heading">
+<h3 id="trace_swe.cli.hello_world.main" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">main</span>
 
 
@@ -2333,20 +2333,20 @@ For a more complete example, see mini.py</p>
         <span class="n"><span title="typer.Option(prompt)">prompt</span></span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">=</span> <span class="n"><span title="typer.Option">Option</span></span><span class="p">(</span>
-        <span class="n"><span title="os.getenv">getenv</span></span><span class="p">(</span><span class="s2">"MSWEA_MODEL_NAME"</span><span class="p">),</span>
+        <span class="n"><span title="os.getenv">getenv</span></span><span class="p">(</span><span class="s2">"TRACE_SWE_MODEL_NAME"</span><span class="p">),</span>
         <span class="s2">"-m"</span><span class="p">,</span>
         <span class="s2">"--model"</span><span class="p">,</span>
-        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Model name (defaults to MSWEA_MODEL_NAME env var)"</span><span class="p">,</span>
+        <span class="n"><span title="typer.Option(help)">help</span></span><span class="o">=</span><span class="s2">"Model name (defaults to TRACE_SWE_MODEL_NAME env var)"</span><span class="p">,</span>
         <span class="n"><span title="typer.Option(prompt)">prompt</span></span><span class="o">=</span><span class="s2">"What model do you want to use?"</span><span class="p">,</span>
     <span class="p">),</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            minisweagent.agents.default.DefaultAgent" href="../../agents/default/#minisweagent.agents.default.DefaultAgent">DefaultAgent</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            trace_swe.agent.default.DefaultAgent" href="../../agents/default/#trace_swe.agent.default.DefaultAgent">DefaultAgent</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/minisweagent/run/hello_world.py</code></summary>
+              <summary>Source code in <code>src/trace_swe/cli/hello_world.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
@@ -2369,10 +2369,10 @@ For a more complete example, see mini.py</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span>
     <span class="n">task</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--task"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Task/problem statement"</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_MODEL_NAME"</span><span class="p">),</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MODEL_NAME"</span><span class="p">),</span>
         <span class="s2">"-m"</span><span class="p">,</span>
         <span class="s2">"--model"</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Model name (defaults to MSWEA_MODEL_NAME env var)"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Model name (defaults to TRACE_SWE_MODEL_NAME env var)"</span><span class="p">,</span>
         <span class="n">prompt</span><span class="o">=</span><span class="s2">"What model do you want to use?"</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DefaultAgent</span><span class="p">:</span>

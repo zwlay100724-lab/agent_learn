@@ -2436,7 +2436,7 @@ mini<span class="w"> </span>-c<span class="w"> </span>mini.yaml<span class="w"> 
 <p>Tool calling is the default. The CLI uses <code>mini.yaml</code> and <code>swebench.yaml</code> which are configured for tool calling.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Default (tool calling)</span>
 mini
-python<span class="w"> </span>-m<span class="w"> </span>minisweagent.run.benchmarks.swebench
+python<span class="w"> </span>-m<span class="w"> </span>trace_swe.benchmarks.swebench
 mini-extra<span class="w"> </span>swebench
 </code></pre></div>
 <p><strong>For custom configs:</strong></p>
@@ -2462,7 +2462,7 @@ However, if you use the <a href="https://platform.openai.com/docs/api-reference/
 <li><strong>"Visual" UI</strong>: The <code>-v</code> flag for the alternate, textual based <code>mini -v</code> CLI is no longer supported. This was a tough decision to make, but in the end the visual mode didn't see the adoption we wanted and is significantly more complex to maintain than the default interface.</li>
 <li><strong>Rotating API keys</strong>: <code>ANTHROPIC_API_KEYS</code> with <code>::</code> separator no longer supported. Use single <code>ANTHROPIC_API_KEY</code>.</li>
 <li><strong><code>github_issue</code> run script</strong>: The dedicated <code>github_issue.py</code> run script was removed. Use the <code>mini</code> CLI instead.</li>
-<li><strong><code>MSWEA_MODEL_API_KEY</code> environment variable</strong>: No longer used to override API keys.</li>
+<li><strong><code>TRACE_SWE_MODEL_API_KEY</code> environment variable</strong>: No longer used to override API keys.</li>
 </ul>
 <p><strong>Removed model classes:</strong></p>
 <ul>
@@ -2518,7 +2518,7 @@ Config options like <code>--config-class</code> also take full import classes, s
 <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_dicts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="exception-changes">Exception changes</h3>
-<p>All flow control exceptions now inherit from <code>InterruptAgentFlow</code> and moved to <code>minisweagent.exceptions</code>:</p>
+<p>All flow control exceptions now inherit from <code>InterruptAgentFlow</code> and moved to <code>trace_swe.exceptions</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">InterruptAgentFlow</span> <span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <span class="err">├──</span> <span class="n">Submitted</span> <span class="p">(</span><span class="n">task</span> <span class="n">completed</span><span class="p">)</span>
 <span class="err">├──</span> <span class="n">LimitsExceeded</span> <span class="p">(</span><span class="n">cost</span><span class="o">/</span><span class="n">step</span> <span class="n">limit</span><span class="p">)</span>
@@ -2532,10 +2532,10 @@ Config options like <code>--config-class</code> also take full import classes, s
 <li><code>ExecutionTimeoutError</code> - removed (no longer used)</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="c1"># Old</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span><span class="p">,</span> <span class="n">FormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span><span class="p">,</span> <span class="n">FormatError</span>
 
 <span class="c1"># New</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span><span class="p">,</span> <span class="n">FormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span><span class="p">,</span> <span class="n">FormatError</span>
 </code></pre></div>
 <h3 id="agentrun-return-value">Agent.run() return value</h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Old (v1)</span>

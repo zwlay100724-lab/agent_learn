@@ -2560,7 +2560,7 @@ accepts the submission as <code>Succeeded</code>. A failure is fed back to the m
 and percentages; success uses percentage points. Missing metrics stay <code>None</code> and render as <code>n/a</code>,
 so they are not confused with zero.</p>
 <h2 id="reproducible-experiments">Reproducible experiments</h2>
-<p><code>examples/eval_tasks/run_experiment.py</code> runs each task and variant in its own copied git repository,
+<p><code>experiments/context_tasks/run_experiment.py</code> runs each task and variant in its own copied git repository,
 scores it with an external <code>pytest</code>, and writes <code>meta.json</code> plus <code>report.json</code>. Metadata includes
 the git commit and dirty flag, model, temperature, task-set hash, command, and run count. See
 <a href="../experiments/">Context-management experiment</a>.</p>

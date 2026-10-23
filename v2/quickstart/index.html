@@ -2268,26 +2268,26 @@ pre-commit<span class="w"> </span>install
 pytest<span class="w"> </span>-q
 </code></pre></div>
 <h2 id="configure-a-model">Configure a model</h2>
-<div class="highlight"><pre><span></span><code>mini-extra<span class="w"> </span>config<span class="w"> </span>setup
+<div class="highlight"><pre><span></span><code>trace-extra<span class="w"> </span>config<span class="w"> </span>setup
 </code></pre></div>
 <p>Or set the model and key directly:</p>
-<div class="highlight"><pre><span></span><code>mini-extra<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>MSWEA_MODEL_NAME<span class="w"> </span>deepseek/deepseek-flash
-mini-extra<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>DEEPSEEK_API_KEY<span class="w"> </span>&lt;your-key&gt;
+<div class="highlight"><pre><span></span><code>trace-extra<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>TRACE_SWE_MODEL_NAME<span class="w"> </span>deepseek/deepseek-flash
+trace-extra<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>DEEPSEEK_API_KEY<span class="w"> </span>&lt;your-key&gt;
 </code></pre></div>
 <p>See <a href="../models/quickstart/">model setup</a> for LiteLLM provider details.</p>
 <h2 id="run">Run</h2>
-<div class="highlight"><pre><span></span><code>mini<span class="w"> </span>-m<span class="w"> </span>deepseek/deepseek-flash<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>trace<span class="w"> </span>-m<span class="w"> </span>deepseek/deepseek-flash<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-t<span class="w"> </span><span class="s2">"Fix the failing test in this repository"</span><span class="w"> </span>-y
 </code></pre></div>
 <p>The CLI commands are:</p>
-<div class="highlight"><pre><span></span><code>mini         # run the agent
-mini-extra   # config, inspect, events, resume, eval, swebench
+<div class="highlight"><pre><span></span><code>trace        # run the agent
+trace-extra   # config, inspect, events, resume, eval, swebench
 </code></pre></div>
 <h2 id="inspect-and-evaluate">Inspect and evaluate</h2>
-<div class="highlight"><pre><span></span><code>mini<span class="w"> </span>--agent-class<span class="w"> </span>event_log<span class="w"> </span>-o<span class="w"> </span>run.traj.json<span class="w"> </span>-t<span class="w"> </span><span class="s2">"..."</span><span class="w"> </span>-y
-mini-extra<span class="w"> </span>events<span class="w"> </span>run.traj.json
+<div class="highlight"><pre><span></span><code>trace<span class="w"> </span>--agent-class<span class="w"> </span>event_log<span class="w"> </span>-o<span class="w"> </span>run.traj.json<span class="w"> </span>-t<span class="w"> </span><span class="s2">"..."</span><span class="w"> </span>-y
+trace-extra<span class="w"> </span>events<span class="w"> </span>run.traj.json
 
-mini-extra<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>runs/<span class="w"> </span>--baseline<span class="w"> </span>baseline/
+trace-extra<span class="w"> </span><span class="nb">eval</span><span class="w"> </span>runs/<span class="w"> </span>--baseline<span class="w"> </span>baseline/
 </code></pre></div>
 <h2 id="example-prompts">Example prompts</h2>
 <ul>

@@ -2338,19 +2338,19 @@
 <p>Make sure to follow the dev setup instructions in <a href="../../quickstart/">quickstart.md</a>.</p>
 </div>
 <p>We provide several different entry points to the agent,
-for example <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/hello_world.py">hello world</a>,
-or the <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/mini.py">default when calling <code>mini</code></a>.</p>
+for example <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py">hello world</a>,
+or the <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py">default when calling <code>mini</code></a>.</p>
 <p>Want to cook up your custom version and the config is not enough?
 Just follow the recipe below:</p>
 <ol>
-<li>What's the control flow you need? Pick an <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/agents">agent class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/agents/default.py">simplest example</a>, <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/agents/interactive.py">with human in the loop</a>)</li>
-<li>How should actions be executed? Pick an <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/environments">environment class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/environments/local.py">local</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/environments/docker.py">docker</a>)</li>
-<li>How is the LM queried? Pick a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/models">model class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/models/litellm_model.py">litellm</a>)</li>
-<li>How to invoke the agent? Bind them all together in a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run">run script</a>, possibly reading from a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/config">config</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/hello_world.py">hello world</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/mini.py"><code>mini</code> entry point</a>)</li>
+<li>What's the control flow you need? Pick an <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent">agent class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/default.py">simplest example</a>, <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/interactive.py">with human in the loop</a>)</li>
+<li>How should actions be executed? Pick an <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution">environment class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution/local.py">local</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution/docker.py">docker</a>)</li>
+<li>How is the LM queried? Pick a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm">model class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm/litellm_model.py">litellm</a>)</li>
+<li>How to invoke the agent? Bind them all together in a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli">run script</a>, possibly reading from a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config">config</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py">hello world</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py"><code>mini</code> entry point</a>)</li>
 </ol>
 <p>We aim to keep all of these components very simple, but offer lots of choice between them -- enough to cover a broad range of
 things that you might want to do.</p>
-<p>You can override the default entry point by setting the <code>MSWEA_DEFAULT_RUN</code> environment variable to the import path of your run script.</p>
+<p>You can override the default entry point by setting the <code>TRACE_SWE_DEFAULT_RUN</code> environment variable to the import path of your run script.</p>
 <h2 id="hello-world">Hello world</h2>
 <p>See <a href="../../usage/python_bindings/">Python bindings</a> for the most basic example.</p>
 <h2 id="mix-match">Mix &amp; match</h2>
@@ -2358,9 +2358,9 @@ things that you might want to do.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Hello world (use automatic model selection)</label><label for="__tabbed_1_2">Hello world (Litellm)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
 
 <span class="n">model_name</span> <span class="o">=</span> <span class="s2">"anthropic/claude-sonnet-4-5-20250929"</span>
 
@@ -2372,9 +2372,9 @@ things that you might want to do.</p>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
 
 <span class="n">model_name</span> <span class="o">=</span> <span class="s2">"gpt-4o"</span>
 
@@ -2391,7 +2391,7 @@ things that you might want to do.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Hello world with local execution</label><label for="__tabbed_2_2">Hello world with docker execution</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
 
 <span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
     <span class="n">LitellmModel</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">),</span>
@@ -2400,7 +2400,7 @@ things that you might want to do.</p>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.docker</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockerEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.docker</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockerEnvironment</span>
 
 <span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
     <span class="n">LitellmModel</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">),</span>
@@ -2414,9 +2414,9 @@ things that you might want to do.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">Default agent</label><label for="__tabbed_3_2">Human in the loop</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
 
 <span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
     <span class="n">get_model</span><span class="p">(</span><span class="n">input_model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">),</span>
@@ -2425,9 +2425,9 @@ things that you might want to do.</p>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.interactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">InteractiveAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.interactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">InteractiveAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
 
 <span class="n">agent</span> <span class="o">=</span> <span class="n">InteractiveAgent</span><span class="p">(</span>
     <span class="n">get_model</span><span class="p">(</span><span class="n">input_model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">),</span>
@@ -2443,7 +2443,7 @@ things that you might want to do.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="__tabbed_4_1">Subclassing the agent</label><label for="__tabbed_4_2">Subclassing the environment</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shlex</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">python_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -2464,8 +2464,8 @@ things that you might want to do.</p>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shlex</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">python_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -2493,8 +2493,8 @@ things that you might want to do.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio"><input id="__tabbed_5_2" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="__tabbed_5_1">Subclassing the agent</label><label for="__tabbed_5_2">Subclassing the environment</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">AgentQuitsOnSubmit</span><span class="p">(</span><span class="n">DefaultAgent</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
@@ -2511,9 +2511,9 @@ things that you might want to do.</p>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">EnvironmentQuitsOnSubmit</span><span class="p">(</span><span class="n">LocalEnvironment</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cwd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -2538,8 +2538,8 @@ things that you might want to do.</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span><span class="p">,</span> <span class="n">AgentConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span><span class="p">,</span> <span class="n">AgentConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ValidatingAgentConfig</span><span class="p">(</span><span class="n">AgentConfig</span><span class="p">):</span>
@@ -2566,9 +2566,9 @@ things that you might want to do.</p>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.agents.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.environments.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span><span class="p">,</span> <span class="n">LocalEnvironmentConfig</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultAgent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.execution.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalEnvironment</span><span class="p">,</span> <span class="n">LocalEnvironmentConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">EnvironmentWithForbiddenPatternsConfig</span><span class="p">(</span><span class="n">LocalEnvironmentConfig</span><span class="p">):</span>
     <span class="n">forbidden_patterns</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>

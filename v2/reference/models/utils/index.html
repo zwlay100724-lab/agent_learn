@@ -1690,7 +1690,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#minisweagent.models.get_model" class="md-nav__link">
+  <a href="#trace_swe.llm.get_model" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_model
@@ -1701,7 +1701,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#minisweagent.models.get_model_name" class="md-nav__link">
+  <a href="#trace_swe.llm.get_model_name" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_model_name
@@ -1712,7 +1712,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#minisweagent.models.get_model_class" class="md-nav__link">
+  <a href="#trace_swe.llm.get_model_class" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_model_class
@@ -2133,7 +2133,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#minisweagent.models.get_model" class="md-nav__link">
+  <a href="#trace_swe.llm.get_model" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_model
@@ -2144,7 +2144,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#minisweagent.models.get_model_name" class="md-nav__link">
+  <a href="#trace_swe.llm.get_model_name" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_model_name
@@ -2155,7 +2155,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#minisweagent.models.get_model_class" class="md-nav__link">
+  <a href="#trace_swe.llm.get_model_class" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_model_class
@@ -2195,7 +2195,7 @@
 <div class="admonition note">
 <p class="admonition-title">Model Utilities</p>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/models/__init__.py">Read on GitHub</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm/__init__.py">Read on GitHub</a></li>
 </ul>
 <details class="note">
 <summary>Full source code</summary>
@@ -2208,7 +2208,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">GlobalModelStats</span><span class="p">:</span>
@@ -2218,9 +2218,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cost</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_calls</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cost_limit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_GLOBAL_COST_LIMIT"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">call_limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_GLOBAL_CALL_LIMIT"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_limit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_SILENT_STARTUP"</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost_limit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_GLOBAL_COST_LIMIT"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_limit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_GLOBAL_CALL_LIMIT"</span><span class="p">,</span> <span class="s2">"0"</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_limit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_SILENT_STARTUP"</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Global cost/call limit: $</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_limit</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">call_limit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cost</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2271,14 +2271,14 @@
         <span class="k">return</span> <span class="n">input_model_name</span>
     <span class="k">if</span> <span class="n">from_config</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_name"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">from_config</span>
-    <span class="k">if</span> <span class="n">from_env</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_MODEL_NAME"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">from_env</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MODEL_NAME"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">from_env</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No default model set. Please run `mini-extra config setup` to set one."</span><span class="p">)</span>
 
 
 <span class="n">_MODEL_CLASS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"litellm"</span><span class="p">:</span> <span class="s2">"minisweagent.models.litellm_model.LitellmModel"</span><span class="p">,</span>
-    <span class="s2">"deterministic"</span><span class="p">:</span> <span class="s2">"minisweagent.models.test_models.DeterministicModel"</span><span class="p">,</span>
+    <span class="s2">"litellm"</span><span class="p">:</span> <span class="s2">"trace_swe.llm.litellm_model.LitellmModel"</span><span class="p">,</span>
+    <span class="s2">"deterministic"</span><span class="p">:</span> <span class="s2">"trace_swe.llm.test_models.DeterministicModel"</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -2286,7 +2286,7 @@
 <span class="w">    </span><span class="sd">"""Select the best model class.</span>
 
 <span class="sd">    If a model_class is provided (as shortcut name, or as full import path,</span>
-<span class="sd">    e.g., "anthropic" or "minisweagent.models.anthropic.AnthropicModel"),</span>
+<span class="sd">    e.g., "anthropic" or "trace_swe.llm.anthropic.AnthropicModel"),</span>
 <span class="sd">    it takes precedence over the `model_name`.</span>
 <span class="sd">    Otherwise, the model_name is used to select the best model class.</span>
 <span class="sd">    """</span>
@@ -2301,7 +2301,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="c1"># Default to LitellmModel</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
 
     <span class="k">return</span> <span class="n">LitellmModel</span>
 </code></pre></div>
@@ -2313,15 +2313,15 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="minisweagent.models.get_model" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">minisweagent.models.get_model</span>
+<h2 id="trace_swe.llm.get_model" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">trace_swe.llm.get_model</span>
 
 
 </h2>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_model</span><span class="p">(</span>
     <span class="n">input_model_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">config</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="minisweagent.Model">Model</span></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="trace_swe.Model">Model</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -2330,7 +2330,7 @@
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/minisweagent/models/__init__.py</code></summary>
+              <summary>Source code in <code>src/trace_swe/llm/__init__.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
@@ -2375,8 +2375,8 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="minisweagent.models.get_model_name" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">minisweagent.models.get_model_name</span>
+<h2 id="trace_swe.llm.get_model_name" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">trace_swe.llm.get_model_name</span>
 
 
 </h2>
@@ -2392,7 +2392,7 @@
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/minisweagent/models/__init__.py</code></summary>
+              <summary>Source code in <code>src/trace_swe/llm/__init__.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
@@ -2411,7 +2411,7 @@
         <span class="k">return</span> <span class="n">input_model_name</span>
     <span class="k">if</span> <span class="n">from_config</span> <span class="o">:=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_name"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">from_config</span>
-    <span class="k">if</span> <span class="n">from_env</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"MSWEA_MODEL_NAME"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">from_env</span> <span class="o">:=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MODEL_NAME"</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">from_env</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No default model set. Please run `mini-extra config setup` to set one."</span><span class="p">)</span>
 </code></pre></div></td></tr></tbody></table></div>
@@ -2423,8 +2423,8 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="minisweagent.models.get_model_class" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">minisweagent.models.get_model_class</span>
+<h2 id="trace_swe.llm.get_model_class" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">trace_swe.llm.get_model_class</span>
 
 
 </h2>
@@ -2437,13 +2437,13 @@
 
         <p>Select the best model class.</p>
 <p>If a model_class is provided (as shortcut name, or as full import path,
-e.g., "anthropic" or "minisweagent.models.anthropic.AnthropicModel"),
+e.g., "anthropic" or "trace_swe.llm.anthropic.AnthropicModel"),
 it takes precedence over the <code>model_name</code>.
 Otherwise, the model_name is used to select the best model class.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>src/minisweagent/models/__init__.py</code></summary>
+              <summary>Source code in <code>src/trace_swe/llm/__init__.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 84</span>
 <span class="normal"> 85</span>
 <span class="normal"> 86</span>
@@ -2469,7 +2469,7 @@ Otherwise, the model_name is used to select the best model class.</p>
 <span class="w">    </span><span class="sd">"""Select the best model class.</span>
 
 <span class="sd">    If a model_class is provided (as shortcut name, or as full import path,</span>
-<span class="sd">    e.g., "anthropic" or "minisweagent.models.anthropic.AnthropicModel"),</span>
+<span class="sd">    e.g., "anthropic" or "trace_swe.llm.anthropic.AnthropicModel"),</span>
 <span class="sd">    it takes precedence over the `model_name`.</span>
 <span class="sd">    Otherwise, the model_name is used to select the best model class.</span>
 <span class="sd">    """</span>
@@ -2484,7 +2484,7 @@ Otherwise, the model_name is used to select the best model class.</p>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="c1"># Default to LitellmModel</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">minisweagent.models.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm.litellm_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LitellmModel</span>
 
     <span class="k">return</span> <span class="n">LitellmModel</span>
 </code></pre></div></td></tr></tbody></table></div>
