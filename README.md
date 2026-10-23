@@ -145,14 +145,15 @@ This build keeps one path per capability:
 ## Project layout
 
 ```text
-src/trace_swe/agent/       agent loop, event log, context, resume, verification
-src/trace_swe/execution/ local and docker execution
-src/trace_swe/llm/       LiteLLM tool-calling model
-src/trace_swe/cli/          trace, trace-extra, SWE-bench
+src/trace_swe/agent/        agent loop, event log, context, resume, verification
+src/trace_swe/execution/    local and docker execution
+src/trace_swe/llm/          LiteLLM tool-calling model
+src/trace_swe/cli/          trace, trace-extra
+src/trace_swe/benchmarks/   SWE-bench batch runner
 src/trace_swe/infra/        event log, output store, workspace fingerprint
-experiments/context_tasks/           reproducible context experiment
-docs/                          usage, architecture, experiment results
-tests/                         test suite
+experiments/context_tasks/  reproducible context experiment
+docs/                       usage, architecture, experiment results
+tests/                      test suite
 ```
 
 ## Testing

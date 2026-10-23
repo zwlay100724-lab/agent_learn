@@ -53,6 +53,6 @@ trace -m deepseek/deepseek-flash \
 
 ## License
 
-MIT. See [LICENSE.md](LICENSE.md) for the copyright notice.
+MIT. See [LICENSE.md](https://github.com/zwlay100724-lab/trace-swe/blob/main/LICENSE.md) for the copyright notice.
 
 {% include-markdown "_footer.md" %}

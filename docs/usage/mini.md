@@ -2,7 +2,7 @@
 
 !!! abstract "Overview"
 
-    * `mini` is a REPL-style interactive command line interface for using mini-SWE-agent in the local environment (as opposed to workflows that require sandboxing or large scale batch processing).
+    * `mini` and `trace` are REPL-style interactive command line interfaces for using trace-swe in the local environment (as opposed to workflows that require sandboxing or large scale batch processing).
 
 <figure markdown="span">
   <div class="gif-container gif-container-styled" data-glightbox-disabled>

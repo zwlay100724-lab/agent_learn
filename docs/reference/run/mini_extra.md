@@ -10,7 +10,7 @@
         --8<-- "src/trace_swe/cli/commands/mini_extra.py"
         ```
 
-Central entry point for all extra commands from mini-swe-agent.
+Central entry point for all extra commands from trace-swe.
 
 ::: trace_swe.cli.commands.mini_extra
 
