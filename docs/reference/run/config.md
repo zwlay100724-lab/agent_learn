@@ -2,7 +2,7 @@
 
 !!! note "Global Config Manager"
 
-    - [Read on GitHub](https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/run/utilities/config.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/utilities/config.py)
 
     ??? note "Full source code"
 

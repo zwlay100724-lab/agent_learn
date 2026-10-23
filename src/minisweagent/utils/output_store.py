@@ -21,7 +21,7 @@ class OutputStore:
             data = text.encode("utf-8", errors="replace")
             if len(data) > self.max_bytes:
                 text = data[: self.max_bytes].decode("utf-8", errors="replace")
-                text += f"\n\n[mini-swe-agent: output truncated at {self.max_bytes} bytes]\n"
+                text += f"\n\n[trace-swe: output truncated at {self.max_bytes} bytes]\n"
             path.write_text(text, encoding="utf-8")
         except OSError as e:
             logger.warning(f"Could not store output at '{path}': {e}")

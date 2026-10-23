@@ -55,7 +55,7 @@ For more configuration options, see [global configuration](../advanced/global_co
 
 ??? note "Run script"
 
-    - [Read on GitHub](https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/run/utilities/config.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/run/utilities/config.py)
     - [API reference](../reference/run/config.md)
 
     ```python

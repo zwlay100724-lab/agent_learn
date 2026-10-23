@@ -1,4 +1,4 @@
-"""This is the simplest possible example of how to use mini-SWE-agent with python bindings.
+"""This is the simplest possible example of how to use trace-swe with python bindings.
 For a more complete example, see mini.py
 """
 

@@ -26,7 +26,7 @@ subcommands = [
 
 def get_docstring() -> str:
     lines = [
-        "This is the [yellow]central entry point for all extra commands[/yellow] from mini-swe-agent.",
+        "This is the [yellow]central entry point for all extra commands[/yellow] from trace-swe.",
         "",
         "Available sub-commands:",
         "",

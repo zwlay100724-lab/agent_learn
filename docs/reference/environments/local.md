@@ -2,7 +2,7 @@
 
 !!! note "Local Environment class"
 
-    - [Read on GitHub](https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/environments/local.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/environments/local.py)
 
     ??? note "Full source code"
 

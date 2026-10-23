@@ -65,7 +65,7 @@ If this is not enough, our model class should be simple to modify:
 
 ??? note "Complete model class"
 
-    - [Read on GitHub](https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/models/litellm_model.py)
+    - [Read on GitHub](https://github.com/zwlay100724-lab/trace-swe/blob/main/src/minisweagent/models/litellm_model.py)
     - [API reference](../reference/models/litellm.md)
 
     ```python

@@ -1,5 +1,5 @@
-site_name: mini-SWE-agent documentation
-site_url: https://mini-swe-agent.com
+site_name: trace-swe documentation
+site_url: https://zwlay100724-lab.github.io/trace-swe/
 theme:
   name: material
   icon:
@@ -105,8 +105,6 @@ nav:
       - "Config": "reference/run/config.md"
       - "Inspector": "reference/run/inspector.md"
       - "SWE-bench (batch)": "reference/run/swebench.md"
-  - Blog: https://www.swebench.com/blog.html
-  - Leaderboard: https://swebench.com
 plugins:
   - redirects:
       redirect_maps:
@@ -140,8 +138,8 @@ plugins:
               - "!^_"
               - "!^model_config"
               - "!^model_post_init"
-repo_url: https://github.com/SWE-agent/mini-SWE-agent
-repo_name: SWE-agent/mini-SWE-agent
+repo_url: https://github.com/zwlay100724-lab/trace-swe
+repo_name: zwlay100724-lab/trace-swe
 edit_uri: edit/main/docs/
 extra_javascript:
   - assets/js/sh-annotation.js

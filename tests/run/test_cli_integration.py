@@ -310,7 +310,7 @@ def test_mini_help():
     assert result.returncode == 0
     # Strip ANSI color codes for reliable text matching
     clean_output = strip_ansi_codes(result.stdout)
-    assert "Run mini-SWE-agent in your local environment." in clean_output
+    assert "Run trace-swe in your local environment." in clean_output
     assert "--help" in clean_output
     assert "--config" in clean_output
     assert "--model" in clean_output
@@ -329,7 +329,7 @@ def test_mini_help_with_typer_runner():
     assert result.exit_code == 0
     # Strip ANSI color codes for reliable text matching
     clean_output = strip_ansi_codes(result.stdout)
-    assert "Run mini-SWE-agent in your local environment." in clean_output
+    assert "Run trace-swe in your local environment." in clean_output
     assert "--help" in clean_output
     assert "--config" in clean_output
     assert "--model" in clean_output
@@ -348,7 +348,7 @@ def test_python_m_minisweagent_help():
     )
 
     assert result.returncode == 0
-    assert "mini-SWE-agent" in result.stdout
+    assert "trace-swe" in result.stdout
 
 
 def test_mini_script_help():
@@ -361,7 +361,7 @@ def test_mini_script_help():
     )
 
     assert result.returncode == 0
-    assert "mini-SWE-agent" in result.stdout
+    assert "trace-swe" in result.stdout
 
 
 def test_mini_swe_agent_help():
@@ -375,7 +375,7 @@ def test_mini_swe_agent_help():
 
     assert result.returncode == 0
     clean_output = strip_ansi_codes(result.stdout)
-    assert "mini-SWE-agent" in clean_output
+    assert "trace-swe" in clean_output
 
 
 def test_mini_extra_help():

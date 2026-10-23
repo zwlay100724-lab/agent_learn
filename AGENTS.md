@@ -1,6 +1,6 @@
-# mini-SWE-agent overview
+# trace-swe overview
 
-- mini-SWE-agent implements an AI software engineering agent that solves github issues and similar programming challenges
+- trace-swe implements an AI software engineering agent that solves GitHub issues and similar programming challenges
 - The idea of this project is to write the simplest, smallest, most readable agent.
 
 The project is structured as

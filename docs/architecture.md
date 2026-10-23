@@ -1,6 +1,6 @@
 # Architecture
 
-This fork keeps the minimal `DefaultAgent` loop and adds observability, context management,
+trace-swe keeps the minimal `DefaultAgent` loop and adds observability, context management,
 resume, verification, and evaluation as layers on top. The shared substrate is an append-only
 event log.
 
