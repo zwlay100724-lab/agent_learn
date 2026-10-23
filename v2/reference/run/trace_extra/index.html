@@ -5,31 +5,31 @@
       
       
       
-        <link rel="canonical" href="https://zwlay100724-lab.github.io/trace-swe/latest/advanced/v2_migration/">
+        <link rel="canonical" href="https://zwlay100724-lab.github.io/trace-swe/latest/reference/run/trace_extra/">
       
       
-        <link rel="prev" href="../environments/">
+        <link rel="prev" href="../trace/">
       
       
-        <link rel="next" href="../../faq/">
+        <link rel="next" href="../config/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/mini_square.svg">
+      <link rel="icon" href="../../../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
-        <title>v2 migration guide - trace-swe documentation</title>
+        <title>trace-extra - trace-swe documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -54,23 +54,23 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../assets/custom.css">
+      <link rel="stylesheet" href="../../../assets/custom.css">
     
-      <link rel="stylesheet" href="../../assets/gif-controls.css">
+      <link rel="stylesheet" href="../../../assets/gif-controls.css">
     
-      <link rel="stylesheet" href="../../assets/mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../assets/image_theme.css">
+      <link rel="stylesheet" href="../../../assets/image_theme.css">
     
-      <link rel="stylesheet" href="../../assets/bubbles.css">
+      <link rel="stylesheet" href="../../../assets/bubbles.css">
     
-      <link rel="stylesheet" href="../../assets/navigation_cards.css">
+      <link rel="stylesheet" href="../../../assets/navigation_cards.css">
     
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -86,7 +86,7 @@
 
     
     
-  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -115,7 +115,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#v20-migration-guide" class="md-skip">
+        <a href="#trace-extra" class="md-skip">
           Skip to content
         </a>
       
@@ -135,9 +135,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
+    <a href="../../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -154,7 +154,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              v2 migration guide
+              trace-extra
             
           </span>
         </div>
@@ -267,13 +267,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../.." class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../.." class="md-tabs__link">
           
   
   
@@ -291,11 +289,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../reference/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -337,9 +337,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
+    <a href="../../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -363,8 +363,6 @@
       
   
   
-    
-  
   
   
     
@@ -392,21 +390,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../.." class="md-nav__link ">
+            <a href="../../.." class="md-nav__link ">
               
   
   
@@ -424,13 +419,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -450,7 +445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../quickstart/" class="md-nav__link">
+      <a href="../../../quickstart/" class="md-nav__link">
         
   
   
@@ -540,14 +535,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/mini/" class="md-nav__link">
+      <a href="../../../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -568,7 +563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/config/" class="md-nav__link">
+      <a href="../../../usage/config/" class="md-nav__link">
         
   
   
@@ -596,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/swebench/" class="md-nav__link">
+      <a href="../../../usage/swebench/" class="md-nav__link">
         
   
   
@@ -624,7 +619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/inspector/" class="md-nav__link">
+      <a href="../../../usage/inspector/" class="md-nav__link">
         
   
   
@@ -652,7 +647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/output_files/" class="md-nav__link">
+      <a href="../../../usage/output_files/" class="md-nav__link">
         
   
   
@@ -746,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/quickstart/" class="md-nav__link">
+      <a href="../../../models/quickstart/" class="md-nav__link">
         
   
   
@@ -774,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/local_models/" class="md-nav__link">
+      <a href="../../../models/local_models/" class="md-nav__link">
         
   
   
@@ -802,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/troubleshooting/" class="md-nav__link">
+      <a href="../../../models/troubleshooting/" class="md-nav__link">
         
   
   
@@ -894,7 +889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../global_configuration/" class="md-nav__link">
+      <a href="../../../advanced/global_configuration/" class="md-nav__link">
         
   
   
@@ -922,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../yaml_configuration/" class="md-nav__link">
+      <a href="../../../advanced/yaml_configuration/" class="md-nav__link">
         
   
   
@@ -955,14 +950,10 @@
                 
   
   
-    
   
   
-  
     
     
-      
-        
       
         
       
@@ -983,11 +974,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6">
         
           
           <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
@@ -1008,7 +999,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1026,7 +1017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/python_bindings/" class="md-nav__link">
+      <a href="../../../usage/python_bindings/" class="md-nav__link">
         
   
   
@@ -1054,7 +1045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../control_flow/" class="md-nav__link">
+      <a href="../../../advanced/control_flow/" class="md-nav__link">
         
   
   
@@ -1082,7 +1073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/" class="md-nav__link">
+      <a href="../../../architecture/" class="md-nav__link">
         
   
   
@@ -1110,7 +1101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../experiments/" class="md-nav__link">
+      <a href="../../../experiments/" class="md-nav__link">
         
   
   
@@ -1138,7 +1129,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cookbook/" class="md-nav__link">
+      <a href="../../../advanced/cookbook/" class="md-nav__link">
         
   
   
@@ -1166,7 +1157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../environments/" class="md-nav__link">
+      <a href="../../../advanced/environments/" class="md-nav__link">
         
   
   
@@ -1187,197 +1178,6 @@
 
               
             
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#whats-new" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What's new
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-do-i-need-to-change" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What do I need to change?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#config-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Config changes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tool-calling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tool calling
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trajectory-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Trajectory format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#removed-renamed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Removed &amp; renamed
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture changes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Architecture changes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#protocol-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Protocol changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exception-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exception changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#agentrun-return-value" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Agent.run() return value
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1393,7 +1193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../faq/" class="md-nav__link">
+      <a href="../../../faq/" class="md-nav__link">
         
   
   
@@ -1421,7 +1221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/" class="md-nav__link">
+      <a href="../../../contributing/" class="md-nav__link">
         
   
   
@@ -1453,6 +1253,8 @@
       
   
   
+    
+  
   
   
     
@@ -1474,18 +1276,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../reference/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -1503,13 +1308,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1585,7 +1390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/agents/default/" class="md-nav__link">
+      <a href="../../agents/default/" class="md-nav__link">
         
   
   
@@ -1613,7 +1418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/agents/interactive/" class="md-nav__link">
+      <a href="../../agents/interactive/" class="md-nav__link">
         
   
   
@@ -1709,7 +1514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/models/overview/" class="md-nav__link">
+      <a href="../../models/overview/" class="md-nav__link">
         
   
   
@@ -1737,7 +1542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/models/litellm/" class="md-nav__link">
+      <a href="../../models/litellm/" class="md-nav__link">
         
   
   
@@ -1765,7 +1570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/models/test_models/" class="md-nav__link">
+      <a href="../../models/test_models/" class="md-nav__link">
         
   
   
@@ -1793,7 +1598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/models/utils/" class="md-nav__link">
+      <a href="../../models/utils/" class="md-nav__link">
         
   
   
@@ -1885,7 +1690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/environments/local/" class="md-nav__link">
+      <a href="../../environments/local/" class="md-nav__link">
         
   
   
@@ -1913,7 +1718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/environments/docker/" class="md-nav__link">
+      <a href="../../environments/docker/" class="md-nav__link">
         
   
   
@@ -1946,8 +1751,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1970,11 +1777,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked="">
         
           
           <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
@@ -1995,7 +1802,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2013,7 +1820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/hello_world/" class="md-nav__link">
+      <a href="../hello_world/" class="md-nav__link">
         
   
   
@@ -2041,14 +1848,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini/" class="md-nav__link">
+      <a href="../trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -2066,17 +1873,44 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../reference/run/mini_extra/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    trace-extra
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2085,6 +1919,76 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#trace_swe.cli.commands.trace_extra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;trace_extra
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="&nbsp;trace_extra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trace_swe.cli.commands.trace_extra.subcommands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;subcommands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trace_swe.cli.commands.trace_extra.get_docstring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_docstring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trace_swe.cli.commands.trace_extra.main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2097,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/config/" class="md-nav__link">
+      <a href="../config/" class="md-nav__link">
         
   
   
@@ -2125,7 +2029,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/inspector/" class="md-nav__link">
+      <a href="../inspector/" class="md-nav__link">
         
   
   
@@ -2153,7 +2057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/swebench/" class="md-nav__link">
+      <a href="../swebench/" class="md-nav__link">
         
   
   
@@ -2216,88 +2120,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#whats-new" class="md-nav__link">
+  <a href="#trace_swe.cli.commands.trace_extra" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What's new
+        <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;trace_extra
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-do-i-need-to-change" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What do I need to change?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#config-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Config changes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tool-calling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tool calling
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trajectory-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Trajectory format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#removed-renamed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Removed &amp; renamed
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture changes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Architecture changes">
+    <nav class="md-nav" aria-label="&nbsp;trace_extra">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#protocol-changes" class="md-nav__link">
+  <a href="#trace_swe.cli.commands.trace_extra.subcommands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Protocol changes
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;subcommands
       
     </span>
   </a>
@@ -2305,10 +2143,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#exception-changes" class="md-nav__link">
+  <a href="#trace_swe.cli.commands.trace_extra.get_docstring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exception changes
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;get_docstring
       
     </span>
   </a>
@@ -2316,10 +2154,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#agentrun-return-value" class="md-nav__link">
+  <a href="#trace_swe.cli.commands.trace_extra.main" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Agent.run() return value
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;main
       
     </span>
   </a>
@@ -2349,7 +2187,7 @@
 
 
   
-    <a href="https://github.com/zwlay100724-lab/trace-swe/edit/main/docs/advanced/v2_migration.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/zwlay100724-lab/trace-swe/edit/main/docs/reference/run/trace_extra.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -2357,196 +2195,276 @@
   
 
 
-<h1 id="v20-migration-guide">v2.0 Migration Guide</h1>
-<div class="admonition danger">
-<p class="admonition-title">Breaking Changes</p>
-<p><strong>mini-swe-agent v2.0</strong> brings major improvements but requires migration.
-To stay with v1.x, pin your dependency: <code>mini-swe-agent~=1.0</code>.
-See the <a href="https://mini-swe-agent.com/v1/">v1 documentation</a> or the <a href="https://github.com/SWE-agent/mini-swe-agent/tree/v1">v1 branch on GitHub</a>.</p>
+<h1 id="trace-extra">trace-extra</h1>
+<div class="admonition note">
+<p class="admonition-title">trace-extra CLI</p>
+<ul>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/commands/trace_extra.py">Read on GitHub</a></li>
+</ul>
+<details class="note">
+<summary>Full source code</summary>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">"""This is the central entry point to the mini-extra script. Use subcommands</span>
+<span class="sd">to invoke other command line utilities like running on benchmarks, editing config,</span>
+<span class="sd">inspecting trajectories, etc.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_module</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span>
+
+<span class="n">subcommands</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"trace_swe.cli.commands.config"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"config"</span><span class="p">],</span> <span class="s2">"Manage the global config file"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"trace_swe.cli.commands.inspector"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"inspect"</span><span class="p">,</span> <span class="s2">"i"</span><span class="p">,</span> <span class="s2">"inspector"</span><span class="p">],</span> <span class="s2">"Run inspector (browse trajectories)"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"trace_swe.cli.commands.events"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"events"</span><span class="p">],</span> <span class="s2">"Summarize an event log (timings, retries, cost, failures)"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"trace_swe.cli.commands.resume"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"resume"</span><span class="p">],</span> <span class="s2">"Resume an interrupted run from its trajectory"</span><span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.cli.commands.eval"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"eval"</span><span class="p">],</span>
+        <span class="s2">"Evaluate saved trajectories offline (aggregate metrics, compare baseline)"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span><span class="s2">"trace_swe.benchmarks.swebench"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"swebench"</span><span class="p">],</span> <span class="s2">"Evaluate on SWE-bench (batch mode)"</span><span class="p">),</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_docstring</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"This is the [yellow]central entry point for all extra commands[/yellow] from trace-swe."</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
+        <span class="s2">"Available sub-commands:"</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">subcommands</span><span class="p">:</span>
+        <span class="n">alias_text</span> <span class="o">=</span> <span class="s2">" or "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[bold green]</span><span class="si">{</span><span class="n">alias</span><span class="si">}</span><span class="s2">[/bold green]"</span> <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">alias_text</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"-h"</span><span class="p">,</span> <span class="s2">"--help"</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">Console</span><span class="p">()</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">get_docstring</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">module_path</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">subcommands</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span><span class="o">.</span><span class="n">app</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">prog_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"mini-extra </span><span class="si">{</span><span class="n">aliases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Console</span><span class="p">()</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">get_docstring</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</details>
 </div>
-<h2 id="whats-new">What's new</h2>
-<ul>
-<li><strong>Tool calls</strong>: Native tool calling API support (now the default)</li>
-<li><strong>Multimodal input</strong>: Support for images and other content types</li>
-</ul>
-<h2 id="what-do-i-need-to-change">What do I need to change?</h2>
-<blockquote>
-<p>I only use the mini CLI with default configs</p>
-</blockquote>
-<p>No changes needed.</p>
-<blockquote>
-<p>I use custom configs</p>
-</blockquote>
-<p>You might need to move some config keys. See <a href="#config-changes">Config changes</a>.</p>
-<blockquote>
-<p>I parse/analyze trajectories</p>
-</blockquote>
-<p>Some metadata fields moved to <code>extra</code>. See <a href="#trajectory-format">Trajectory format</a>.</p>
-<blockquote>
-<p>I use the python bindings or built custom subclasses</p>
-</blockquote>
-<p>You will need to refactor. An agent can refactor your code based on the instructions below.</p>
-<h2 id="config-changes">Config changes</h2>
-<p>If you only changed <code>system_template</code> and <code>instance_template</code>, no changes needed.</p>
-<p><strong>Move from <code>agent</code> to <code>model</code>:</strong></p>
-<ul>
-<li><code>observation_template</code> (renamed from <code>action_observation_template</code>)</li>
-<li><code>format_error_template</code></li>
-<li><code>action_regex</code> (only for text-based parsing)</li>
-</ul>
-<p><strong>Removed:</strong></p>
-<ul>
-<li><code>timeout_template</code></li>
-</ul>
-<p><strong>Code block format changed:</strong></p>
-<p>Default action regex changed from <code>```bash</code> to <code>```mswea_bash_command</code> to avoid conflicts with bash examples in prompts.</p>
-<p><strong>Completion signal changed:</strong></p>
-<p>From <code>echo MINI_SWE_AGENT_FINAL_OUTPUT</code> to <code>echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT</code>.</p>
-<p><strong>New structure:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nt">agent</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">system_template</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
-<span class="w">  </span><span class="nt">instance_template</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
-<span class="w">  </span><span class="nt">step_limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-<span class="w">  </span><span class="nt">cost_limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.</span>
-<span class="nt">environment</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">cwd</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
-<span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
-<span class="nt">model</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
-<span class="w">  </span><span class="nt">observation_template</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
-<span class="w">  </span><span class="nt">format_error_template</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
+<p>Central entry point for all extra commands from trace-swe.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="trace_swe.cli.commands.trace_extra" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">trace_swe.cli.commands.trace_extra</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>This is the central entry point to the mini-extra script. Use subcommands
+to invoke other command line utilities like running on benchmarks, editing config,
+inspecting trajectories, etc.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="trace_swe.cli.commands.trace_extra.subcommands" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">subcommands</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">subcommands</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.cli.commands.config"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"config"</span><span class="p">],</span>
+        <span class="s2">"Manage the global config file"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.cli.commands.inspector"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"inspect"</span><span class="p">,</span> <span class="s2">"i"</span><span class="p">,</span> <span class="s2">"inspector"</span><span class="p">],</span>
+        <span class="s2">"Run inspector (browse trajectories)"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.cli.commands.events"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"events"</span><span class="p">],</span>
+        <span class="s2">"Summarize an event log (timings, retries, cost, failures)"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.cli.commands.resume"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"resume"</span><span class="p">],</span>
+        <span class="s2">"Resume an interrupted run from its trajectory"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.cli.commands.eval"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"eval"</span><span class="p">],</span>
+        <span class="s2">"Evaluate saved trajectories offline (aggregate metrics, compare baseline)"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"trace_swe.benchmarks.swebench"</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">"swebench"</span><span class="p">],</span>
+        <span class="s2">"Evaluate on SWE-bench (batch mode)"</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">]</span>
 </code></pre></div>
-<p><strong>CLI now supports multiple configs and key-value overrides:</strong></p>
-<div class="highlight"><pre><span></span><code>mini<span class="w"> </span>-c<span class="w"> </span>mini.yaml<span class="w"> </span>-c<span class="w"> </span>model.model_kwargs.temperature<span class="o">=</span><span class="m">0</span>.5
-mini<span class="w"> </span>-c<span class="w"> </span>swebench.yaml<span class="w"> </span>-c<span class="w"> </span>agent.step_limit<span class="o">=</span><span class="m">100</span>
-mini<span class="w"> </span>-c<span class="w"> </span>mini.yaml<span class="w"> </span>-c<span class="w"> </span>/path/to/model.yaml
-</code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If you use <code>-c</code>, you will not load the full default config, so make sure to always specify your config file in addition to any overrides/updates.</p>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
 </div>
-<h2 id="tool-calling">Tool calling</h2>
-<p>v2.0 uses native tool calling by default (instead of regex-based text parsing).</p>
-<p><strong>What's the difference?</strong></p>
-<ul>
-<li>Tool calling (default): Model uses native tool calling API to invoke a "bash" tool</li>
-<li>Text-based (legacy): Model outputs commands in markdown code blocks (or similar), regex extracts them</li>
-</ul>
-<p><strong>How to use it:</strong></p>
-<p>Tool calling is the default. The CLI uses <code>mini.yaml</code> and <code>swebench.yaml</code> which are configured for tool calling.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Default (tool calling)</span>
-mini
-python<span class="w"> </span>-m<span class="w"> </span>trace_swe.benchmarks.swebench
-mini-extra<span class="w"> </span>swebench
-</code></pre></div>
-<p><strong>For custom configs:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nt">model</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">model_class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">litellm</span><span class="w">  </span><span class="c1"># tool calling (default)</span>
-<span class="w">  </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">anthropic/claude-sonnet-4-5-20250929</span>
-</code></pre></div>
-<h2 id="trajectory-format">Trajectory format</h2>
-<ul>
-<li>In v1, all messages in the trajectory's <code>messages</code> field were "hand-formatted", i.e., had a <code>content: str</code> and <code>role: str</code> field.</li>
-<li><strong>In v2, we use the model's native output as the basis for the message and only add the <code>extra</code> field to it</strong>.</li>
-</ul>
-<p>If you use a model that uses the standard <code>/completion</code> endpoint, then you will still always have a <code>content: str</code> and <code>role: str</code> field.
-However, if you use the <a href="https://platform.openai.com/docs/api-reference/responses"><code>/response</code></a> endpoint, then things might look different.</p>
-<p>In other words: the exact message structure depends on the model you use.</p>
-<ul>
-<li>Advantage: Any model message structure is supported</li>
-<li>Disadvantage: If you parse trajectories, you might need to adapt to the message structure of the model you use.</li>
-</ul>
-<h2 id="removed-renamed">Removed &amp; renamed</h2>
-<p><strong>Removed features:</strong></p>
-<ul>
-<li><strong>"Visual" UI</strong>: The <code>-v</code> flag for the alternate, textual based <code>mini -v</code> CLI is no longer supported. This was a tough decision to make, but in the end the visual mode didn't see the adoption we wanted and is significantly more complex to maintain than the default interface.</li>
-<li><strong>Rotating API keys</strong>: <code>ANTHROPIC_API_KEYS</code> with <code>::</code> separator no longer supported. Use single <code>ANTHROPIC_API_KEY</code>.</li>
-<li><strong><code>github_issue</code> run script</strong>: The dedicated <code>github_issue.py</code> run script was removed. Use the <code>mini</code> CLI instead.</li>
-<li><strong><code>TRACE_SWE_MODEL_API_KEY</code> environment variable</strong>: No longer used to override API keys.</li>
-</ul>
-<p><strong>Removed model classes:</strong></p>
-<ul>
-<li><strong><code>anthropic</code> model class</strong>: Removed. Use <code>litellm</code> model class for Anthropic models (make sure that cache control is enabled).</li>
-</ul>
-<h2 id="architecture-changes">Architecture changes</h2>
-<ol>
-<li>
-<p><strong>Responsibility shift</strong>: Models now parse actions and format observations. This enables switching between tool calls and text parsing by changing model classes. The Agent class is now a simpler coordinator.</p>
-</li>
-<li>
-<p><strong>Stateless models</strong>: Cost tracking moved to Agent. The <code>cost</code> and <code>n_calls</code> attributes were removed from the Model protocol.</p>
-</li>
-<li>
-<p><strong>Pydantic configs</strong>: <code>AgentConfig</code> (and other configs) changed from <code>dataclass</code> to Pydantic <code>BaseModel</code>. This requires <code>pydantic &gt;= 2.0</code>.</p>
-</li>
-<li>
-<p><strong>New protocol methods</strong>: All classes implement <code>get_template_vars()</code> and <code>serialize()</code> instead of requiring specific attributes.</p>
-</li>
-</ol>
-<h3 id="protocol-changes">Protocol changes</h3>
-<p>If you want to write a custom Model, Environment or Agent compatible with <code>mini-swe-agent</code>, you don't need to subclass anything.
-Rather, mini-swe-agent fully uses duck typing with <a href="https://typing.python.org/en/latest/spec/protocol.html">protocols</a>
-(tl;dr: as long as you implement the required methods, you can use any class as a Model, Environment or Agent).
-Config options like <code>--config-class</code> also take full import classes, so you can put your classes wherever you want.</p>
-<p><strong>Model protocol:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Removed attributes</span>
-<span class="n">cost</span><span class="p">:</span> <span class="nb">float</span>      <span class="c1"># moved to Agent</span>
-<span class="n">n_calls</span><span class="p">:</span> <span class="nb">int</span>     <span class="c1"># moved to Agent</span>
 
-<span class="c1"># New methods</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">format_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">format_observation_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">template_vars</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span> <span class="o">...</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<p><strong>Environment protocol:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Changed signature</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">cwd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span> <span class="o">...</span>  <span class="c1"># was: (command: str) -&gt; dict[str, str]</span>
 
-<span class="c1"># New method</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<p><strong>Agent protocol:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Removed attributes (you don't need to implement these anymore, but you can)</span>
-<span class="n">model</span><span class="p">:</span> <span class="n">Model</span>
-<span class="n">env</span><span class="p">:</span> <span class="n">Environment</span>
-<span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
 
-<span class="c1"># Changed return type</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>  <span class="c1"># was: tuple[str, str]</span>
 
-<span class="c1"># New method</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_dicts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<h3 id="exception-changes">Exception changes</h3>
-<p>All flow control exceptions now inherit from <code>InterruptAgentFlow</code> and moved to <code>trace_swe.exceptions</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">InterruptAgentFlow</span> <span class="p">(</span><span class="n">base</span><span class="p">)</span>
-<span class="err">├──</span> <span class="n">Submitted</span> <span class="p">(</span><span class="n">task</span> <span class="n">completed</span><span class="p">)</span>
-<span class="err">├──</span> <span class="n">LimitsExceeded</span> <span class="p">(</span><span class="n">cost</span><span class="o">/</span><span class="n">step</span> <span class="n">limit</span><span class="p">)</span>
-<span class="err">├──</span> <span class="n">FormatError</span> <span class="p">(</span><span class="n">invalid</span> <span class="n">model</span> <span class="n">output</span><span class="p">)</span>
-<span class="err">└──</span> <span class="n">UserInterruption</span> <span class="p">(</span><span class="n">user</span> <span class="n">cancelled</span><span class="p">)</span>  <span class="c1"># new</span>
-</code></pre></div>
-<p><strong>Removed exception classes:</strong></p>
-<ul>
-<li><code>NonTerminatingException</code> - use <code>InterruptAgentFlow</code> base class</li>
-<li><code>TerminatingException</code> - use <code>InterruptAgentFlow</code> base class</li>
-<li><code>ExecutionTimeoutError</code> - removed (no longer used)</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># Old</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.agent.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span><span class="p">,</span> <span class="n">FormatError</span>
+<div class="doc doc-object doc-function">
 
-<span class="c1"># New</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Submitted</span><span class="p">,</span> <span class="n">FormatError</span>
-</code></pre></div>
-<h3 id="agentrun-return-value">Agent.run() return value</h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Old (v1)</span>
-<span class="n">submission</span><span class="p">,</span> <span class="n">exit_status</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>  <span class="c1"># tuple[str, str]</span>
 
-<span class="c1"># New (v2)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>  <span class="c1"># dict</span>
-<span class="n">submission</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"submission"</span><span class="p">]</span>
-<span class="n">exit_status</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"exit_status"</span><span class="p">]</span>
+<h3 id="trace_swe.cli.commands.trace_extra.get_docstring" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">get_docstring</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_docstring</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="str">str</span></span>
 </code></pre></div>
-<p>The <code>run()</code> method returns the <code>extra</code> dict from the final exit message. For full trajectory data, use <code>agent.save(path)</code> or <code>agent.serialize()</code>.</p>
+
+    <div class="doc doc-contents ">
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/trace_swe/cli/commands/trace_extra.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_docstring</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"This is the [yellow]central entry point for all extra commands[/yellow] from trace-swe."</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
+        <span class="s2">"Available sub-commands:"</span><span class="p">,</span>
+        <span class="s2">""</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">subcommands</span><span class="p">:</span>
+        <span class="n">alias_text</span> <span class="o">=</span> <span class="s2">" or "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[bold green]</span><span class="si">{</span><span class="n">alias</span><span class="si">}</span><span class="s2">[/bold green]"</span> <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">alias_text</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</code></pre></div></td></tr></tbody></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="trace_swe.cli.commands.trace_extra.main" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">main</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">main</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/trace_swe/cli/commands/trace_extra.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"-h"</span><span class="p">,</span> <span class="s2">"--help"</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">Console</span><span class="p">()</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">get_docstring</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">module_path</span><span class="p">,</span> <span class="n">aliases</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">subcommands</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">aliases</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span><span class="o">.</span><span class="n">app</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">prog_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">"mini-extra </span><span class="si">{</span><span class="n">aliases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Console</span><span class="p">()</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">get_docstring</span><span class="p">())</span>
+</code></pre></div></td></tr></tbody></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><div class="grid cards">
+  <a href="https://github.com/zwlay100724-lab/trace-swe/issues/new" class="nav-card-link">
+    <div class="nav-card">
+      <div class="nav-card-header">
+        <span class="material-icons nav-card-icon">bug_report</span>
+        <span class="nav-card-title">Something broken/unclear?</span>
+      </div>
+      <p class="nav-card-description">Open an issue on GitHub!</p>
+    </div>
+  </a>
+
+  <a href="https://github.com/zwlay100724-lab/trace-swe/discussions" class="nav-card-link">
+    <div class="nav-card">
+      <div class="nav-card-header">
+        <span class="material-icons nav-card-icon">help</span>
+        <span class="nav-card-title">Open-ended discussions</span>
+      </div>
+      <p class="nav-card-description">Start a discussion!</p>
+    </div>
+  </a>
+</div>
 
 
 
@@ -2562,35 +2480,6 @@ Config options like <code>--config-class</code> also take full import classes, s
 
 
                 
-
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
 
               </article>
             </div>
@@ -2614,7 +2503,7 @@ Config options like <code>--config-class</code> also take full import classes, s
       <nav class="md-footer__inner md-grid" aria-label="Footer">
         
           
-          <a href="../environments/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Environments">
+          <a href="../trace/" class="md-footer__link md-footer__link--prev" aria-label="Previous: trace">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -2624,20 +2513,20 @@ Config options like <code>--config-class</code> also take full import classes, s
                 Previous
               </span>
               <div class="md-ellipsis">
-                Environments
+                trace
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../faq/" class="md-footer__link md-footer__link--next" aria-label="Next: FAQ">
+          <a href="../config/" class="md-footer__link md-footer__link--next" aria-label="Next: Config">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                FAQ
+                Config
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2674,17 +2563,17 @@ Config options like <code>--config-class</code> also take full import classes, s
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.indexes", "navigation.top", "content.action.edit", "navigation.footer", "content.code.copy", "content.footnote.tooltips", "header.autohide", "announce.dismiss", "content.code.annotate", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.indexes", "navigation.top", "content.action.edit", "navigation.footer", "content.code.copy", "content.footnote.tooltips", "header.autohide", "announce.dismiss", "content.code.annotate", "navigation.tabs", "navigation.tabs.sticky"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="../../assets/js/sh-annotation.js"></script>
+        <script src="../../../assets/js/sh-annotation.js"></script>
       
-        <script src="../../assets/js/gif-controls.js"></script>
+        <script src="../../../assets/js/gif-controls.js"></script>
       
     
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

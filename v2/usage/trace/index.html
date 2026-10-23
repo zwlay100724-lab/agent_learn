@@ -5,7 +5,7 @@
       
       
       
-        <link rel="canonical" href="https://zwlay100724-lab.github.io/trace-swe/latest/usage/mini/">
+        <link rel="canonical" href="https://zwlay100724-lab.github.io/trace-swe/latest/usage/trace/">
       
       
         <link rel="prev" href="../../quickstart/">
@@ -17,12 +17,12 @@
         
       
       
-      <link rel="icon" href="../../assets/mini_square.svg">
+      <link rel="icon" href="../../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
-        <title>mini - trace-swe documentation</title>
+        <title>trace - trace-swe documentation</title>
       
     
     
@@ -115,7 +115,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mini" class="md-skip">
+        <a href="#trace" class="md-skip">
           Skip to content
         </a>
       
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -154,7 +154,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <code>mini</code>
+              <code>trace</code>
             
           </span>
         </div>
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -558,7 +558,7 @@
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -576,7 +576,7 @@
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -1065,8 +1065,6 @@
       
         
       
-        
-      
     
     
     
@@ -1265,34 +1263,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../advanced/v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -1969,14 +1939,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini/" class="md-nav__link">
+      <a href="../../reference/run/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -1997,14 +1967,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini_extra/" class="md-nav__link">
+      <a href="../../reference/run/trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2205,7 +2175,7 @@
 
 
   
-    <a href="https://github.com/zwlay100724-lab/trace-swe/edit/main/docs/usage/mini.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/zwlay100724-lab/trace-swe/edit/main/docs/usage/trace.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -2213,26 +2183,21 @@
   
 
 
-<h1 id="mini"><code>mini</code></h1>
+<h1 id="trace"><code>trace</code></h1>
 <div class="admonition abstract">
 <p class="admonition-title">Overview</p>
 <ul>
-<li><code>mini</code> and <code>trace</code> are REPL-style interactive command line interfaces for using trace-swe in the local environment (as opposed to workflows that require sandboxing or large scale batch processing).</li>
+<li><code>trace</code> is the primary REPL-style interactive command line interface for using trace-swe in the local environment. <code>mini</code> remains an alias.</li>
+<li>The agent is intended for local work or sandboxed execution; it is not a batch runner.</li>
 </ul>
 </div>
-<figure>
-<br>
-<div class="gif-container gif-container-styled" data-glightbox-disabled="data-glightbox-disabled">
-    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/png/mini.png?raw=true" data-desc-position="bottom"><img src="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/png/mini.png?raw=true" data-gif="https://github.com/SWE-agent/swe-agent-media/blob/main/media/mini/gif/mini.gif?raw=true" alt="mini" data-glightbox="false" width="600"></a>
-  </div>
-</figure>
 <h2 id="command-line-options">Command line options</h2>
 <p>Useful switches:</p>
 <ul>
 <li><code>-h</code>/<code>--help</code>: Show help</li>
 <li><code>-t</code>/<code>--task</code>: Specify a task to run (else you will be prompted)</li>
-<li><code>-c</code>/<code>--config</code>: Specify a config file to use, else we will use <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/mini.yaml"><code>mini.yaml</code></a> or the config <code>TRACE_SWE_MINI_CONFIG_PATH</code> environment variable (see <a href="../../advanced/global_configuration/">global configuration</a>).
-  It's enough to specify the name of the config file, e.g., <code>-c mini.yaml</code> (see <a href="../../advanced/global_configuration/">global configuration</a> for how it is resolved).</li>
+<li><code>-c</code>/<code>--config</code>: Specify a config file to use, else we will use <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/trace.yaml"><code>trace.yaml</code></a> or the config <code>TRACE_SWE_MINI_CONFIG_PATH</code> environment variable (see <a href="../../advanced/global_configuration/">global configuration</a>).
+  It's enough to specify the name of the config file, e.g., <code>-c trace.yaml</code> (see <a href="../../advanced/global_configuration/">global configuration</a> for how it is resolved).</li>
 <li><code>-m</code>/<code>--model</code>: Specify a model to use, else we will use the model <code>TRACE_SWE_MODEL_NAME</code> environment variable (see <a href="../../advanced/global_configuration/">global configuration</a>)</li>
 <li><code>-y</code>/<code>--yolo</code>: Start in <code>yolo</code> mode (see below)</li>
 </ul>
@@ -2255,7 +2220,7 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 <details class="note">
 <summary>Default config</summary>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/mini.yaml">Read on GitHub</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config/trace.yaml">Read on GitHub</a></li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="nt">agent</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">system_template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
@@ -2417,8 +2382,8 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 <details class="note">
 <summary>Run script</summary>
 <ul>
-<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py">Read on GitHub</a></li>
-<li><a href="../../reference/run/mini/">API reference</a></li>
+<li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/trace.py">Read on GitHub</a></li>
+<li><a href="../../reference/run/trace/">API reference</a></li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
 
@@ -2441,7 +2406,7 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 <span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.infra.serialize</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">recursive_merge</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">trace_swe.llm</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_model</span>
 
-<span class="n">DEFAULT_CONFIG_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MINI_CONFIG_PATH"</span><span class="p">,</span> <span class="n">builtin_config_dir</span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">))</span>
+<span class="n">DEFAULT_CONFIG_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"TRACE_SWE_MINI_CONFIG_PATH"</span><span class="p">,</span> <span class="n">builtin_config_dir</span> <span class="o">/</span> <span class="s2">"trace.yaml"</span><span class="p">))</span>
 <span class="n">DEFAULT_OUTPUT_FILE</span> <span class="o">=</span> <span class="n">global_config_dir</span> <span class="o">/</span> <span class="s2">"last_mini_run.traj.json"</span>
 
 
@@ -2455,7 +2420,7 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 <span class="n">_CONFIG_SPEC_HELP_TEXT</span> <span class="o">=</span> <span class="s2">"""Path to config files, filenames, or key-value pairs.</span>
 
 <span class="s2">[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]</span>
-<span class="s2">So you need to explicitly set it e.g., with [bold green]-c mini.yaml &lt;other options&gt;[/bold green]</span>
+<span class="s2">So you need to explicitly set it e.g., with [bold green]-c trace.yaml &lt;other options&gt;[/bold green]</span>
 
 <span class="s2">Multiple configs will be recursively merged.</span>
 
@@ -2463,7 +2428,7 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 
 <span class="s2">[bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]</span>
 
-<span class="s2">[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]</span>
+<span class="s2">[bold green]-c trace.yaml -c model.model_kwargs.temperature=0.5[/bold green]</span>
 
 <span class="s2">[bold green]-c swebench.yaml agent.mode=yolo[/bold green]</span>
 <span class="s2">"""</span>
@@ -2785,35 +2750,6 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
 
                 
 
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
-
               </article>
             </div>
           
@@ -2909,4 +2845,4 @@ You can also press <code>Ctrl+C</code> to interrupt the agent at any time, allow
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

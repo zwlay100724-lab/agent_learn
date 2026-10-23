@@ -8,7 +8,7 @@
         <link rel="canonical" href="https://zwlay100724-lab.github.io/trace-swe/latest/faq/">
       
       
-        <link rel="prev" href="../advanced/v2_migration/">
+        <link rel="prev" href="../advanced/environments/">
       
       
         <link rel="next" href="../contributing/">
@@ -17,7 +17,7 @@
         
       
       
-      <link rel="icon" href="../assets/mini_square.svg">
+      <link rel="icon" href="../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../assets/mini_square.svg" alt="logo">
+  <img src="../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../assets/mini_square.svg" alt="logo">
+  <img src="../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -540,14 +540,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/mini/" class="md-nav__link">
+      <a href="../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -972,8 +972,6 @@
       
         
       
-        
-      
     
     
     
@@ -1172,34 +1170,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../advanced/v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -1956,14 +1926,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/run/mini/" class="md-nav__link">
+      <a href="../reference/run/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -1984,14 +1954,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/run/mini_extra/" class="md-nav__link">
+      <a href="../reference/run/trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2192,12 +2162,12 @@
 <h1 id="faq">FAQ</h1>
 <h2 id="general">General</h2>
 <div class="admonition question">
-<p class="admonition-title">Does mini-SWE-agent work on my system?</p>
-<p>mini-SWE-agent should work on any system that has a bash shell or Docker.</p>
+<p class="admonition-title">Does trace-swe work on my system?</p>
+<p>trace-swe should work on any system that has a bash shell or Docker.</p>
 </div>
 <details class="question">
-<summary>Should I use mini-SWE-agent or swe-agent?</summary>
-<p>You should use <code>mini-swe-agent</code> if</p>
+<summary>Should I use trace-swe or swe-agent?</summary>
+<p>You should use <code>trace-swe</code> if</p>
 <ul>
 <li>You want a quick command line tool that works locally</li>
 <li>You want an agent with a very simple control flow</li>
@@ -2228,8 +2198,8 @@
 </ul>
 </details>
 <details class="question">
-<summary>What are the limitations of mini-SWE-agent?</summary>
-<p>mini-SWE-agent can be extended trivially in various ways, the following assumes the default setup.
+<summary>What are the limitations of trace-swe?</summary>
+<p>trace-swe can be extended trivially in various ways, the following assumes the default setup.
 As reflected in the high SWE-bench scores, none of the following limitations are a problem in practice.</p>
 <ul>
 <li>No tools other than bash</li>
@@ -2329,35 +2299,6 @@ But you don't need this! You can always prefix <code>cd /path/to/project</code> 
 
                 
 
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
-
               </article>
             </div>
           
@@ -2380,7 +2321,7 @@ But you don't need this! You can always prefix <code>cd /path/to/project</code> 
       <nav class="md-footer__inner md-grid" aria-label="Footer">
         
           
-          <a href="../advanced/v2_migration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: v2 migration guide">
+          <a href="../advanced/environments/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Environments">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -2390,7 +2331,7 @@ But you don't need this! You can always prefix <code>cd /path/to/project</code> 
                 Previous
               </span>
               <div class="md-ellipsis">
-                v2 migration guide
+                Environments
               </div>
             </div>
           </a>
@@ -2453,4 +2394,4 @@ But you don't need this! You can always prefix <code>cd /path/to/project</code> 
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

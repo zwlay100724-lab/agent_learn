@@ -17,7 +17,7 @@
         
       
       
-      <link rel="icon" href="../../assets/mini_square.svg">
+      <link rel="icon" href="../../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -540,14 +540,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/mini/" class="md-nav__link">
+      <a href="../../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -974,8 +974,6 @@
       
         
       
-        
-      
     
     
     
@@ -1282,10 +1280,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#running-mini-swe-agent-on-ray" class="md-nav__link">
+  <a href="#running-trace-swe-on-ray" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running mini-swe-agent on Ray
+        Running trace-swe on Ray
       
     </span>
   </a>
@@ -1321,34 +1319,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -2025,14 +1995,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini/" class="md-nav__link">
+      <a href="../../reference/run/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -2053,14 +2023,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini_extra/" class="md-nav__link">
+      <a href="../../reference/run/trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2284,10 +2254,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#running-mini-swe-agent-on-ray" class="md-nav__link">
+  <a href="#running-trace-swe-on-ray" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running mini-swe-agent on Ray
+        Running trace-swe on Ray
       
     </span>
   </a>
@@ -2339,14 +2309,14 @@
 </div>
 <p>We provide several different entry points to the agent,
 for example <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py">hello world</a>,
-or the <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py">default when calling <code>mini</code></a>.</p>
+or the <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/trace.py">default when calling <code>mini</code></a>.</p>
 <p>Want to cook up your custom version and the config is not enough?
 Just follow the recipe below:</p>
 <ol>
 <li>What's the control flow you need? Pick an <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent">agent class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/default.py">simplest example</a>, <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/interactive.py">with human in the loop</a>)</li>
 <li>How should actions be executed? Pick an <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution">environment class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution/local.py">local</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/execution/docker.py">docker</a>)</li>
 <li>How is the LM queried? Pick a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm">model class</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/llm/litellm_model.py">litellm</a>)</li>
-<li>How to invoke the agent? Bind them all together in a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli">run script</a>, possibly reading from a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config">config</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py">hello world</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/mini.py"><code>mini</code> entry point</a>)</li>
+<li>How to invoke the agent? Bind them all together in a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli">run script</a>, possibly reading from a <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/config">config</a> (e.g., <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/hello_world.py">hello world</a>, or <a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/cli/trace.py"><code>mini</code> entry point</a>)</li>
 </ol>
 <p>We aim to keep all of these components very simple, but offer lots of choice between them -- enough to cover a broad range of
 things that you might want to do.</p>
@@ -2596,9 +2566,9 @@ things that you might want to do.</p>
 </div>
 </div>
 </div>
-<h3 id="running-mini-swe-agent-on-ray">Running mini-swe-agent on Ray</h3>
+<h3 id="running-trace-swe-on-ray">Running trace-swe on Ray</h3>
 <p><a href="https://www.anyscale.com/blog/massively-parallel-agentic-simulations-with-ray">This blog post</a>
-describes how to parallelize mini-swe-agent runs with Ray.</p>
+describes how to parallelize trace-swe runs with Ray.</p>
 <div class="grid cards">
   <a href="https://github.com/zwlay100724-lab/trace-swe/issues/new" class="nav-card-link">
     <div class="nav-card">
@@ -2635,35 +2605,6 @@ describes how to parallelize mini-swe-agent runs with Ray.</p>
 
 
                 
-
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
 
               </article>
             </div>
@@ -2760,4 +2701,4 @@ describes how to parallelize mini-swe-agent runs with Ray.</p>
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

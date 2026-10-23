@@ -17,7 +17,7 @@
         
       
       
-      <link rel="icon" href="../assets/mini_square.svg">
+      <link rel="icon" href="../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../assets/mini_square.svg" alt="logo">
+  <img src="../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../assets/mini_square.svg" alt="logo">
+  <img src="../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -540,14 +540,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/mini/" class="md-nav__link">
+      <a href="../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -972,8 +972,6 @@
       
         
       
-        
-      
     
     
     
@@ -1172,34 +1170,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../advanced/v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -1956,14 +1926,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/run/mini/" class="md-nav__link">
+      <a href="../reference/run/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -1984,14 +1954,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/run/mini_extra/" class="md-nav__link">
+      <a href="../reference/run/trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2200,11 +2170,11 @@
 </li>
 <li>Support for more models (anything where <code>litellm</code> doesn't work out of the box)</li>
 <li>Support for more environments &amp; deployments (e.g., run it as a github action, etc.)</li>
-<li>Take a look at the <a href="https://github.com/SWE-agent/mini-swe-agent/issues">issues</a> and look for issues marked <code>good-first-issue</code> or <code>help-wanted</code> (please read the guidelines below first)</li>
+<li>Take a look at the <a href="https://github.com/zwlay100724-lab/trace-swe/issues">issues</a> and look for issues marked <code>good-first-issue</code> or <code>help-wanted</code> (please read the guidelines below first)</li>
 </ul>
 <h2 id="design-architecture">Design &amp; Architecture</h2>
 <ul>
-<li><code>mini-swe-agent</code> aims to stay minimalistic, hackable, and of high quality code.</li>
+<li><code>trace-swe</code> aims to stay minimalistic, hackable, and of high quality code.</li>
 <li>To extend features, we prefer to add a new version of the one of the four components (see <a href="../advanced/cookbook/">cookbook</a>), rather than making the existing components more complex.</li>
 <li>Components should be relatively self-contained, but if there are utilities that might be shared, add a <code>utils</code> folder (like <a href="https://github.com/zwlay100724-lab/trace-swe/tree/main/src/trace_swe/llm/utils">this one</a>). But keep it simple!</li>
 <li>If your component is a bit more specific, add it into an <code>extra</code> folder (like <a href="https://github.com/zwlay100724-lab/trace-swe/tree/main/src/trace_swe/cli/extra">this one</a>)</li>
@@ -2252,35 +2222,6 @@
 
 
                 
-
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
 
               </article>
             </div>
@@ -2377,4 +2318,4 @@
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

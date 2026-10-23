@@ -49,10 +49,6 @@
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/advanced/v2_migration/</loc>
-         <lastmod>2026-10-23</lastmod>
-    </url>
-    <url>
          <loc>https://zwlay100724-lab.github.io/trace-swe/latest/advanced/yaml_configuration/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
@@ -117,15 +113,15 @@
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
-         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/reference/run/mini/</loc>
-         <lastmod>2026-10-23</lastmod>
-    </url>
-    <url>
-         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/reference/run/mini_extra/</loc>
-         <lastmod>2026-10-23</lastmod>
-    </url>
-    <url>
          <loc>https://zwlay100724-lab.github.io/trace-swe/latest/reference/run/swebench/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/reference/run/trace/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/reference/run/trace_extra/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
@@ -134,10 +130,6 @@
     </url>
     <url>
          <loc>https://zwlay100724-lab.github.io/trace-swe/latest/usage/inspector/</loc>
-         <lastmod>2026-10-23</lastmod>
-    </url>
-    <url>
-         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/usage/mini/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
     <url>
@@ -150,6 +142,10 @@
     </url>
     <url>
          <loc>https://zwlay100724-lab.github.io/trace-swe/latest/usage/swebench/</loc>
+         <lastmod>2026-10-23</lastmod>
+    </url>
+    <url>
+         <loc>https://zwlay100724-lab.github.io/trace-swe/latest/usage/trace/</loc>
          <lastmod>2026-10-23</lastmod>
     </url>
 </urlset>

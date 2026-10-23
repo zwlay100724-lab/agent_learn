@@ -17,7 +17,7 @@
         
       
       
-      <link rel="icon" href="../../assets/mini_square.svg">
+      <link rel="icon" href="../../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -540,14 +540,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/mini/" class="md-nav__link">
+      <a href="../../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -974,8 +974,6 @@
       
         
       
-        
-      
     
     
     
@@ -1184,34 +1182,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -1888,14 +1858,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini/" class="md-nav__link">
+      <a href="../../reference/run/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -1916,14 +1886,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini_extra/" class="md-nav__link">
+      <a href="../../reference/run/trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2131,7 +2101,7 @@
 <li><a href="https://github.com/zwlay100724-lab/trace-swe/blob/main/src/trace_swe/agent/default.py">Read on GitHub</a></li>
 <li><a href="../../reference/agents/default/">API reference</a></li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="sd">"""Basic agent class. See https://mini-swe-agent.com/latest/advanced/control_flow/ for visual explanation</span>
+<div class="highlight"><pre><span></span><code><span class="sd">"""Basic agent class. See https://github.com/zwlay100724-lab/trace-swe for documentation.</span>
 <span class="sd">or https://minimal-agent.com for a tutorial on the basic building principles.</span>
 <span class="sd">"""</span>
 
@@ -2307,12 +2277,12 @@
                     <span class="s2">"agent"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"json"</span><span class="p">),</span>
                     <span class="s2">"agent_type"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="s2">"mini_version"</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
+                <span class="s2">"trace_swe_version"</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
                 <span class="s2">"exit_status"</span><span class="p">:</span> <span class="n">last_extra</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"exit_status"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
                 <span class="s2">"submission"</span><span class="p">:</span> <span class="n">last_extra</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"submission"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
             <span class="p">},</span>
             <span class="s2">"messages"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">,</span>
-            <span class="s2">"trajectory_format"</span><span class="p">:</span> <span class="s2">"mini-swe-agent-1.1"</span><span class="p">,</span>
+            <span class="s2">"trajectory_format"</span><span class="p">:</span> <span class="s2">"trace-swe-1.1"</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">recursive_merge</span><span class="p">(</span><span class="n">agent_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span> <span class="o">*</span><span class="n">extra_dicts</span><span class="p">)</span>
 
@@ -2417,35 +2387,6 @@ This uses exceptions that inherit from <code>InterruptAgentFlow</code>. All thes
 
                 
 
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
-
               </article>
             </div>
           
@@ -2541,4 +2482,4 @@ This uses exceptions that inherit from <code>InterruptAgentFlow</code>. All thes
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

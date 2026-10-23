@@ -11,13 +11,13 @@
         <link rel="prev" href="../../environments/docker/">
       
       
-        <link rel="next" href="../mini/">
+        <link rel="next" href="../trace/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/mini_square.svg">
+      <link rel="icon" href="../../../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../../assets/mini_square.svg" alt="logo">
+  <img src="../../../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../../assets/mini_square.svg" alt="logo">
+  <img src="../../../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -535,14 +535,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../usage/mini/" class="md-nav__link">
+      <a href="../../../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -967,8 +967,6 @@
       
         
       
-        
-      
     
     
     
@@ -1167,34 +1165,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../advanced/v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -1964,14 +1934,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../mini/" class="md-nav__link">
+      <a href="../trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -1992,14 +1962,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../mini_extra/" class="md-nav__link">
+      <a href="../trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2212,7 +2182,7 @@
 <details class="note">
 <summary>Full source code</summary>
 <div class="highlight"><pre><span></span><code><span class="sd">"""This is the simplest possible example of how to use trace-swe with python bindings.</span>
-<span class="sd">For a more complete example, see mini.py</span>
+<span class="sd">For a more complete example, see trace.py</span>
 <span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -2245,7 +2215,7 @@
     <span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
         <span class="n">LitellmModel</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">),</span>
         <span class="n">LocalEnvironment</span><span class="p">(),</span>
-        <span class="o">**</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">"config"</span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"agent"</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">"config"</span> <span class="o">/</span> <span class="s2">"trace.yaml"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"agent"</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">agent</span>
@@ -2271,7 +2241,7 @@
     <div class="doc doc-contents first">
 
         <p>This is the simplest possible example of how to use trace-swe with python bindings.
-For a more complete example, see mini.py</p>
+For a more complete example, see trace.py</p>
 
 
 
@@ -2380,7 +2350,7 @@ For a more complete example, see mini.py</p>
     <span class="n">agent</span> <span class="o">=</span> <span class="n">DefaultAgent</span><span class="p">(</span>
         <span class="n">LitellmModel</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">),</span>
         <span class="n">LocalEnvironment</span><span class="p">(),</span>
-        <span class="o">**</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">"config"</span> <span class="o">/</span> <span class="s2">"mini.yaml"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"agent"</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">"config"</span> <span class="o">/</span> <span class="s2">"trace.yaml"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">"agent"</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">agent</span>
@@ -2433,35 +2403,6 @@ For a more complete example, see mini.py</p>
 
                 
 
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
-
               </article>
             </div>
           
@@ -2501,13 +2442,13 @@ For a more complete example, see mini.py</p>
         
         
           
-          <a href="../mini/" class="md-footer__link md-footer__link--next" aria-label="Next: mini">
+          <a href="../trace/" class="md-footer__link md-footer__link--next" aria-label="Next: trace">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                mini
+                trace
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2557,4 +2498,4 @@ For a more complete example, see mini.py</p>
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>

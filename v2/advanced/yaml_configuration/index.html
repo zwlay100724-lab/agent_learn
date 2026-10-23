@@ -17,7 +17,7 @@
         
       
       
-      <link rel="icon" href="../../assets/mini_square.svg">
+      <link rel="icon" href="../../assets/trace_square.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
@@ -137,7 +137,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="trace-swe documentation" class="md-header__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -339,7 +339,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="trace-swe documentation" class="md-nav__button md-logo" aria-label="trace-swe documentation" data-md-component="logo">
       
-  <img src="../../assets/mini_square.svg" alt="logo">
+  <img src="../../assets/trace_square.svg" alt="logo">
 
     </a>
     trace-swe documentation
@@ -540,14 +540,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/mini/" class="md-nav__link">
+      <a href="../../usage/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    <code>mini</code>
+    <code>trace</code>
   
 
     
@@ -1104,8 +1104,6 @@
       
         
       
-        
-      
     
     
     
@@ -1304,34 +1302,6 @@
     
   
     Environments
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../v2_migration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    v2 migration guide
   
 
     
@@ -2008,14 +1978,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini/" class="md-nav__link">
+      <a href="../../reference/run/trace/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini
+    trace
   
 
     
@@ -2036,14 +2006,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/run/mini_extra/" class="md-nav__link">
+      <a href="../../reference/run/trace_extra/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    mini-extra
+    trace-extra
   
 
     
@@ -2473,7 +2443,7 @@
 <p>Different agent classes might have slightly different configuration options.
 You can find the full list of options in the <a href="../../reference/agents/default/">API reference</a>.</p>
 <p>To use a different agent class, you can set the <code>agent_class</code> key to the name of the agent class you want to use
-or even to an import path (to use your own custom agent class even if it is not yet part of the mini-SWE-agent package).</p>
+or even to an import path (to use your own custom agent class even if it is not yet part of the trace-swe package).</p>
 <h3 id="prompt-templates">Prompt templates</h3>
 <p>We use <a href="https://jinja.palletsprojects.com/">Jinja2</a> to render templates (e.g., the instance template).</p>
 <p>TL;DR: You include variables with double (!) curly braces, e.g. <code>{{task}}</code> to include the task that was given to the agent.</p>
@@ -2513,7 +2483,7 @@ or even to an import path (to use your own custom agent class even if it is not 
 </details>
 <p>In all builtin agents, you can use the following variables:</p>
 <ul>
-<li>Environment variables (<code>LocalEnvironment</code> only, see discussion <a href="https://github.com/SWE-agent/mini-swe-agent/pull/425">here</a>)</li>
+<li>Environment variables (<code>LocalEnvironment</code> only, see discussion <a href="https://github.com/zwlay100724-lab/trace-swe/pull/425">here</a>)</li>
 <li>Agent config variables (i.e., anything that was set in the <code>agent</code> section of the config file, e.g., <code>step_limit</code>, <code>cost_limit</code>, etc.)</li>
 <li>Environment config variables (i.e., anything that was set in the <code>environment</code> section of the config file, e.g., <code>cwd</code>, <code>timeout</code>, etc.)</li>
 <li>Variables passed to the <code>run</code> method of the agent (by default that's only <code>task</code>, but you can pass other variables if you want to)</li>
@@ -2521,7 +2491,7 @@ or even to an import path (to use your own custom agent class even if it is not 
 </ul>
 <h3 id="using-tool-calls">Using tool calls</h3>
 <p>This project uses one action format: the model calls the <code>bash</code> tool with a <code>command</code> string.
-<code>mini.yaml</code> is the only agent configuration; <code>swebench.yaml</code> is the benchmark-specific variant.
+<code>trace.yaml</code> is the only agent configuration; <code>swebench.yaml</code> is the benchmark-specific variant.
 If you write a custom config, keep the system and instance templates aligned with tool calling.</p>
 <h2 id="model-configuration">Model configuration</h2>
 <p>See <a href="../../models/quickstart/">this guide</a> for more details on model configuration.</p>
@@ -2565,35 +2535,6 @@ If you write a custom config, keep the system and instance templates aligned wit
 
 
                 
-
-
-<div class="floating-bubbles">
-<div class="floating-bubbles-title">Our projects</div>
-  <a href="https://swe-agent.com/" class="bubble" title="SWE-agent">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sweagent_logo.svg" alt="SWE-agent">
-    <span class="bubble-tooltip">SWE-agent</span>
-  </a>
-  <a href="https://swe-rex.com/" class="bubble" title="SWE-rex">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swerex_logo.svg" alt="SWE-rex">
-    <span class="bubble-tooltip">SWE-ReX</span>
-  </a>
-  <a href="https://swesmith.com" class="bubble" title="SWE-smith">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swesmith_logo.png" alt="SWE-smith">
-    <span class="bubble-tooltip">SWE-smith</span>
-  </a>
-  <a href="https://swebench.com" class="bubble" title="SWE-bench">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/swebench_logo.png" alt="SWE-bench">
-    <span class="bubble-tooltip">SWE-bench</span>
-  </a>
-  <a href="https://codeclash.ai" class="bubble" title="CodeClash">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/codeclash_logo.svg" alt="CodeClash">
-    <span class="bubble-tooltip">CodeClash</span>
-  </a>
-  <a href="https://www.swebench.com/sb-cli/" class="bubble" title="sb-cli">
-    <img src="https://raw.githubusercontent.com/SWE-agent/swe-agent-media/refs/heads/main/media/logos_banners/sbcli_logo.svg" alt="sb-cli">
-    <span class="bubble-tooltip">sb-cli</span>
-  </a>
-</div>
 
               </article>
             </div>
@@ -2690,4 +2631,4 @@ If you write a custom config, keep the system and instance templates aligned wit
   
 <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
 document$.subscribe(()=>{ lightbox.reload(); });
-</script></body></html><!-- Floating Bubbles -->
+</script></body></html>
