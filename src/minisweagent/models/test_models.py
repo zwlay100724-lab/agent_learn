@@ -2,12 +2,42 @@ import logging
 import time
 from typing import Any
 
+from jinja2 import StrictUndefined, Template
 from pydantic import BaseModel
 
 from minisweagent.models import GLOBAL_MODEL_STATS
-from minisweagent.models.utils.actions_text import format_observation_messages
 from minisweagent.models.utils.actions_toolcall import format_toolcall_observation_messages
 from minisweagent.models.utils.openai_multimodal import expand_multimodal_content
+
+
+def _format_observation_messages(
+    outputs: list[dict],
+    *,
+    observation_template: str,
+    template_vars: dict | None = None,
+    multimodal_regex: str = "",
+) -> list[dict]:
+    """Render execution outputs as user observation messages for the test model."""
+    results = []
+    for output in outputs:
+        content = Template(observation_template, undefined=StrictUndefined).render(
+            output=output, **(template_vars or {})
+        )
+        msg: dict = {
+            "role": "user",
+            "content": content,
+            "extra": {
+                "raw_output": output.get("output", ""),
+                "returncode": output.get("returncode"),
+                "timestamp": time.time(),
+                "exception_info": output.get("exception_info"),
+                **output.get("extra", {}),
+            },
+        }
+        if multimodal_regex:
+            msg = expand_multimodal_content(msg, pattern=multimodal_regex)
+        results.append(msg)
+    return results
 
 
 def make_output(content: str, actions: list[dict], cost: float = 1.0) -> dict:
@@ -91,7 +121,7 @@ class DeterministicModel:
         self, message: dict, outputs: list[dict], template_vars: dict | None = None
     ) -> list[dict]:
         """Format execution outputs into observation messages."""
-        return format_observation_messages(
+        return _format_observation_messages(
             outputs,
             observation_template=self.config.observation_template,
             template_vars=template_vars,
